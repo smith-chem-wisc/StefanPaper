@@ -1,4 +1,4 @@
-# Rapid and Accurate Discovery of Peptide Posttranslational Modifications Using Calibrated Tandem Mass Spectra and Morpheus GPTM-D with Spectral Notches
+# Rapid and Accurate Global PTM Discovery (GPTM-D) Using Post-Acquisition Spectral Calibration and Defined Mass Windows
 
 # Introduction
 
