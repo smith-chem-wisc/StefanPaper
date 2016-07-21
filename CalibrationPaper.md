@@ -4,17 +4,17 @@
 
 The calibration of spectra files and algorithmic improvements in the peptide dictionary search improves the accuracy and efficiency of new posttranslational-modification (PTM) identification.
 
-2. Motivation
+# Motivation
 
 Physical measurements introduce noise, and instruments that take multiple measurements often have correlated noise between different samples. Knowledge of what some of the measurements should be, paired with a correlated noise assumption, enables us to make an intelligent guess at what the noise is for the rest of the measurements. This is indeed the scenario with mass spectrometry data, where the knowledge of the true mz values for some peaks comes from identified peptide sequences.
 
-3. Calibration
+# Calibration
 
-a. Describe the differences and similarities with the original calibration paper. Explain how we extended the idea.
+Describe the differences and similarities with the original calibration paper. Explain how we extended the idea. Now we calibrate the MS2 spectra as well. Show the difference with only calibrating MS1.
 
-4. Notch Search
+# Notch Search
 
-5. Results
+# Results
 
 a. Only spectra files calibration, no additional search done. Show MSE values for different calibration functions, pick one, and say why it's better than others
 
@@ -33,3 +33,7 @@ c. Notches
 i. Show that now are able to discern between PTMs with similar mass errors (ones that are only different because of the mass defect)
 
 d. Show the improvement in search time due to the new notches option
+
+
+
+Journal of the American Society for Mass Spectrometry?
