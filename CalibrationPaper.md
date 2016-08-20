@@ -4,9 +4,37 @@
 
 The calibration of spectra files and algorithmic improvements in the peptide dictionary search improves the accuracy and efficiency of new posttranslational-modification (PTM) identification.
 
+
+
+
+
 # Motivation
 
 Physical measurements introduce noise, and instruments that take multiple measurements often have correlated noise between different samples. Knowledge of what some of the measurements should be, paired with a correlated noise assumption, enables us to make an intelligent guess at what the noise is for the rest of the measurem­­­ents. This is indeed the scenario with mass spectrometry data, where the knowledge of the true mz values for some peaks comes from identified peptide sequences.
+
+# Previous Calibration Work
+
+ Calibrating spectra files is a necessity due to a mass spectrometer introducing a bias in measurements. On a basic level, in each spectrum a mass spectrometer captures m/z peaks with corresponding intensities. Calibrating intensity values is a more difficult task that is not the main focus of the paper. All previous work focused on calibrating m/z measurements based on knowledge of the expected location of a subset of peaks. The existing methods for calibrating spectra include constant shifts based on a chemical lock mass compound, shift based on molecules based on the digestion compound, and a recent software lock mass paper.
+
+## Chemical Lock Mass
+
+A compound such as EEEEE can be present everywhere in the column, and is thus seen in every MS scan. Due to the known
+
+## Digestion Compounds
+
+Trypsin is in itself a peptide, and compounds are seen throughout the measurements.
+
+## Software Lock Mass
+
+A recent paper suggests using known identifications to create a two-dimensional model of the error in the measurement. The two variables are the Retention Time and the m/z value of each peak. The model predicts the error in the measured m/z value based on these input variables.
+
+The differences with the work presented here are as follows:
+
+- We do not limit ourselves to two variables, but expand to use other useful information such as observed intensity, injection time and others.
+- We separate the scan-wise variables from the individual peak variables (namely m/z value and intensity). This is an important consideration, since peaks that appear in the same scan have identical retention times, thus making the distribution of retention times discrete rather than the continuous m/z distribution of peaks.
+- The calibration is done on both MS and MS/MS scans, as opposed to just MS scans.
+-  We publish our software both as a standalone tool and as a library, distributed along with its source code.
+- 
 
 # Calibration
 
@@ -21,6 +49,20 @@ Every peptide sequence identification corresponds to multiple peaks in the spect
 For a concrete example, assume that an identification tells us that an MS/MS spectrum corresponds to peptide sequence HVVQSISTQQEKETIAK, identified with a precursor charge 3. Since the sequence contains 17 amino acids, the total number of b and y ions that should be present in the MS/MS spectrum is 32. Each of those ions can have either 1, 2, or 3 charges, so the number of monoisotopic peaks to look for is 96. Every ion-charge state match still corresponds to multiple peaks, since
 
 Describe the differences and similarities with the original calibration paper. Explain how we extended the idea. Now we calibrate the MS2 spectra as well. Show the difference with only calibrating MS1.
+
+## Multiple Constant Shifts
+
+In order to both include more training points, and to exclude outliers that do not in reality correspond to any theoretical peak, after the initital data point search is finished, we use a simple constant-shift calibration to center our observations around zero. Then a new search of the data is done on the centered points. This helps with making the training set more symmetric with regards to outliers. Specifically, consider spectra that have all errors be of 0.01 m/z units, but we search within 0.02 m/z of zero. The number of outliers that underestimate the error are much greater than ones overestimating it, and therefore building a model based on this data would underestimate the error.
+
+We repeat the constant shift procedure until the number of observed matches between the theoretical and experimental peaks stops increasing.
+
+## Calibration
+
+Once the data is collected, we have training points that correspond to matches between theoretical and experimentally observed peaks.
+
+We
+
+
 
 # Notch Search
 
