@@ -4,17 +4,23 @@
 
 The calibration of spectra files and algorithmic improvements in the peptide dictionary search improves the accuracy and efficiency of new posttranslational-modification (PTM) identification.
 
-
-
-
-
 # Motivation
 
-Physical measurements introduce noise, and instruments that take multiple measurements often have correlated noise between different samples. Knowledge of what some of the measurements should be, paired with a correlated noise assumption, enables us to make an intelligent guess at what the noise is for the rest of the measurem­­­ents. This is indeed the scenario with mass spectrometry data, where the knowledge of the true mz values for some peaks comes from identified peptide sequences.
+Physical measurements introduce noise, and instruments that take multiple measurements often have correlated noise between different samples. Knowledge of what some of the measurements should be, paired with an assumption of correlated error in measurement, enables us to make an intelligent guess of the error for the rest of the measurem­­­ents. This is indeed the scenario with mass spectrometry data, where the knowledge of the true mz values for some peaks comes from identified peptide sequences.
+
+The numerical difference between a true, or _reference_ value and an observed value is a sum of the_ random error_ and the _systematic error_ of the measurement. The _random error_ arises because of some inherent random variability, while the _error due to bias_ is a **directed** error in the observed quantity caused by
+
+The measurements' _bias_ (non-random or directed effects caused by a factor or factors unrelated to the independent variable) and error (random variability).
+
+The numerical difference between a true, or _reference_ value and an observed value always has a reason. This error can often be at least partially described by observable experimental conditions.
+
+Note that the instrument _resolution_ is another important measure of measurement quality, but it is unrelated to the error in an individual measurement.
+
+The goal of the calibration process is to shift each peak in the MS and MS/MS spectra by an appropriate amount, to compensate for as much systemic error as possible. We observe that
 
 # Previous Calibration Work
 
- Calibrating spectra files is a necessity due to a mass spectrometer introducing a bias in measurements. On a basic level, in each spectrum a mass spectrometer captures m/z peaks with corresponding intensities. Calibrating intensity values is a more difficult task that is not the main focus of the paper. All previous work focused on calibrating m/z measurements based on knowledge of the expected location of a subset of peaks. The existing methods for calibrating spectra include constant shifts based on a chemical lock mass compound, shift based on molecules based on the digestion compound, and a recent software lock mass paper.
+Calibrating spectra files is a necessity due to a mass spectrometer introducing a bias in measurements. On a basic level, in each spectrum a mass spectrometer captures m/z peaks with corresponding intensities. Calibrating intensity values is a more difficult task that is not the main focus of the paper. All previous work focused on calibrating m/z measurements based on knowledge of the expected location of a subset of peaks. The existing methods for calibrating spectra include constant shifts based on a chemical lock mass compound, shift based on molecules based on the digestion compound, and a recent software lock mass paper.
 
 ## Chemical Lock Mass
 
@@ -33,21 +39,20 @@ The differences with the work presented here are as follows:
 - We do not limit ourselves to two variables, but expand to use other useful information such as observed intensity, injection time and others.
 - We separate the scan-wise variables from the individual peak variables (namely m/z value and intensity). This is an important consideration, since peaks that appear in the same scan have identical retention times, thus making the distribution of retention times discrete rather than the continuous m/z distribution of peaks.
 - The calibration is done on both MS and MS/MS scans, as opposed to just MS scans.
--  We publish our software both as a standalone tool and as a library, distributed along with its source code, in contrast to MaxQuant.
+- They calculate a single mass error value for each peptide, combining multiple peaks from multiple MS scans into a single datapoint. We consider each peak separately.
+- They use a mass error value calculated by MaxQuant, we use the difference between the reference and observed peaks as the errors.
+- We predict the error in _m/z_ values, while they predict the mass errors
+- We publish our software both as a standalone tool and as a library, distributed along with its source code, in contrast to MaxQuant.
 
-# Calibration
+# Theoretical-Experimental Peak Matching
 
-The goal of the calibration process is to shift each peak in the MS and MS/MS spectra by an appropriate amount
-
-In order to decide the
-
-## Data point acquisition
-
-Every peptide sequence identification corresponds to multiple peaks in the spectra. First, the MS/MS scans should ideally include peaks corresponding to all of the b and y ions of the peptide produced by the collision-induced dissociation technique employed in the mass spectrometer. The neighboring MS scans should have evidence of the un-fragmented peptide. Each of the matches corresponds to peaks at different charge states, and different isotopic peaks. All of those have a true mz value, and most of them should have corresponding peaks in the acquired spectra.
+Every peptide sequence identification corresponds to multiple peaks in the spectra. For every identification, the MS/MS scans should include peaks corresponding to the fragment ions of the peptide produced by the dissociation method employed in the mass spectrometer. The neighboring MS scans should have evidence of the un-fragmented peptide, over the elution profile. Each of the matches correspond to peaks at different charge states, and different isotopic peaks. All of those have a true mz value, and most of them should have corresponding peaks in the acquired spectra.
 
 For a concrete example, assume that an identification tells us that an MS/MS spectrum corresponds to peptide sequence HVVQSISTQQEKETIAK, identified with a precursor charge 3. Since the sequence contains 17 amino acids, the total number of b and y ions that should be present in the MS/MS spectrum is 32. Each of those ions can have either 1, 2, or 3 charges, so the number of monoisotopic peaks to look for is 96. Every ion-charge state match still corresponds to multiple peaks, since every peptide has an isotope distribution. The number of peaks in the isotope distribution can be large.
 
 Describe the differences and similarities with the original calibration paper. Explain how we extended the idea. Now we calibrate the MS2 spectra as well. Show the difference with only calibrating MS1.
+
+# Calibration
 
 ## Multiple Constant Shifts
 
