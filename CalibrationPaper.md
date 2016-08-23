@@ -33,8 +33,7 @@ The differences with the work presented here are as follows:
 - We do not limit ourselves to two variables, but expand to use other useful information such as observed intensity, injection time and others.
 - We separate the scan-wise variables from the individual peak variables (namely m/z value and intensity). This is an important consideration, since peaks that appear in the same scan have identical retention times, thus making the distribution of retention times discrete rather than the continuous m/z distribution of peaks.
 - The calibration is done on both MS and MS/MS scans, as opposed to just MS scans.
--  We publish our software both as a standalone tool and as a library, distributed along with its source code.
-- 
+-  We publish our software both as a standalone tool and as a library, distributed along with its source code, in contrast to MaxQuant.
 
 # Calibration
 
@@ -46,13 +45,13 @@ In order to decide the
 
 Every peptide sequence identification corresponds to multiple peaks in the spectra. First, the MS/MS scans should ideally include peaks corresponding to all of the b and y ions of the peptide produced by the collision-induced dissociation technique employed in the mass spectrometer. The neighboring MS scans should have evidence of the un-fragmented peptide. Each of the matches corresponds to peaks at different charge states, and different isotopic peaks. All of those have a true mz value, and most of them should have corresponding peaks in the acquired spectra.
 
-For a concrete example, assume that an identification tells us that an MS/MS spectrum corresponds to peptide sequence HVVQSISTQQEKETIAK, identified with a precursor charge 3. Since the sequence contains 17 amino acids, the total number of b and y ions that should be present in the MS/MS spectrum is 32. Each of those ions can have either 1, 2, or 3 charges, so the number of monoisotopic peaks to look for is 96. Every ion-charge state match still corresponds to multiple peaks, since
+For a concrete example, assume that an identification tells us that an MS/MS spectrum corresponds to peptide sequence HVVQSISTQQEKETIAK, identified with a precursor charge 3. Since the sequence contains 17 amino acids, the total number of b and y ions that should be present in the MS/MS spectrum is 32. Each of those ions can have either 1, 2, or 3 charges, so the number of monoisotopic peaks to look for is 96. Every ion-charge state match still corresponds to multiple peaks, since every peptide has an isotope distribution. The number of peaks in the isotope distribution can be large.
 
 Describe the differences and similarities with the original calibration paper. Explain how we extended the idea. Now we calibrate the MS2 spectra as well. Show the difference with only calibrating MS1.
 
 ## Multiple Constant Shifts
 
-In order to both include more training points, and to exclude outliers that do not in reality correspond to any theoretical peak, after the initital data point search is finished, we use a simple constant-shift calibration to center our observations around zero. Then a new search of the data is done on the centered points. This helps with making the training set more symmetric with regards to outliers. Specifically, consider spectra that have all errors be of 0.01 m/z units, but we search within 0.02 m/z of zero. The number of outliers that underestimate the error are much greater than ones overestimating it, and therefore building a model based on this data would underestimate the error.
+In order to both include more training points, and to exclude outliers that do not in reality correspond to any theoretical peak, after the initial data point search is finished, we use a simple constant-shift calibration to center our observations around zero. Then a new search of the data is done on the centered points. This helps with making the training set more symmetric with regards to outliers. Specifically, consider spectra that have all errors be of 0.01 m/z units, but we search within 0.02 m/z of zero. The number of outliers that underestimate the error are much greater than ones overestimating it, and therefore building a model based on this data would underestimate the error.
 
 We repeat the constant shift procedure until the number of observed matches between the theoretical and experimental peaks stops increasing.
 
@@ -60,9 +59,13 @@ We repeat the constant shift procedure until the number of observed matches betw
 
 Once the data is collected, we have training points that correspond to matches between theoretical and experimentally observed peaks.
 
-We
+Instead of pre-selecting the
 
+## Possible Improvements
 
+Different fractions of the same experiment are expected to have overlapping identifications.
+
+Neighboring scans, look for peaks that are repeating.
 
 # Notch Search
 
@@ -77,6 +80,22 @@ A search of the unimod database reveals that known modifications with mass diffe
 
 
 # Results
+
+We start the section by providing general results that
+
+## Calibration Quality
+
+We first demonstrate the improvement in a standard protein dictionary search.
+
+## Notch Search Time Improvement
+
+## Mouse Data
+
+Calibration successfully
+
+## Jurkat Data
+
+
 
 a. Only spectra files calibration, no additional search done. Show MSE values for different calibration functions, pick one, and say why it's better than others
 
