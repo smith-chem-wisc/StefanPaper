@@ -2,7 +2,17 @@
 
 # Introduction
 
-The calibration of spectra files and algorithmic improvements in the peptide dictionary search improves the accuracy and efficiency of new posttranslational-modification (PTM) identification.
+Posttranslational-modifications (PTM) influence many aspects of normal cell biology and mechanisms that lead to diseases. Correctly identifying the various protein modifications in biological samples is crucial to advance the understanding of protein functions. Ways of identifying and localizing PTMs are limited, but emerging techniques in the field of mass spectrometry are becoming available. Our lab recently developed a tool for global identification of PTMs using a single pass database search. We discovered that spectra file calibration prior to applying the tool, and algorithmic improvements in the peptide dictionary search greatly improve the accuracy and efficiency of new PTM identification. We describe the calibration tool developed, and present the results.
+
+# Overview
+
+We propose to add an additional calibration step in the workflow described in the GPTM-d paper. The workflow
+
+
+
+# Calibration
+
+The calibration process roughly follows
 
 # Motivation
 
@@ -98,6 +108,14 @@ We first demonstrate the improvement in a standard protein dictionary search.
 ## Mouse Data
 
 Calibration successfully
+
+### Sulfation and Phosphorylation differentiation
+
+## Jurkat Data
+
+## 11 Cell Lines Data
+
+
 
 ## Jurkat Data
 
