@@ -28,7 +28,7 @@ A compound such as EEEEE can be present everywhere in the column, and is thus se
 
 ## Digestion Compounds
 
-Trypsin is in itself a peptide, and compounds are seen throughout the measurements.
+Trypsin is in itself a peptide, and high-sensitivity trypsin peaks can be observed.
 
 ## Software Lock Mass
 
@@ -42,11 +42,12 @@ The differences with the work presented here are as follows:
 - They calculate a single mass error value for each peptide, combining multiple peaks from multiple MS scans into a single datapoint. We consider each peak separately.
 - They use a mass error value calculated by MaxQuant, we use the difference between the reference and observed peaks as the errors.
 - We predict the error in _m/z_ values, while they predict the mass errors
+- They do not shift any peaks: Instead, they run a new dictionary search with updated values for masses of MS isotope patterns. We shift the peaks: This is different, because some peaks if shifted can become a part of an isotope pattern, or fall out of one, or can create new isotope patterns. None of this can happen with their method.
 - We publish our software both as a standalone tool and as a library, distributed along with its source code, in contrast to MaxQuant.
 
 # Theoretical-Experimental Peak Matching
 
-Every peptide sequence identification corresponds to multiple peaks in the spectra. For every identification, the MS/MS scans should include peaks corresponding to the fragment ions of the peptide produced by the dissociation method employed in the mass spectrometer. The neighboring MS scans should have evidence of the un-fragmented peptide, over the elution profile. Each of the matches correspond to peaks at different charge states, and different isotopic peaks. All of those have a true mz value, and most of them should have corresponding peaks in the acquired spectra.
+Every peptide sequence identification corresponds to multiple peaks in the spectra. For every identification, the MS/MS scans should include peaks corresponding to the fragment ions of the peptide produced by the dissociation method employed in the mass spectrometer. The neighboring MS scans should have evidence of the un-fragmented peptide, over the elution profile of the peptide. Each of the matches correspond to peaks at different charge states, and different isotopic peaks. All of those have a true mz value, and most of them should have corresponding peaks in the acquired spectra.
 
 For a concrete example, assume that an identification tells us that an MS/MS spectrum corresponds to peptide sequence HVVQSISTQQEKETIAK, identified with a precursor charge 3. Since the sequence contains 17 amino acids, the total number of b and y ions that should be present in the MS/MS spectrum is 32. Each of those ions can have either 1, 2, or 3 charges, so the number of monoisotopic peaks to look for is 96. Every ion-charge state match still corresponds to multiple peaks, since every peptide has an isotope distribution. The number of peaks in the isotope distribution can be large.
 
