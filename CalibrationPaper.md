@@ -8,7 +8,7 @@ Posttranslational-modifications (PTM) influence many aspects of normal cell biol
 
 We propose to add an additional calibration step in the workflow described in the GPTM-d paper. The workflow
 
-
+The work does not look at MS/MS spectra in isolation, but attempts to reconcile the fragmentation patterns with the selected isolation m/z peak.
 
 # Calibration
 
@@ -27,6 +27,12 @@ The numerical difference between a true, or _reference_ value and an observed va
 Note that the instrument _resolution_ is another important measure of measurement quality, but it is unrelated to the error in an individual measurement.
 
 The goal of the calibration process is to shift each peak in the MS and MS/MS spectra by an appropriate amount, to compensate for as much systemic error as possible. We observe that
+
+## Defining Calibration
+
+### Internal Calibration
+
+### External Calibration
 
 # Previous Calibration Work
 
@@ -97,7 +103,7 @@ A search of the unimod database reveals that known modifications with mass diffe
 
 # Results
 
-We start the section by providing general results that
+We start the section by providing general results that speak to the efficacy of the calibration, and in the following section we show the significant improvements in PTM discovery.
 
 ## Calibration Quality
 
@@ -105,7 +111,18 @@ We first demonstrate the improvement in a standard protein dictionary search.
 
 ## Notch Search Time Improvement
 
-## Mouse Data
+## Peptide Shaker vs Morpheus
+
+The calibration algorithm requires a list of identifications to work with, and these identifications usually come from a dictionary or a de-novo search.
+
+|   | Initial Morpheus Search | Initial SearchGUI Search |
+| --- | --- | --- |
+| Time for first search |   |   |
+| FDR in Calibrated GPTMd Search |   |   |
+
+## Calibration Quality
+
+## Mouse Data: Details
 
 Calibration successfully
 
