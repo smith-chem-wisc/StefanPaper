@@ -141,14 +141,16 @@ The improvement in the discernability of PTMs is apparent when running a comb se
 
 
 
-**Step 5 numerical validatio**** n**
+**Step 5 numerical validation**
 
 The effects of the increased mass accuracy were demonstrated in the numerical results for step 2, so to make the comparison fair we use the same precursor and product mass tolerances for both the standard and the notch mass search. The search time is understandably slightly higher for the Notch search, but it is not a big deal since the search times for both are not long, and orders of magnitude shorter than the searches in step 3.
 
 |   | Standard Search | Notch Search |
 | --- | --- | --- |
+| Percent of spectra under 1% FDR |   |   |
 |   |   |   |
-|   |   |   |
+
+We described a workflow strategy for the pap
 
 1. GPTM-D.
 
