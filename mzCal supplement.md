@@ -71,6 +71,10 @@ Let us parametrize the error in the observed frequency instead of the observed m
 
 The time domain is inherently unpredictable, so a random forest prediction procedure is used.
 
+If a spline-based calibration is used.
+
+
+
 ## Previous work
 
 One useful way of classifying spectra calibration techniques is to place them into three categories:
