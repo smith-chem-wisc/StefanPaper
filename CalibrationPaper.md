@@ -8,49 +8,53 @@ University of Wisconsin – Madison
 
 Madison, WI 53706
 
-ABSTRACT (rewrite this when paper done)
+**ABSTRACT (rewrite this when paper done)**
 
 Posttranslational-modifications (PTMs) influence many aspects of protein function in biological processes, and correctly identifying the various protein modifications in biological samples is crucial for understanding proteins. Ways of identifying and localizing PTMs are limited, but emerging techniques in the field of mass spectrometry are becoming available. GPTM-D [_Journal of Very Important Results_, 1, 1 (2016)] is a recently developed tool for global identification of PTMs using a single pass database search that is promising. Spectra file calibration prior to applying the tool, and algorithmic improvements in the peptide database search greatly improve the accuracy and efficiency of new PTM identification. We describe the calibration tool developed, and present numerical results that validate the proposed enhancement.
 
-INTRODUCTION
+**INTRODUCTION**
 
 We have recently described a bioinformatics tool, GPTM-D, for the discovery of new PTMs from "bottom-up" tandem mass spectrometric datasets
 
 # 1
-.   The GPTM-D workflow consists of three stages: 1) An open mass database search
+. The GPTM-D workflow consists of three stages: 1) An open mass database search
 # 2-3
- that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).  2) For those peptides for which the mass difference corresponds to a known PTM, a database augmentation step that adds plausible localized PTMs for the peptides to the search database. 3) A final standard narrow mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1% FDR).
+ that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).  2) For those peptides for which the mass difference corresponds to a known PTM, a database augmentation step adds plausible localized PTMs to the peptides in the search database. 3) A final standard narrow mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1% FDR).
 
-A critical parameter for peptide identification and PTM localization
+A critical parameter for peptide identification and PTM localization is mass accuracy
 
 # 4
- is mass accuracy
-# 4
-. Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.  Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.  Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard (REF)); and subsequent to the MS experiment (post-acquisition spectral calibration, REF).  We use a post-acquisition calibration procedure, which we refer to as mzCal, that builds upon the software lock mass concept
+. Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.  Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.  Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard
 # 5
- recently reported  by the Mann group.  In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.  The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
+); and subsequent to the MS experiment (post-acquisition spectral calibration, REF).  We use a post-acquisition calibration procedure, which we refer to as mzCal, that builds upon the software lock mass concept
+# 6
+ recently reported by the Mann group.  In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.  The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
 
-We have also modified the search strategies to run more efficiently, by using "notch" and "comb" searches of the mass space that reduce unproductive search time and add flexibility by allowing certain mass differences that correspond to things like adducts and monoisotopic errors.  The new search strategy implementing these changes was tested in the analysis of N \_\_\_\_\_ deep proteomic datasets  (describe),  for which the use of mzCal provided a \_\_% increase in overall peptide identification, and a \_\_% increase in the identification of post-translationally modified peptides. The improved search strategies account for a \_% decrease in search time, and an additional \_% increase in identification rate.
+We have also modified the search strategies to run more efficiently, by using "notch" and "comb" searches of the mass space that reduce unproductive search time and add flexibility by accounting for certain mass differences due to PTMs, adducts and monoisotopic errors.  The new search strategy implementing these changes was tested in the analysis of 3 deep proteomic datasets  (describe),  for which the use of mzCal provided a \_\_% increase in overall peptide identification, and a \_\_% increase in the identification of post-translationally modified peptides. The improved search strategies account for a \_% decrease in search time, and an additional \_% increase in identification rate.
 
-EXPERIMENTAL PROCEDURES
+**EXPERIMENTAL PROCEDURES**
 
 The mzCal software is written in C#, and works on all popular operating systems. It is released under the GPL license, and the code is available for inspection at [https://github.com/smith-chem-wisc/mzCal](https://github.com/smith-chem-wisc/mzCal).
 
 The database search software employed is a modified version of Morpheus
 
-# 6
-. The benchmark calibration software is mzRefinery
 # 7
-. We do not attempt to
+. The benchmark calibration software is mzRefinery
+# 8
+.
+
+Database search parameters are 10ppm precursor mass tolerance for uncalibrated and 5ppm precursor tolerance for calibrated spectra. We use a 0.01 Dalton product mass tolerance for uncalibrated and 0.005 Dalton for calibrated spectra. On-the-fly decoy database generation was used everywhere except for open and comb searches, since their purpose is discovery and not validation.
+
+For both mouse and human datasets we use XML databases from uniprot acquired on 7/28/16 and containing only reviewed proteins.
 
 The datasets tested are described in detail in
 
-# 8-9
-.
+# 9-10
+. You can find them at [http://www.LloydSmithDatasets.com](http://www.LloydSmithDatasets.com).
 
-RESULTS AND DISCUSSION
+**THE ENHANCED GPTM-D WORKFLOW**
 
-Figure 1a shows the modified GPTM-D workflow.  Blue arrows and boxes show the previously described GPTM-D workflow, and those in green correspond to the improved workflow incorporating the mzCal calibration and comb and notch search strategies.  The input into the workflow is a standard bottom-up tandem-ms dataset obtained from a tryptically digested protein sample, and the output is a comprehensive set of peptide and PTM identifications.  Before describing the workflow in detail, it is useful to review and define the different search modes that are employed.   These are illustrated in Figure 1B, which shows four variations: standard search, notch search, comb search, and open search. These differ with respect to whether or not the entire mass space is searched, as opposed to defined subsets of the mass space; and with respect to the narrowness of the mass window employed for each element in the search space.  The smaller the fraction of the mass space, and the wider the mass window per search element, the faster the search will run (as fewer searches are executed per mass spectrum).
+Figure 1a shows the enhanced GPTM-D workflow.  The left column shows the previously described GPTM-D workflow, and the column on the right corresponds to the improved workflow incorporating the mzCal calibration and comb and notch search strategies.  The input into the workflow is a standard bottom-up tandem-ms dataset obtained from a tryptically digested protein sample, and the output is a comprehensive set of peptide and PTM identifications.  Before describing the workflow in detail, it is useful to review and define the different database search modes that are employed.   These are illustrated in Figure 1B, which shows four variations: standard search, notch search, comb search, and open search. These differ with respect to whether or not the entire mass space is searched, as opposed to defined subsets of the mass space; and with respect to the narrowness of the mass window employed for each element in the search space.  The smaller the fraction of the mass space, and the wider the mass window per search element, the faster the search will run (as fewer searches are executed per mass spectrum).
 
 | a)
 
@@ -92,13 +96,13 @@ The calibration step allows using a narrow precursor and product search windows,
 
 In addition, the introduction of a notch search capability at this final stage allows for detection of monoisotopic errors and adducts, instead of mis-assigning.
 
-NUMERICAL VALIDATION
+**RESULTS AND DISCUSSION**
 
-We follow the enhanced workflow sequence in this section to provide evidence of improvement at each step.
+ We follow the enhanced workflow sequence in this section to provide evidence of improvement at each step.
 
 **Step 2 numerical validation**
 
-A simple test of the calibration quality is to withhold some known peak matches from the inputs of the calibration software, and to determine if they have been shifted closer to the theoretically correct value. We test the following peak exclusion strategies: **a)** Withholding random peaks. This test validates the calibration framework **b)** Withholding random identifications **c)** Withholding all high m/z valued peaks **d)** Withholding all low m/z valued peaks.
+A simple test of the calibration quality is to withhold some known peak matches from the inputs of the calibration software, and to determine if they have been shifted closer to the theoretically correct value. We test the following peak exclusion strategies: **a)** Withholding random identifications **b)** Withholding all high m/z valued peaks **c)** Withholding all low m/z valued peaks.
 
 
 
@@ -112,17 +116,14 @@ A simple test of the calibration quality is to withhold some known peak matches 
 | --- | --- | --- | --- |
 | **Withholding c)** | 10ppm | 3ppm | 6ppm |
 | --- | --- | --- | --- |
-| **Withholding d)** | 10ppm | 3ppm | 6ppm |
-| --- | --- | --- | --- |
 
 Precursor Tolerance
 
 
- | Uncalibrated | mzRefinery | mzCal |
-| --- | --- | --- | --- |
-| **10ppm** | 40% | 50% | 60% |
-| **6ppm** | 40% | 50% | 60% |
-| **3ppm** | 40% | 50% | 60% |
+ | Uncalibrated | mzCal |
+| --- | --- | --- |
+| **10ppm** | 40% | 60% |
+| **5ppm** | 40% | 60% |
 
 We also validate the calibration results by performing a standard peptide database search. We report the fraction of spectra that is identified at 1% FDR.
 
@@ -137,7 +138,7 @@ The improvements of using a Comb search instead of an Open search are two-fold. 
 | Search Time | 10 minutes | 5 minutes |
 | Percent of spectra at 1% FDR | 50% | 60% |
 
-The improvement in the discernability of PTMs is apparent when running a comb search on calibrated vs uncalibrated spectra files. Specifically, the discernibility of PTMs with similar mass errors (ones that are only different because of the mass defect). This was not really possible previously. In the current run, Sulfation and Phosphorylation are readily distinguishable.
+The improvement in the discernability of PTMs is apparent when running a comb search on calibrated vs uncalibrated spectra files. Specifically, the discernibility of PTMs with similar mass errors (ones that are only different because of the mass defect). This was not really possible previously. In the current run, Sulfation and Phosphorylation are readily distinguishable. We present the numbers for the example below in the step 5 numerical validation section.
 
 
 
@@ -145,12 +146,12 @@ The improvement in the discernability of PTMs is apparent when running a comb se
 
 The effects of the increased mass accuracy were demonstrated in the numerical results for step 2, so to make the comparison fair we use the same precursor and product mass tolerances for both the standard and the notch mass search. The search time is understandably slightly higher for the Notch search, but it is not a big deal since the search times for both are not long, and orders of magnitude shorter than the searches in step 3.
 
-|   | Standard Search | Notch Search |
-| --- | --- | --- |
-| Percent of spectra under 1% FDR |   |   |
-|   |   |   |
+|   | Standard Search-uncalib | Standard Search-calib | Notch Search-calib |
+| --- | --- | --- | --- |
+| Percent of spectra under 1% FDR |   |   |   |
+|   |   |   |   |
 
-We described a workflow strategy for the pap
+Some of the steps can be simplified in order to improve the search times, but these simplifications leave little room for discovery. Specifically, in Step 3, a notch search with notches at the most common PTMs can be used, and it would provide some entries for the augmented database, but in case of unexpected modifications it would not have the power of discovery.
 
 1. GPTM-D.
 
@@ -160,12 +161,14 @@ We described a workflow strategy for the pap
 
 4. Scherl, A.; Shaffer, S. A.; Taylor, G. K.; Hernandez, P.; Appel, R. D.; Binz, P. A.; Goodlett, D. R., On the benefits of acquiring peptide fragment ions at high measured mass accuracy. _J Am Soc Mass Spectrom _ **2008,** _19_ (6), 891-901.
 
-5. Cox, J.; Michalski, A.; Mann, M., Software lock mass by two-dimensional minimization of peptide mass errors. _J Am Soc Mass Spectrom _ **2011,** _22_ (8), 1373-80.
+5. Olsen, J. V.; de Godoy, L. M.; Li, G.; Macek, B.; Mortensen, P.; Pesch, R.; Makarov, A.; Lange, O.; Horning, S.; Mann, M., Parts per million mass accuracy on an Orbitrap mass spectrometer via lock mass injection into a C-trap. _Mol Cell Proteomics _ **2005,** _4_ (12), 2010-21.
 
-6. Wenger, C. D.; Coon, J. J., A proteomics search algorithm specifically designed for high-resolution tandem mass spectra. _J Proteome Res _ **2013,** _12_ (3), 1377-86.
+6. Cox, J.; Michalski, A.; Mann, M., Software lock mass by two-dimensional minimization of peptide mass errors. _J Am Soc Mass Spectrom _ **2011,** _22_ (8), 1373-80.
 
-7. Gibbons, B. C.; Chambers, M. C.; Monroe, M. E.; Tabb, D. L.; Payne, S. H., Correcting systematic bias and instrument measurement drift with mzRefinery. _Bioinformatics _ **2015,** _31_ (23), 3838-40.
+7. Wenger, C. D.; Coon, J. J., A proteomics search algorithm specifically designed for high-resolution tandem mass spectra. _J Proteome Res _ **2013,** _12_ (3), 1377-86.
 
-8. Shortreed, M. R.; Wenger, C. D.; Frey, B. L.; Sheynkman, G. M.; Scalf, M.; Keller, M. P.; Attie, A. D.; Smith, L. M., Global Identification of Protein Post-translational Modifications in a Single-Pass Database Search. _J Proteome Res _ **2015,** _14_ (11), 4714-20.
+8. Gibbons, B. C.; Chambers, M. C.; Monroe, M. E.; Tabb, D. L.; Payne, S. H., Correcting systematic bias and instrument measurement drift with mzRefinery. _Bioinformatics _ **2015,** _31_ (23), 3838-40.
 
-9. Cesnik, A. J.; Shortreed, M. R.; Sheynkman, G. M.; Frey, B. L.; Smith, L. M., Human Proteomic Variation Revealed by Combining RNA-Seq Proteogenomics and Global Post-Translational Modification (G-PTM) Search Strategy. _J Proteome Res _ **2016,** _15_ (3), 800-8.
+9. Shortreed, M. R.; Wenger, C. D.; Frey, B. L.; Sheynkman, G. M.; Scalf, M.; Keller, M. P.; Attie, A. D.; Smith, L. M., Global Identification of Protein Post-translational Modifications in a Single-Pass Database Search. _J Proteome Res _ **2015,** _14_ (11), 4714-20.
+
+10. Cesnik, A. J.; Shortreed, M. R.; Sheynkman, G. M.; Frey, B. L.; Smith, L. M., Human Proteomic Variation Revealed by Combining RNA-Seq Proteogenomics and Global Post-Translational Modification (G-PTM) Search Strategy. _J Proteome Res _ **2016,** _15_ (3), 800-8.
