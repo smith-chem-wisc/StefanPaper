@@ -1,161 +1,40 @@
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% This is a (brief) model paper using the achemso class
-%% The document class accepts keyval options, which should include
-%% the target journal and optionally the manuscript type.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[journal=jprobs,manuscript=article]{achemso}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Place any additional packages needed here.  Only include packages
-%% which are essential, to avoid problems later. Do NOT use any
-%% packages which require e-TeX (for example etoolbox): the e-TeX
-%% extensions are not currently available on the ACS conversion
-%% servers.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[version=3]{mhchem} % Formula subscripts using \ce{}
 \usepackage[T1]{fontenc}       % Use modern font encodings
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% If issues arise when submitting your manuscript, you may want to
-%% un-comment the next line.  This provides information on the
-%% version of every file you have used.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\listfiles
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Place any additional macros here.  Please use \newcommand* where
-%% possible, and avoid layout-changing macros (which are not used
-%% when typesetting).
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand*\mycommand[1]{\texttt{\emph{#1}}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Meta-data block
-%% ---------------
-%% Each author should be given as a separate \author command.
-%%
-%% Corresponding authors should have an e-mail given after the author
-%% name as an \email command. Phone and fax numbers can be given
-%% using \phone and \fax, respectively; this information is optional.
-%%
-%% The affiliation of authors is given after the authors; each
-%% \affiliation command applies to all preceding authors not already
-%% assigned an affiliation.
-%%
-%% The affiliation takes an option argument for the short name.  This
-%% will typically be something like "University of Somewhere".
-%%
-%% The \altaffiliation macro should be used for new address, etc.
-%% On the other hand, \alsoaffiliation is used on a per author basis
-%% when authors are associated with multiple institutions.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\author{Andrew N. Other}
-\altaffiliation{A shared footnote}
-\author{Fred T. Secondauthor}
-\altaffiliation{Current address: Some other place, Othert\"own,
-Germany}
-\author{I. Ken Groupleader}
-\altaffiliation{A shared footnote}
-\email{i.k.groupleader@unknown.uu}
-\phone{+123 (0)123 4445556}
-\fax{+123 (0)123 4445557}
-\affiliation[Unknown University]
-{Department of Chemistry, Unknown University, Unknown Town}
-\alsoaffiliation[Second University]
-{Department of Chemistry, Second University, Nearby Town}
-\author{Susanne K. Laborator}
-\email{s.k.laborator@bigpharma.co}
-\affiliation[BigPharma]
-{Lead Discovery, BigPharma, Big Town, USA}
-\author{Kay T. Finally}
-\affiliation[Unknown University]
-{Department of Chemistry, Unknown University, Unknown Town}
-\alsoaffiliation[Second University]
-{Department of Chemistry, Second University, Nearby Town}
+\author{Stefan K. Solntsev}
+\email{solntsev@wisc.edu}
+\author{Michael R. Shortreed}
+\author{Brian L. Frey}
+\author{Lloyd M. Smith}
+\affiliation[UwMadison]
+{University of Wisconsin-Madison}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% The document title should be given as usual. Some journals require
-%% a running title from the author: this should be supplied as an
-%% optional argument to \title.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title[An \textsf{achemso} demo]
-  {Rapid and Accurate Global PTM Discovery (GPTM-D) Using Post-Acquisition Spectral Calibration and Defined Mass Windows}
+  {Rapid and Accurate Global PTM Discovery (G-PTM-D) Using Post-Acquisition Spectral Calibration and Defined Mass Windows}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Some journals require a list of abbreviations or keywords to be
-%% supplied. These should be set up here, and will be printed after
-%% the title and author information, if needed.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\abbreviations{IR,NMR,UV}
-\keywords{Proteomics}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% The manuscript does not need to include \maketitle, which is
-%% executed automatically.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% The "tocentry" environment can be used to create an entry for the
-%% graphical table of contents. It is given here as some journals
-%% require that it is printed as part of the abstract page. It will
-%% be automatically moved as appropriate.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tocentry}
-
-Some journals require a graphical entry for the Table of Contents.
-This should be laid out ``print ready'' so that the sizing of the
-text is correct.
-
-Inside the \texttt{tocentry} environment, the font used is Helvetica
-8\,pt, as required by \emph{Journal of the American Chemical
-Society}.
-
-The surrounding frame is 9\,cm by 3.5\,cm, which is the maximum
-permitted for  \emph{Journal of the American Chemical Society}
-graphical table of content entries. The box will not resize if the
-content is too big: instead it will overflow the edge of the box.
-
-This box and the associated title will always be printed on a
-separate page at the end of the document.
-
-\end{tocentry}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% The abstract environment will automatically gobble the contents
-%% if an abstract is not used by the target journal.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-%  This is an example document for the \textsf{achemso} document
-%  class, intended for submissions to the American Chemical Society
-%  for publication. The class is based on the standard \LaTeXe\
-%  \textsf{report} file, and does not seek to reproduce the appearance
-%  of a published paper.
-%
-%  This is an abstract for the \textsf{achemso} document class
-%  demonstration document.  An abstract is only allowed for certain
-%  manuscript types.  The selection of \texttt{journal} and
-%  \texttt{manuscript} will determine if an abstract is valid.  If
-%  not, the class will issue an appropriate error.
-Posttranslational-modifications (PTMs) influence many aspects of protein function in biological processes, and correctly identifying the various protein modifications in biological samples is crucial for understanding proteins. Ways of identifying and localizing PTMs are limited, but emerging techniques in the field of mass spectrometry are becoming available. GPTM-D [Journal of Very Important Results, 1, 1 (2016)] is a recently developed tool for global identification of PTMs using a single pass database search that is promising. Spectra file calibration prior to applying the tool, and algorithmic improvements in the peptide database search greatly improve the accuracy and efficiency of new PTM identification. We describe the calibration tool developed, and present numerical results that validate the proposed enhancement.
 
-Correctly identifying protein posttranslational-modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes. Methods to identify and localize PTMs from complex biological samples have been limited, but a few techniques are emerging. G-PTM-D\cite{doi:10.1021/acs.jproteome.6b00034} is a recently developed tool for global identification of PTMs. Spectra file calibration prior to applying the tool, We enhanced this method by using non-standard mass-window searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations. The number of identified modifications increased by 20\% and the search time decreased by an order of magnitude. We also show the advantages of using mass windows in a standard database search, when PTM discovery is not the primary goal.
+Correctly identifying protein posttranslational-modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes. Methods to identify and localize PTMs from complex biological samples have been limited, but a few techniques are emerging. G-PTM-D\cite{doi:10.1021/acs.jproteome.6b00034} is a recently developed tool for global identification of PTMs. Spectra file calibration prior to applying the tool, and algorithmic improvements in the peptide database search greatly improve the accuracy and efficiency of new PTM identification. We enhanced this method by using non-standard mass-window searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations. The number of identified modifications increased by 20\% and the search time decreased by an order of magnitude. We also show the advantages of using mass windows in a standard database search, when PTM discovery is not the primary goal.
 \end{abstract}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Start the main part of the manuscript here.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-%This is a paragraph of text to fill the introduction of the
-%demonstration file.  The demonstration file attempts to show the
-%modifications of the standard \LaTeX\ macros that are implemented by
-%the \textsf{achemso} class.  These are mainly concerned with content,
-%as opposed to appearance.
-Many peptide residue modification types are known, and databases containing detailed information about such modifications are readily available. Information about a modification can include the chemical or isotopic composition, average mass, monoisotopic mass, specificity to certain residues, and possible restriction of placement to certain peptide or protein termini. While this data is almost comprehensive, information about the localization of these modification to certain residues in specific proteins is scarce. 
-We have recently described a bioinformatics tool, GPTM-D, for the discovery and localization of new PTMs from “bottom-up” tandem mass spectrometric datasets1. The GPTM-D workflow consists of three stages: 1) An open mass database search2-3 that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).  2) For those peptides for which the mass difference corresponds to a known PTM, a database augmentation step adds plausible localized PTMs to the peptides in the search database. 3) A final standard narrow mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR). 
-We propose an extension to GPTM-D that addresses the long search times of the open mass search, and the limitations of the standard final narrow mass search. We propose a change to the standard GPTM-d workflow using a notch search in the discovery phase, using notches centered at the monoisotopic mass differences introduced by known modifications. This change improves the search time by orders of magnitude, and improves the specificity as well. 
-Along with algorithmic improvements, we recommend using spectral calibration prior to running the GPTM-d procedure. A critical parameter for peptide identification and PTM localization is mass accuracy4. Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.  Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.  Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard5); and subsequent to the MS experiment (post-acquisition spectral calibration, REF).  We use a post-acquisition calibration procedure, that builds upon the software lock mass concept6 recently reported by the Mann group.  In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.  The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.  
+
+Many peptide residue modification types are known, and databases containing detailed information about such modifications are readily available. Information about a modification can include the chemical or isotopic composition, average mass, monoisotopic mass, specificity to certain residues, and possible restriction of placement to certain peptide or protein termini. While this data is almost comprehensive, information about the localization of these modification to certain residues in specific proteins is scarce.
+
+We have recently described a bioinformatics tool, G-PTM-D, for the discovery and localization of new PTMs from "bottom-up" tandem mass spectrometric datasets\cite{doi:10.1021/acs.jproteome.6b00034}. The GPTM-D workflow consists of three stages: 1) An wide-mass database search2-3 that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).  2) For those peptides for which the mass difference corresponds to a known PTM, a database augmentation step adds plausible localized PTMs to the peptides in the search database. 3) A final standard narrow mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR). 
+
+We propose an extension to GPTM-D that addresses the long search times of the open mass search, and the limitations of the standard final narrow mass search. We propose a change to the standard GPTM-d workflow using a notch search in the discovery phase, using notches centered at the monoisotopic mass differences introduced by known modifications. This change improves the search time by orders of magnitude, and improves the specificity as well. We propose using a notch search in the final phase.
+
+The mass windows concept was extended to other procedures, beyond the G-PTM-D workflow. We propose using mass windows as an alternative to any wide or open-mass search. 
+
+Along with algorithmic improvements, we recommend using spectral calibration prior to running the GPTM-d procedure. A critical parameter for peptide identification and PTM localization is mass accuracy4. Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.  Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.  Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard5); and subsequent to the MS experiment (post-acquisition spectral calibration, REF).  We use a post-acquisition calibration procedure, that builds upon the software lock mass concept6 recently reported by the Mann group.  In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.  The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
+
 The new search strategy implementing these changes was tested in the analysis of 2 deep proteomic datasets, where we saw a\% increase in overall peptide identification, and a \% increase in the identification of post-translationally modified peptides.
 Finally, we propose a carefully drafted heuristic for identifying and localizing modifications not currently present in any database.
 
