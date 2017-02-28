@@ -91,7 +91,6 @@ The final search with the augmented database is conducted with notches: the fina
 
 Since the XML database is annotated with PTMs from the UniProt PTM list, it is natural to use it in the augmentation step as well. It has a few significant drawbacks: Some mass values do not correspond to actual mass shifts, lability of modifications is not taken into account, and many PTMs are missing, including adducts and glycosylations. Notch searches allow using expanded modification lists that include chemical modifications such as adducts and large mass PTMs such as glycosylations. Even though adducts arising from experimental artifacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMS. A curated set of notches and the corresponding modifications is given in Appendix A. The overall identification rate increased from 164,697 to 179,345 peptide-spectral matches (PSMs), which in turn increased the number of modified peptides by an additional 20\%. We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Daltons. 
 
-
 \begin{table}[]
 \centering
 \caption{Effects of Using Different Modification Lists}
