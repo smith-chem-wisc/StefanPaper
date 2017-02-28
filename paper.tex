@@ -2,6 +2,7 @@
 
 \usepackage[version=3]{mhchem} % Formula subscripts using \ce{}
 \usepackage[T1]{fontenc}       % Use modern font encodings
+\usepackage{multirow}
 
 \newcommand*\mycommand[1]{\texttt{\emph{#1}}}
 
@@ -20,77 +21,113 @@
 
 \begin{abstract}
 
-Correctly identifying protein posttranslational-modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes. Methods to identify and localize PTMs from complex biological samples have been limited, but a few techniques are emerging. G-PTM-D\cite{doi:10.1021/acs.jproteome.6b00034} is a recently developed tool for global identification of PTMs. Spectra file calibration prior to applying the tool, and algorithmic improvements in the peptide database search greatly improve the accuracy and efficiency of new PTM identification. We enhanced this method by using non-standard mass-window searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations. The number of identified modifications increased by 20\% and the search time decreased by an order of magnitude. We also show the advantages of using mass windows in a standard database search, when PTM discovery is not the primary goal.
+Correctly identifying protein posttranslational-modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes. Methods to identify and localize PTMs from complex biological samples have been limited, but a few techniques are emerging. G-PTM-D\cite{Li_2016} is a recently developed tool for global identification of PTMs. Spectra file calibration prior to applying the tool, and algorithmic improvements in the peptide database search greatly improve the accuracy and efficiency of new PTM identification. We enhanced G-PTM-D by using non-standard mass-window searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations. The number of identified modifications increased by 20\% and the search time decreased by an order of magnitude. We also show the advantages of using mass-window searches in other contexts, when PTM discovery is not the primary goal.
 \end{abstract}
 
 \section{Introduction}
 
-Many peptide residue modification types are known, and databases containing detailed information about such modifications are readily available. Information about a modification can include the chemical or isotopic composition, average mass, monoisotopic mass, specificity to certain residues, and possible restriction of placement to certain peptide or protein termini. While this data is almost comprehensive, information about the localization of these modification to certain residues in specific proteins is scarce.
+Many peptide residue modification types are known, and databases containing detailed information about such modifications are readily available. Information about a modification can include the chemical or isotopic composition, mass, specificity to certain residues, and possible restriction of placement to peptide or protein termini. While this data is almost comprehensive, information about the localization of these modification to certain residues in specific proteins is scarce.
 
-We have recently described a bioinformatics tool, G-PTM-D, for the discovery and localization of new PTMs from "bottom-up" tandem mass spectrometric datasets\cite{doi:10.1021/acs.jproteome.6b00034}. The GPTM-D workflow consists of three stages: 1) An wide-mass database search2-3 that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).  2) For those peptides for which the mass difference corresponds to a known PTM, a database augmentation step adds plausible localized PTMs to the peptides in the search database. 3) A final standard narrow mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR). 
+We have recently described a bioinformatics tool, G-PTM-D, for the discovery and localization of new PTMs from "bottom-up" tandem mass spectrometric datasets\cite{Li_2016}. The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\cite{Chick_2015,Na_2011} that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).  2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the proteins in the search database. 3) A final standard narrow-mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
 
-We propose an extension to GPTM-D that addresses the long search times of the open mass search, and the limitations of the standard final narrow mass search. We propose a change to the standard GPTM-d workflow using a notch search in the discovery phase, using notches centered at the monoisotopic mass differences introduced by known modifications. This change improves the search time by orders of magnitude, and improves the specificity as well. We propose using a notch search in the final phase.
+Before describing the proposed changes to G-PTM-D, we introduce the database search mode definitions we use throughout. A standard \textit{narrow-mass} search considers matching theoretical peptides to spectra if the peptide mass and the identified precursor mass are equal, within some tolerance (i.e. 5ppm, or 2.1 Da). An \textit{wide-mass} search matches peptide fragment masses to fragmentation spectra while allowing large differences (i.e. $\pm 500$ Da) between the observed precursor mass and the peptide mass. An even less restrictive \textit{open-mass} search, matches peptides from a database to  fragmentation spectra without taking the precursor mass into account. We propose alternatives to these search modes, namely a \textit{notch search} and an \textit{interval search} that fall under a broad category of \textit{mass-window} searches. The notch search is an extension of the narrow-mass search: it allows exact matches (within a tolerance) to specific mass differences between the theoretical peptide and observed precursor masses. The interval search is an extension of the wide-mass search: specific problematic mass differences are excluded from allowed matches. The smaller the fraction of the mass space, and the narrower the mass window per search element, the faster the search will run (as fewer searches are executed per mass spectrum). Figure~\ref{fgr:differentSearchModes} provides a convenient way to visualize the various search modes.
 
-The mass windows concept was extended to other procedures, beyond the G-PTM-D workflow. We propose using mass windows as an alternative to any wide or open-mass search. 
+We propose an extension to G-PTM-D (Enhanced G-PTM-D) that addresses the long search times of the wide-mass search, and the limitations of the standard final narrow-mass search. The wide-mass search is replaced by a notch search in the discovery phase, using notches centered at the monoisotopic mass differences introduced by known modifications. This change improves the specificity and significantly decreases search. The final narrow-mass search is also replaced by a notch search, further increasing the number of confidently identified peptides.
 
-Along with algorithmic improvements, we recommend using spectral calibration prior to running the GPTM-d procedure. A critical parameter for peptide identification and PTM localization is mass accuracy4. Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.  Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.  Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard5); and subsequent to the MS experiment (post-acquisition spectral calibration, REF).  We use a post-acquisition calibration procedure, that builds upon the software lock mass concept6 recently reported by the Mann group.  In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.  The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
+We recommend using the mass-window search in other procedures as well, beyond the G-PTM-D workflow. Its efficacy is demonstrated in context of a search for novel modifications, which is usually based on a wide-mass or an open-mass search. We demonstrate that using a combination of specialized notch and interval searches produces superior identification and discovery results.
 
-The new search strategy implementing these changes was tested in the analysis of 2 deep proteomic datasets, where we saw a\% increase in overall peptide identification, and a \% increase in the identification of post-translationally modified peptides.
-Finally, we propose a carefully drafted heuristic for identifying and localizing modifications not currently present in any database.
+Along with algorithmic improvements, we recommend using spectral calibration prior to running the G-PTM-D procedure. A critical parameter for peptide identification and PTM localization is mass accuracy\cite{Scherl_2008}. Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.  Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.  Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\cite{Olsen_2005}); and subsequent to the MS experiment (post-acquisition spectral calibration, REF).  We use a post-acquisition calibration procedure, that builds upon the software lock mass concept\cite{Cox_2011} recently reported by the Mann group.  In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.  The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
+
+\begin{figure}
+  \includegraphics{figureDifferentSearchModes.eps}
+  \caption{Search Modes}
+  \label{fgr:differentSearchModes}
+\end{figure}
 
 \section{Experimental Procedures}
-We developed a modified version of the Morpheus software for bottom-up spectral database searching that we call MetaMorpheus, which integrates a spectral calibration procedure with the G-PTM-D workflow. Two multi-fraction mammalian datasets with deep proteome coverage were used to evaluate the performance of the methods. Uniprot XML protein databases containing only reviewed human/mouse proteins were employed. A 10ppm precursor mass tolerance was used for the initial calibration step, and then reduced to 5ppm for subsequent searches in defined narrow mass windows (notch searches). For the Global PTM Discovery (G-PTM-D) process, we allowed 120 modifications including PTMs, adducts, and chemical modifications. For the discovery of other modifications, we used a novel wide mass-window search (interval search).
-The database search software employed is a modified version of Morpheus7, MetaMorpheus. We incorporated the calibration procedure, and the GPTM-D workflow in this modified version for convenience.
-Database search parameters are 10ppm precursor mass tolerance for uncalibrated and 5ppm precursor tolerance for calibrated spectra. We use a 0.01 Dalton product mass tolerance for uncalibrated and 0.006 Dalton for calibrated spectra. On-the-fly decoy database generation was used everywhere.
-For both mouse and human datasets we use XML databases from uniprot acquired on 7/28/16 and containing only reviewed proteins. 
-The datasets tested are described in detail in 9-10. You can find them at http://www.LloydSmithDatasets.com.
+We developed a modified version of the Morpheus software for bottom-up spectral database searching\cite{Wenger_2013} that we call MetaMorpheus, which integrates the database search procedure with spectral calibration and the Enhanced G-PTM-D workflow. Two multi-fraction mammalian datasets (\textit{Mouse} and \textit{Jurkat}) with deep proteome coverage were used to evaluate the performance of the methods: these datasets are described in detail in~\cite{Shortreed_2015, Cesnik_2016}. Uniprot XML protein databases acquired on Feb 27, 2017 containing only reviewed human/mouse proteins were employed. 
 
+A 10ppm precursor mass tolerance was used for the initial calibration step, and then reduced to 5ppm for subsequent notch searches. For the database augmentation step, we allowed 120 modifications including PTMs, adducts, and chemical modifications. Final notch search used notches centered at \{0, 1.003, 2.005, 3.008\} in order to capture missed identifications due to missed monoisotopic peaks.
+
+For the discovery of novel modifications, we used a combination of two searches: A notch search with notches at all combinations of up to 2 residue mass additions or removals, and an interval search with lower bound of -187 Daltons, and with exclusions at masses corresponding to the notch search.
 
 \section{Results and Discussion}
-By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in Uniprot, the number of confidently identified PTMs increased by 8\%. The overall search time dropped significantly, from 30 hours to 3.5 hours for all datasets. Using an expanded modification list that includes chemical modifications such as adducts and large mass PTMs such as glycosylations, the overall identification rate increased from 164,697 to 179,345 peptide-spectral matches (PSMs), which in turn increased the number of modified peptides by an additional 20\%. We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Daltons. Algorithmic improvements in the G-PTM-D procedure itself, such as searching for combinations of modifications and for modifications with neutral losses make it an excellent tool for PTM discovery.
-Previously described wide mass search strategies for discovery and localization of unknown modifications benefit from using alternative, carefully designed search modes based on interval and notch searches. We discovered that limiting mass shifts to a lower bound of -187 Da (corresponding to the largest mass difference that could be attributed to loss of a single residue, Tryptophan), and no upper bound, is an important step in eliminating spurious PSMs. Furthermore, treating highly suspect mass shifts corresponding to residue additions/substitutions/deletions in a separate notch search with individualized false discovery rate estimates is beneficial. An automated tool built into MetaMorpheus allows confidently identifying novel modifications based on these search results. These strategies for increasing confidence in identifications with unusual mass shifts can be used in any database search.
-optional Novel Modification Discovery step. The input into the workflow is a standard bottom-up tandem-MS dataset obtained from a tryptically digested protein sample along with a corresponding protein sequence database, and the output is a comprehensive set of peptide and PTM identifications.  Before describing the workflow in detail, it is useful to review and define the different database search modes that are employed. These are illustrated in Figure 1B, which shows four variations: standard search, notch search, comb search, and open search. These differ with respect to whether the entire mass space is searched, as opposed to defined subsets of the mass space; and with respect to the narrowness of the mass window employed for each element in the search space.  The smaller the fraction of the mass space, and the narrower the mass window per search element, the faster the search will run (as fewer searches are executed per mass spectrum). In the following sections we describe the various steps in the flowchart.
-a)	b)
- 	    
-Figure 1: a) The blue components mark the enhanced GPTM-D workflow for identifying and localizing PTMs. The green components are the steps in the novel Modification discovery heuristic. b) The four different search strategies
-CALIBRATION
-The spectral calibration procedure consists of two steps: Step 1: A standard tolerance (e.g. 10 ppm) database search is performed on the dataset. This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1%; based upon the target:decoy strategy (ref)).  Step 2:  The identifications from step 1 are used to extract peak matches from the spectra, and a calibration procedure is performed. The calibration algorithm is described in detail in Supplementary Material 1.
-A simple test of the calibration quality is to withhold some known peak matches from the inputs of the calibration software, and to determine if they have been shifted closer to the theoretically correct value. We withheld 30% of identifications, and measured the standard deviation and the average errors of the peak differences for the monoisotopic MS1 peaks with known charge states. The average mass error went down from -3.67ppm to -0.15ppm in the jurkat dataset and from -3.32ppm for the mouse dataset. The standard deviations decreased from 3.64ppm to 2.82ppm, and from 3.07ppm to 2.54ppm for the jurkat and mouse datasets respectively. Figure 2 shows the clear improvement in the error for the withheld identified peptides, as a result of applying spectral calibration.
-a)	b)
- 	 
-Figure 2: a) b) 
+
+\subsection{Enhanced G-PTM-D}
+
+The input into the workflow is a standard bottom-up tandem-MS dataset obtained from a tryptically digested protein sample along with a corresponding protein sequence database, and the output is a comprehensive set of peptide and PTM identifications. 
+
+Even though adducts arising from experimental artefacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMS. A curated set of notches and the corresponding modifications is given in Appendix A. Using an off-the shelf database of modification is not advisable. The database augmentation step is like the procedure described in the original G-PTM-D work: modifications with appropriate mass are added to the protein database, so that subsequent searches may include them as variable localized modifications. 
+Since the XML database is annotated with PTMs from the UniProt PTM list, it is a natural first idea to use it in the augmentation step as well. It has a few significant drawbacks: Some mass values do not correspond to actual mass shifts, lability of modifications is not taken into account, and many PTMs are missing, including adducts and glycosylations.
+The final search with the augmented database is conducted with notches: the final notch search is specific to each dataset: we only recommend including the common missed monoisotopic mass values in the final search: see the following section for justification. Newly identified localized PTMs are now readily identified.
+
+By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in Uniprot, the number of confidently identified PTMs increased by 8\%. The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-label}. Using an expanded modification list that includes chemical modifications such as adducts and large mass PTMs such as glycosylations, the overall identification rate increased from 164,697 to 179,345 peptide-spectral matches (PSMs), which in turn increased the number of modified peptides by an additional 20\%. We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Daltons. Algorithmic improvements in the G-PTM-D procedure itself, such as searching for combinations of modifications and for modifications with neutral losses make it an excellent tool for PTM discovery.
+
+\begin{table}[]
+\centering
+\caption{Comparison of Wide-Mass and Notch Searches}
+\label{my-label}
+\begin{tabular}{ll|l|l|l}
+                      &        & Wide-Mass Search & Notch Search & Notch Search With Expanded Mod List \\
+\hline
+\multirow{2}{*}{Time} & Jurkat & 22.1 hrs         & 2.9 hrs   &  4.5 hrs  \\
+                      & Mouse  & 13.5 hrs         & 1.2 hrs   &  1.8 hrs \\
+\hline
+\multirow{2}{*}{PSMs} & Jurkat & 203237           & 210566   &  220574  \\
+                      & Mouse  & 153674           & 162473   &   170743
+\end{tabular}
+\end{table}
 
 
+\subsection{Mass Windows in an Open Search}
 
-ENHANCED GPTM-D
-The purpose of the Notch Search is to identify peptides that have a mass that is different from the selected ion mass by a mass corresponding to a known modification. This search is expected to produce some peptide spectrum matches with a significantly different mass than the corresponding extracted mass from the MS spectrum. This difference is hypothesized to arise from the presence of PTMs, adducts such as oxidation or metal contamination, or combinations thereof. Even though adducts arising from experimental artefacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMS. Using the notch search capability, we can perform this search an order of magnitude faster than the equivalent open mass search in GPTM-D. A curated set of notches and the corresponding modifications is given in Appendix A. Using an off-the shelf database of modification is not advisable, due to shortcomings in each examined database, see next section.
-The database augmentation step is like the procedure described in the original GPTM-d work: an option to have the modification with the appropriate mass is added to the protein database, so that a subsequent search may include it as an option. An important difference is the ability to deal with combinations of modifications.
-Since the XML database is annotated with PTMs from the UniProt PTM list, it is a natural first idea to use it in the augmentation step as well. It has a few significant drawbacks: Some mass values do not correspond to actual mass shifts, lability of modifications is not taken into account, and many things are missing, including adducts and glycosylations.
-The final search with the augmented database is conducted with notches: the final notch search is specific to each dataset: we only recommend including the common missed monoisotopic mass values in the final search: see the following section for justification. Newly identified localized PTMs are now readily identified
-The effects of the increased mass accuracy were demonstrated in the numerical results for step 2, so to make the comparison fair we use the same precursor and product mass tolerances for both the standard and the notch mass search. The search time is understandably slightly higher for the Notch search, but it is not a big deal since the search times for both are not long, and orders of magnitude shorter than the searches in step 3. 
-	Standard Search-Calibrated	Notch Search-Calibrated
-Time (jurkat)	22.1 hrs	2.9 hrs
-Time (Mouse)	13.5 hrs	1.2 hrs
+Restricting the allowed precursor masses is beneficial in searches that are intended to discover mass shift peaks. We ran a completely open precursor mass search, and restricted ourselves to looking at 1\% FDR matches, both targets and decoys. The plots in Figure~\ref{fgr:figure2-upperlowerbounds} show the FDR in the list filtered by using a lower or upper bound cutoff on the allowed mass shifts. It shows the fundamental difference between upper and lower bound cutoffs: while it is beneficial to restrict open searches to ignore large negative values, restricting matches with a large positive mass difference has a negative effect on the overall FDR.
 
+This effect can be explained by the fact that it's easier to match long sequences to short peptide fragmentation profiles than it is to match short sequences to fragmentation pattern of a long peptide.
 
-
+\begin{figure}
+\caption{Upper and Lower bound cutoffs in Mouse Data}
+\label{fig:figure2-upperlowerbounds}
+\includegraphics[scale=0.5]{figure_2-upperlowerbounds}
+\end{figure}
 
 
-DISCOVERY OF MODIFICATIONS NOT IN DATABASE
+MetaMorpheus includes a capability to identify peaks in a mass shift histogram obtained from a search, using a recently described peak finding algorithm\cite{Rodriguez_2014}. We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality. Some histogram peaks are illustrated in Figure~\ref{fig:figure3}, including peaks corresponding to masses of Sulfo and Phospho, and a problematic peak at mass of Leucine, with a high FDR.
+
+
+\begin{figure}
+\caption{Some Histogram Peaks For Mouse Data}
+\label{fig:figure3}
+\includegraphics[scale=0.6]{figure_3peaks}
+\end{figure}
+
+We identified the property of some specific mass shifts that correspond to anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
+
+Mass windows provide an additional mechanism in improving confident identification rates in a wide mass search. 
+
+\subsection{Discovery of Modifications not in Database}
+
+Previously described wide mass search strategies for discovery and localization of unknown modifications benefit from using alternative, carefully designed search modes based on interval and notch searches. We discovered that limiting mass shifts to a lower bound of -187 Da (corresponding to the largest mass difference that could be attributed to loss of a single residue, Tryptophan), and no upper bound, is an important step in eliminating spurious PSMs. Furthermore, treating highly suspect mass shifts corresponding to residue additions/substitutions/deletions in a separate notch search with individualized false discovery rate estimates is beneficial. An automated tool built into MetaMorpheus allows confidently identifying novel modifications based on these search results.
+
 The proposed notch search strategy can be used for discovery of novel modifications not present in a database. We describe the heuristic approach for augmenting the modification database and the final notch list. 
 The discovery heuristic starts with conducting a modified comb interval search of a calibrated file. The highly non-uniform shape of the allowable mass differences to search is motivated by the Open Search Case Study in the following section. This allows us to pre-emptively restrict the database search to only look for peptides in intervals that satisfy the condition of being within the specified search windows. This alternative to the open search improves search times and increases specificity.
-After the conclusion of the search, the PSMs within 1% FDR are selected, and the corresponding mass differences are grouped. Then the peaks (mass difference values with multiple identifications) in this histogram are identified. We then attempt to categorize these peaks into one of the following categories:
-1.	No mass error. Exact match (within a certain noise tolerance) between the peptide corresponding to the MS2 fragmentation and the reported precursor monoisotopic mass.
-2.	Monoisotopic error. Peaks around values such as 1.003, 2.006, 3.009 (multiples of the difference in mass between C12 and C13). These correspond to having misidentified the monoisotopic peak in the preprocessing deconvolution step. In this case, the identified peptide is still correct. 
-3.	Peaks corresponding to PTMs or adducts, e.g. 42.010 for Acetylation or 21.981 for Sodium adduct. In this analysis, there is no conceptual difference between PTMs and adducts: both are observed simply as mass differences between the identified peptide and the precursor mass.  These peaks are further classified into
-a.	Localizeable – e.g. Methylation. There is evidence for the modification in the MS2 spectrum: the corresponding peaks are shifted by an appropriate amount. 
-b.	Labile – e.g. Sulfonation. There is no evidence of the modification in the fragmentation spectrum. 
-c.	Either Localizeable or Labile, e.g. Phosphorylation. Sometimes there is evidence of it in the fragmentation spectrum, and sometimes there is not. 
-4.	Amino acid removals, additions or substitutions.
-5.	Modification dependent mass shifts – these peaks occur only in presence of certain modifications in the identified peptide. 	E.g. -15.995 in presence of an identified oxidation, or -79.966 in presence on an identified phosphorylation. 
-6.	Combinations of any of the above, e.g. 1.987 for combination of a monoisotopic error and a deamidation. Some of these combinations occur frequently, and it is crucial to account for them. 
+After the conclusion of the search, the PSMs within 1\% FDR are selected, and the corresponding mass differences are grouped. Then the peaks (mass difference values with multiple identifications) in this histogram are identified. We then attempt to categorize these peaks into one of the following categories:
+\begin{itemize}
+\item \textit{No mass error} Exact match (within a certain noise tolerance) between the peptide corresponding to the MS2 fragmentation and the reported precursor monoisotopic mass.
+\item \textit{Monoisotopic error} Peaks around values such as 1.003, 2.006, 3.009 (multiples of the difference in mass between C12 and C13). These correspond to having misidentified the monoisotopic peak in the preprocessing deconvolution step. In this case, the identified peptide is still correct. 
+\item \textit{Exact PTM or Adduct Masses}e.g. 42.010 for Acetylation or 21.981 for Sodium adduct. In this analysis, there is no conceptual difference between PTMs and adducts: both are observed simply as mass differences between the identified peptide and the precursor mass.  These peaks are further classified into
+\begin{itemize}
+\item Localizeable - e.g. Methylation. There is evidence for the modification in the MS2 spectrum: the corresponding peaks are shifted by an appropriate amount. 
+\item Labile - e.g. Sulfonation. There is no evidence of the modification in the fragmentation spectrum. 
+\item Either Localizeable or Labile, e.g. Phosphorylation. Sometimes there is evidence of it in the fragmentation spectrum, and sometimes there is not. 
+\end{itemize}
+\item Amino acid removals, additions or substitutions.
+\item Modification dependent mass shifts - these peaks occur only in presence of certain modifications in the identified peptide. 	E.g. -15.995 in presence of an identified oxidation, or -79.966 in presence on an identified phosphorylation. 
+\item Combinations of any of the above, e.g. 1.987 for combination of a monoisotopic error and a deamidation. Some of these combinations occur frequently, and it is crucial to account for them. 
+\end{itemize}
+
 An automated script analyzes each identified peak, and provides clues to the nature of the peak. For every peak, a profile is automatically generated. It includes the total number of unique peptides associated with the mass shift, the fraction of decoys, mass match with any known entry in the Unimod or UniProt database, mass match to an amino acid addition/removal combination, mass match to a combination of higher frequency peaks, fraction of localizable targets, localization residues and/or termini, and presence of any modifications in the matched peptides. We follow the following procedure to classify mass shift peaks. 
-1.	A z score is computed for the fraction of decoys in the peak, comparing with 1%FDR. If it corresponds to p>0.05, we do not include this peak in the analysis, because there is no sufficient confidence it produces legitimate results.
+1.	A z score is computed for the fraction of decoys in the peak, comparing with 1\%FDR. If it corresponds to p>0.05, we do not include this peak in the analysis, because there is no sufficient confidence it produces legitimate results.
 2.	
 
 An attempted localization of the mass difference is automatically performed on every peptide-spectrum match. We carefully examine the mass differences with a localization fraction greater than 0.2, and attempt to deduce the chemical formula, specificity sites and positions within a peptide. Once a determination has been made, we add the new modification type to the modifications list.
@@ -105,14 +142,73 @@ The improvement in the discernibility of PTMs is apparent when running a comb se
 OPEN SEARCH CASE STUDY
 Introduction of the comb search instead of an open search is motivated by a careful review of the Unimod database. Known modifications with mass difference within 200 Daltons have values that are within [-0.1, 0.2] of every integer. This interval choice stems from the mass defect in the primary isotope of the common elements. PTM combinations also have this property.
 We tested multiple search strategies in a search for one that gives the smallest number of false positives. 
-KNOWN MODIFICATION CONFIRMATION CASE STUDY
+\subsubsection{Known Modification Confirmation Case Study}
+
 Confirmation of the properties of Sodium Adducts, Phosphorylation and Sulfonation.
-GLYCOPROTEINS CASE STUDY
-Proteins that contain modifications such as Hexose, HexNAC, and similar ones are interesting. The uniprot database only lists some possible sites for such modifications, but does not specify the actual type – thus creating ambiguity regarding the type of the modification. The new modification discovery workflow is well suited to identify such proteins. 
-NOVEL MODIFICATION CASE STUDY
+\subsubsection{Glycans Case Study}
+Proteins that contain modifications such as Hexose, HexNAC, and similar ones are interesting. The uniprot database only lists some possible sites for such modifications, but does not specify the actual type, thus creating ambiguity regarding the type of the modification. The new modification discovery workflow is well suited to identify such proteins. Table~\ref{tbl:glyco} lists the automatically identified glyco modification masses and identities, sorted by frequency of occurence. 
+
+\begin{table}[]
+\centering
+\caption{Glyco}
+\label{tbl:glyco}
+\begin{tabular}{lll}
+MassShift & Count & UnimodID                        \\
+\hline
+203.079   & 30    & HexNAc                          \\
+162.052   & 18    & Hex                             \\
+876.322   & 10    & Hex(2)HexNAc(2)dHex(1)          \\
+656.228   & 8     & Hex(1)HexNAc(1)NeuAc(1)         \\
+365.132   & 8     & Hex(1)HexNAc(1)                 \\
+1216.422  & 8     & Hex(5)HexNAc(2)                 \\
+730.265   & 6     & Hex(2)HexNAc(2)                 \\
+1378.475  & 4     & Hex(6)HexNAc(2)                 \\
+947.323   & 4     & Hex(1)HexNAc(1)NeuAc(2)         \\
+963.317   & 3     & Hex(1)HexNAc(1)NeuAc(1)NeuGc(1) \\
+178.047   & 3     & Galactosyl                      \\
+1038.375  & 3     & dHex(1)Hex(3)HexNAc(2)          \\
+146.058   & 2     & dHex                            \\
+340.1     & 2     & Glucosylgalactosyl              \\
+406.158   & 2     & HexNAc(2)                       \\
+697.256   & 2     & HexNAc(2)NeuAc(1)               \\
+672.223   & 2     & Hex(1)HexNAc(1)NeuGc(1)         \\
+860.326   & 2     & Hex(1)HexNAc(2)dHex(2)         
+\end{tabular}
+\end{table}
+
+ 
+\subsubsection{Novel Modification Case Study}
 
 
+\subsection{Calibration}
 
+The spectral calibration procedure consists of two steps: Step 1: A standard tolerance (e.g. 10 ppm) database search is performed on the dataset. This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy (ref)).  Step 2:  The identifications from step 1 are used to extract peak matches from the spectra, and a calibration procedure is performed. The calibration algorithm is described in detail in Supplementary Material 1.
+A simple test of the calibration quality is to withhold some known peak matches from the inputs of the calibration software, and to determine if they have been shifted closer to the theoretically correct value. We withheld 30\% of identifications, and measured the standard deviation and the average errors of the peak differences for the monoisotopic MS1 peaks with known charge states. The average mass error went down from -3.67ppm to -0.15ppm in the jurkat dataset and from -3.32ppm for the mouse dataset. The standard deviations decreased from 3.64ppm to 2.82ppm, and from 3.07ppm to 2.54ppm for the jurkat and mouse datasets respectively. Figure 2 shows the clear improvement in the error for the withheld identified peptides, as a result of applying spectral calibration.
+
+A 10 ppm narrow tolerance search produces matches with mass differences in ppm given in~\ref{fgr:figure1}. The average and standard deviations along with 1, 2, and 3 standard deviation widths are given in Table~\ref{tbl:calib}.
+
+\begin{table}
+  \caption{Calibration Results: ppm Mass Differences}
+  \label{tbl:calib}
+  \begin{tabular}{llll}
+    \hline
+    & prior& after smooth & after rf  \\
+    \hline
+    stdev&	1.553	&1.039&	0.898 \\
+	avg&	-3.148&	0.204&0.215\\
+	68.3\% within	& [-4.701,-1.595 ]&	[-0.834,1.243	]&	[-0.683,1.114]\\
+	95.4\% within&[	-6.254,	-0.042]&[	-1.873,2.282]&[	-1.581,	2.012]\\
+	99.7\% within&	[-7.807,	1.511]&[	-2.912,3.321]&[	-2.479,	2.910]\\
+    \hline
+  \end{tabular}
+\end{table}
+
+
+\begin{figure}
+  \includegraphics[scale=0.6]{figure_1.eps}
+  \caption{An example figure}
+  \label{fgr:figure1}
+\end{figure}
 
 %
 %\subsection{References}
@@ -159,144 +255,11 @@ NOVEL MODIFICATION CASE STUDY
 %
 %\subsection{Floats}
 %
-%New float types are automatically set up by the class file.  The
-%means graphics are included as follows (Scheme~\ref{sch:example}).  As
-%illustrated, the float is ``here'' if possible.
-%\begin{scheme}
-%  Your scheme graphic would go here: \texttt{.eps} format\\
-%  for \LaTeX\, or \texttt{.pdf} (or \texttt{.png}) for pdf\LaTeX\\
-%  \textsc{ChemDraw} files are best saved as \texttt{.eps} files:\\
-%  these can be scaled without loss of quality, and can be\\
-%  converted to \texttt{.pdf} files easily using \texttt{eps2pdf}.\\
-%  %\includegraphics{graphic}
-%  \caption{An example scheme}
-%  \label{sch:example}
-%\end{scheme}peptideIndex.Count: 10465024
-%
-%
-%\begin{figure}
-%  As well as the standard float types \texttt{table}\\
-%  and \texttt{figure}, the class also recognises\\
-%  \texttt{scheme}, \texttt{chart} and \texttt{graph}.
-%  \caption{An example figure}
-%  \label{fgr:example}
-%\end{figure}
-%
-%Charts, figures and schemes do not necessarily have to be labelled or
-%captioned.  However, tables should always have a title. It is
-%possible to include a number and label for a graphic without any
-%title, using an empty argument to the \texttt{\textbackslash caption}
-%macro.
-%
-%The use of the different floating environments is not required, but
-%it is intended to make document preparation easier for authors. In
-%general, you should place your graphics where they make logical
-%sense; the production process will move them if needed.
-%
-%\subsection{Math(s)}
-%
-%The \textsf{achemso} class does not load any particular additional
-%support for mathematics.  If packages such as \textsf{amsmath} are
-%required, they should be loaded in the preamble.  However,
-%the basic \LaTeX\ math(s) input should work correctly without
-%this.  Some inline material \( y = mx + c \) or $ 1 + 1 = 2 $
-%followed by some display. \[ A = \pi r^2 \]
-%
-%It is possible to label equations in the usual way (Eq.~\ref{eqn:example}).
-%\begin{equation}
-%  \frac{\mathrm{d}}{\mathrm{d}x} \, r^2 = 2r \label{eqn:example}
-%\end{equation}
-%This can also be used to have equations containing graphical
-%content. To align the equation number with the middle of the graphic,
-%rather than the bottom, a minipage may be used.
-%\begin{equation}
-%  \begin{minipage}[c]{0.80\linewidth}
-%    \centering
-%    As illustrated here, the width of \\
-%    the minipage needs to allow some  \\
-%    space for the number to fit in to.
-%    %\includegraphics{graphic}
-%  \end{minipage}
-%  \label{eqn:graphic}
-%\end{equation}
-%
-%\section{Experimental}
-%
-%The usual experimental details should appear here.  This could
-%include a table, which can be referenced as Table~\ref{tbl:example}.
-%Notice that the caption is positioned at the top of the table.
-%\begin{table}
-%  \caption{An example table}
-%  \label{tbl:example}
-%  \begin{tabular}{ll}
-%    \hline
-%    Header one  & Header two  \\
-%    \hline
-%    Entry one   & Entry two   \\
-%    Entry three & Entry four  \\
-%    Entry five  & Entry five  \\
-%    Entry seven & Entry eight \\
-%    \hline
-%  \end{tabular}
-%\end{table}
-%
-%Adding notes to tables can be complicated.  Perhaps the easiest
-%method is to generate these using the basic
-%\texttt{\textbackslash textsuperscript} and
-%\texttt{\textbackslash emph} macros, as illustrated (Table~\ref{tbl:notes}).
-%\begin{table}
-%  \caption{A table with notes}
-%  \label{tbl:notes}
-%  \begin{tabular}{ll}
-%    \hline
-%    Header one                            & Header two \\
-%    \hline
-%    Entry one\textsuperscript{\emph{a}}   & Entry two  \\
-%    Entry three\textsuperscript{\emph{b}} & Entry four \\
-%    \hline
-%  \end{tabular}
-%
-%  \textsuperscript{\emph{a}} Some text;
-%  \textsuperscript{\emph{b}} Some more text.
-%\end{table}
-%
 %The example file also loads the optional \textsf{mhchem} package, so
 %that formulas are easy to input: \texttt{\textbackslash ce\{H2SO4\}}
 %gives \ce{H2SO4}.  See the use in the bibliography file (when using
 %titles in the references section).
 %
-%The use of new commands should be limited to simple things which will
-%not interfere with the production process.  For example,
-%\texttt{\textbackslash mycommand} has been defined in this example,
-%to give italic, mono-spaced text: \mycommand{some text}.
-
-%\section{Extra information when writing JACS Communications}
-%
-%When producing communications for \emph{J.~Am.\ Chem.\ Soc.}, the
-%class will automatically lay the text \begin{flushleft}
-
-%\end{flushleft}out in the style of the
-%journal. This gives a guide to the length of text that can be
-%accommodated in such a publication. There are some points to bear in
-%mind when preparing a JACS Communication in this way.  The layout
-%produced here is a \emph{model} for the published result, and the
-%outcome should be taken as a \emph{guide} to the final length. The
-%spacing and sizing of graphical content is an area where there is
-%some flexibility in the process.  You should not worry about the
-%space before and after graphics, which is set to give a guide to the
-%published size. This is very dependant on the final published layout.
-%
-%You should be able to use the same source to produce a JACS
-%Communication and a normal article.  For example, this demonstration
-%file will work with both \texttt{type=article} and
-%\texttt{type=communication}. Sections and any abstract are
-%automatically ignored, although you will get warnings to this effect.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% The "Acknowledgement" section can be given in all manuscript
-%% classes.  This should be given within the "acknowledgement"
-%% environment, which will make the correct section or running title.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{acknowledgement}
 
 The authors thank \ldots
@@ -321,11 +284,8 @@ The following files are available free of charge.
 
 \end{suppinfo}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% The appropriate \bibliography command should be placed here.
-%% Notice that the class file automatically sets \bibliographystyle
-%% and also names the section correctly.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
 \bibliography{citations}
 
 \end{document}
