@@ -53,28 +53,54 @@ For the discovery of novel modifications, we used a combination of two searches:
 
 \section{Results and Discussion}
 
-\subsection{Enhanced G~-PTM~-D}
+The input into the workflow is a standard bottom-up tandem-MS dataset obtained from a tryptically digested protein sample along with a corresponding protein sequence database, and the output is a comprehensive set of peptide and PTM identifications.
+ 
+\subsection{Enhanced G-PTM-D}
 
-The input into the workflow is a standard bottom-up tandem-MS dataset obtained from a tryptically digested protein sample along with a corresponding protein sequence database, and the output is a comprehensive set of peptide and PTM identifications. 
-
-Even though adducts arising from experimental artefacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMS. A curated set of notches and the corresponding modifications is given in Appendix A. Using an off-the shelf database of modification is not advisable. The database augmentation step is like the procedure described in the original G~-PTM~-D work: modifications with appropriate mass are added to the protein database, so that subsequent searches may include them as variable localized modifications. 
-Since the XML database is annotated with PTMs from the UniProt PTM list, it is a natural first idea to use it in the augmentation step as well. It has a few significant drawbacks: Some mass values do not correspond to actual mass shifts, lability of modifications is not taken into account, and many PTMs are missing, including adducts and glycosylations.
-The final search with the augmented database is conducted with notches: the final notch search is specific to each dataset: we only recommend including the common missed monoisotopic mass values in the final search: see the following section for justification. Newly identified localized PTMs are now readily identified.
-
-By employing the novel notch search strategy instead of the wide-mass search in the G~-PTM~-D process, using only the modifications listed in Uniprot, the number of confidently identified PTMs increased by 8\%. The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-label}. Using an expanded modification list that includes chemical modifications such as adducts and large mass PTMs such as glycosylations, the overall identification rate increased from 164,697 to 179,345 peptide-spectral matches (PSMs), which in turn increased the number of modified peptides by an additional 20\%. We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Daltons. Algorithmic improvements in the G~-PTM~-D procedure itself, such as searching for combinations of modifications and for modifications with neutral losses make it an excellent tool for PTM discovery.
+By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in Uniprot, the number of confidently identified PSMs increased by 6\%. The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-label}. 
 
 \begin{table}[]
 \centering
-\caption{Comparison of Wide-Mass and Notch Searches}
+\caption{Effects of Replacing Initial Wide-Mass Search by a Notch Search}
 \label{my-label}
+\begin{tabular}{ll|l|l}
+                      &        & Wide-Mass Search & Notch Search\\
+\hline
+\multirow{2}{*}{Time} & Jurkat & 22.1 hrs         & 2.9 hrs    \\
+                      & Mouse  & 13.5 hrs         & 1.2 hrs   \\
+\hline
+\multirow{2}{*}{PSMs} & Jurkat & 203237           & 210566    \\
+                      & Mouse  & 153674           & 162473   
+\end{tabular}
+\end{table}
+
+
+The final search with the augmented database is conducted with notches: the final notch search is specific to each dataset: we only recommend including the common missed monoisotopic mass values in the final search, the effect of using these notches is shown in Table~\ref{tab:table2}.
+
+\begin{table}[]
+\centering
+\caption{Effects of Replacing Final Narrow-Mass Search by a Notch Search}
+\label{tab:table2}
+\begin{tabular}{ll|l|l}
+                      &        & Narrow-Mass Search & Notch Search\\
+\hline
+\multirow{2}{*}{PSMs} & Jurkat  & 210566   &  220574  \\
+                      & Mouse    & 162473   &   170743
+\end{tabular}
+\end{table}
+
+Since the XML database is annotated with PTMs from the UniProt PTM list, it is natural to use it in the augmentation step as well. It has a few significant drawbacks: Some mass values do not correspond to actual mass shifts, lability of modifications is not taken into account, and many PTMs are missing, including adducts and glycosylations. Notch searches allow using expanded modification lists that include chemical modifications such as adducts and large mass PTMs such as glycosylations. Even though adducts arising from experimental artifacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMS. A curated set of notches and the corresponding modifications is given in Appendix A. The overall identification rate increased from 164,697 to 179,345 peptide-spectral matches (PSMs), which in turn increased the number of modified peptides by an additional 20\%. We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Daltons. 
+
+
+\begin{table}[]
+\centering
+\caption{Effects of Using Different Modification Lists}
+\label{tab:table3}
 \begin{tabular}{ll|l|l|l}
-                      &        & Wide-Mass Search & Notch Search & Notch Search With Expanded Mod List \\
+                      &        & Only Uniprot & Uniprot+Glyco & Uniprot+Glyco+Adducts\\
 \hline
-\multirow{2}{*}{Time} & Jurkat & 22.1 hrs         & 2.9 hrs   &  4.5 hrs  \\
-                      & Mouse  & 13.5 hrs         & 1.2 hrs   &  1.8 hrs \\
-\hline
-\multirow{2}{*}{PSMs} & Jurkat & 203237           & 210566   &  220574  \\
-                      & Mouse  & 153674           & 162473   &   170743
+\multirow{2}{*}{PSMs} & Jurkat  & 220574   &  222985 & 223578\\
+                      & Mouse    & 170743   &   171432& 174783 
 \end{tabular}
 \end{table}
 
@@ -103,18 +129,17 @@ MetaMorpheus includes a capability to identify peaks in a mass shift histogram o
 
 We identified the property of some specific mass shifts that correspond to anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
 
-Mass windows provide an additional mechanism in improving confident identification rates in a wide mass search. 
+Mass windows provide an mechanism to exclude these problematic mass shifts from a wide-mass search by employing a interval search.
 
 \subsection{Discovery of Modifications not in Database}
 
 Previously described wide mass search strategies for discovery and localization of unknown modifications benefit from using alternative, carefully designed search modes based on interval and notch searches. We discovered that limiting mass shifts to a lower bound of -187 Da (corresponding to the largest mass difference that could be attributed to loss of a single residue, Tryptophan), and no upper bound, is an important step in eliminating spurious PSMs. Furthermore, treating highly suspect mass shifts corresponding to residue additions/substitutions/deletions in a separate notch search with individualized false discovery rate estimates is beneficial. An automated tool built into MetaMorpheus allows confidently identifying novel modifications based on these search results.
 
-The proposed notch search strategy can be used for discovery of novel modifications not present in a database. We describe the heuristic approach for augmenting the modification database and the final notch list. 
-The discovery heuristic starts with conducting a modified comb interval search of a calibrated file. The highly non-uniform shape of the allowable mass differences to search is motivated by the Open Search Case Study in the following section. This allows us to pre-emptively restrict the database search to only look for peptides in intervals that satisfy the condition of being within the specified search windows. This alternative to the open search improves search times and increases specificity.
-After the conclusion of the search, the PSMs within 1\% FDR are selected, and the corresponding mass differences are grouped. Then the peaks (mass difference values with multiple identifications) in this histogram are identified. We then attempt to categorize these peaks into one of the following categories:
+We describe the heuristic approach for augmenting the modification database and the final notch list.
+After the conclusion of the search, the PSMs within 1\% FDR are selected, and the corresponding mass differences are grouped into peaks, which are categorized into one of the following categories:
 \begin{itemize}
 \item \textit{No mass error} Exact match (within a certain noise tolerance) between the peptide corresponding to the MS2 fragmentation and the reported precursor monoisotopic mass.
-\item \textit{Monoisotopic error} Peaks around values such as 1.003, 2.006, 3.009 (multiples of the difference in mass between C12 and C13). These correspond to having misidentified the monoisotopic peak in the preprocessing deconvolution step. In this case, the identified peptide is still correct. 
+\item \textit{Monoisotopic error} Peaks around values such as 1.003, 2.006, 3.009 (average differences in mass between the monoisotopic peaks and the first few isotope peks). These correspond to having misidentified the monoisotopic peak in the preprocessing deconvolution step. In this case, the identified peptide is still correct. 
 \item \textit{Exact PTM or Adduct Masses}e.g. 42.010 for Acetylation or 21.981 for Sodium adduct. In this analysis, there is no conceptual difference between PTMs and adducts: both are observed simply as mass differences between the identified peptide and the precursor mass.  These peaks are further classified into
 \begin{itemize}
 \item Localizeable - e.g. Methylation. There is evidence for the modification in the MS2 spectrum: the corresponding peaks are shifted by an appropriate amount. 

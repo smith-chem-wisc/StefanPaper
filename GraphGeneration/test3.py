@@ -15,6 +15,7 @@ maxi = 15000
 #ok = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-25-14-01-16\Task1Search\aggregate20ppmAroundZero.psmtsv", sep='\t') #Cl
 ok = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-27-09-26-26\Task2Search\aggregate20ppmAroundZero.psmtsv", sep='\t')  #Cl
 
+
 A=ok[r"MassDiff (ppm)"]
 B=ok[r"Decoy/Contaminant/Target"]=="T"
 C=ok[r"QValue_notch"]
@@ -44,31 +45,3 @@ plt.title("Decoy")
 #ok.set_yscale("log", nonposy='clip')
 
 plt.show()
-##
-##
-##fileName = r"C:/Users/stepa/Desktop/ppm.txt"
-##
-##nice = np.genfromtxt(fileName, delimiter='\t', unpack = True)
-##plt.figure(1)
-##
-##plt.subplot(131)
-##A = nice[0]
-##plt.hist(A[~np.isnan(A)], bins  = 100, range=[-10,10])
-##plt.ylim([0,2000])
-##plt.vlines(0,0,2000,zorder = 10)
-##plt.title("prior")
-##
-####plt.subplot(132)
-####A = nice[1]
-####plt.hist(A[~np.isnan(A)], bins  = 100, range=[-10,10])
-####plt.ylim([0,2000])
-####plt.title("after smooth")
-##
-##plt.subplot(122)
-##A = nice[2]
-##plt.hist(A[~np.isnan(A)], bins  = 100, range=[-10,10])
-##plt.ylim([0,2000])
-##plt.vlines(0,0,2000,zorder = 10)
-##plt.title("after rf")
-##
-##plt.show()
