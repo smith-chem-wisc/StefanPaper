@@ -35,15 +35,15 @@ Many peptide residue modification types are known, and databases containing deta
 Information about a modification can include the chemical or isotopic composition, mass, specificity to certain residues, and possible restriction of placement to peptide or protein termini.
 While this data is almost comprehensive, information about the localization of these modification to certain residues in specific proteins is scarce.
 
-We have recently described a bioinformatics tool, G-PTM-D, for the discovery and localization of new PTMs from "bottom-up" tandem mass spectrometric datasets\cite{Li_2016}.
-The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\cite{Chick_2015,Na_2011} that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM). 
+A recently described bioinformatics tool for the discovery and localization of new PTMs from "bottom-up" tandem mass spectrometric datasets, G-PTM-D\cite{Li_2016} is the foundation for the work described in this paper.
+The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\cite{Chick_2015,Na_2011} that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).
 2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the proteins in the search database.
 3) A final standard narrow-mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
 
-Before describing the proposed changes to G-PTM-D, we introduce the database search mode definitions we use throughout.
+Before describing the proposed changes to G-PTM-D, a few definitions of the various search modes must be introduced.
 A standard \textit{narrow-mass} search considers matching theoretical peptides to spectra if the peptide mass and the identified precursor mass are equal, within some tolerance (i.e. 5ppm, or 2.1 Da).
 A \textit{wide-mass} search matches peptide fragment masses to fragmentation spectra while allowing large differences (i.e. $\pm 500$ Da) between the observed precursor mass and the peptide mass.
-An even less restrictive \textit{open-mass} search, matches peptides from a database to  fragmentation spectra without taking the precursor mass into account.
+An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account.
 We propose alternatives to these search modes, namely a \textit{notch search} and an \textit{interval search} that fall under a broad category of \textit{mass-window} searches.
 The notch search is an extension of the narrow-mass search: it allows exact matches (within a tolerance) to specific mass differences between the theoretical peptide and observed precursor masses.
 The interval search is an extension of the wide-mass search: specific problematic mass differences are excluded from allowed matches.
@@ -55,11 +55,11 @@ The wide-mass search is replaced by a notch search in the discovery phase, using
 This change improves the specificity and significantly decreases search time.
 The final narrow-mass search is also replaced by a notch search, further increasing the number of confidently identified peptides.
 
-We recommend using the mass-window search in other procedures as well, beyond the G-PTM-D workflow.
+The mass-window search is useful in other procedures as well, beyond the G-PTM-D workflow.
 Its efficacy is demonstrated in context of a search for novel modifications, which is usually based on a wide-mass or an open-mass search.
-We demonstrate that a combination of specialized notch and interval searches produces superior identification and discovery results.
+A combination of specialized notch and interval searches produces superior identification and discovery results.
 
-Along with algorithmic improvements, we recommend using spectral calibration prior to running the G-PTM-D procedure.
+Along with algorithmic improvements, spectral calibration prior to running the G-PTM-D procedure is essential.
 A critical parameter for peptide identification and PTM localization is mass accuracy\cite{Scherl_2008}.
 Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.
 Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.
