@@ -3,6 +3,7 @@
 \usepackage[version=3]{mhchem} % Formula subscripts using \ce{}
 \usepackage[T1]{fontenc}       % Use modern font encodings
 \usepackage{multirow}
+\usepackage{subcaption}
 
 \newcommand*\mycommand[1]{\texttt{\emph{#1}}}
 
@@ -50,7 +51,7 @@ The interval search is an extension of the wide-mass search: specific problemati
 The smaller the fraction of the mass space, and the narrower the mass window per search element, the faster the search will run (as fewer searches are executed per mass spectrum).
 Figure~\ref{fgr:differentSearchModes} provides a convenient way to visualize the various search modes.
 
-We propose an extension to G-PTM-D (Enhanced G-PTM-D) that addresses the long search times of the wide-mass search, and the limitations of the standard final narrow-mass search.
+We propose an enhancement to G-PTM-D, that addresses the long search times of the wide-mass search, and the limitations of the standard final narrow-mass search.
 The wide-mass search is replaced by a notch search in the discovery phase, using notches centered at the monoisotopic mass differences introduced by known modifications.
 This change improves the specificity and significantly decreases search time.
 The final narrow-mass search is also replaced by a notch search, further increasing the number of confidently identified peptides.
@@ -69,10 +70,23 @@ In our strategy, the m/z differences between expected and observed peaks in the 
 The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
 
 \begin{figure}
+\end{figure}
+
+\begin{figure}
+\begin{subfigure}[b]{.5\linewidth}
   \includegraphics{figureDifferentSearchModes.eps}
   \caption{Search Modes}
   \label{fgr:differentSearchModes}
+\end{subfigure}%
+\begin{subfigure}[b]{.5\linewidth}
+  \includegraphics[scale=0.5]{diagram.eps}
+  \caption{Workflows}
+  \label{fgr:diagram}
+\end{subfigure}
+\caption{A figure}\label{fig:1}
 \end{figure}
+
+
 
 \section{Experimental Procedures}
 We developed a modified version of the Morpheus software for bottom-up spectral database searching\cite{Wenger_2013} that we call MetaMorpheus, which integrates the database search procedure with spectral calibration and the Enhanced G-PTM-D workflow.
