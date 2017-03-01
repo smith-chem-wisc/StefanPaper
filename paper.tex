@@ -101,8 +101,45 @@ For the discovery of novel modifications, we used a combination of two searches:
 
 \section{Results and Discussion}
 
-The input into the workflow is a standard bottom-up tandem-MS dataset obtained from a tryptically digested protein sample along with a corresponding protein sequence database, and the output is a comprehensive set of peptide and PTM identifications.
+We first contrast mass-window searches with narrow-mass and open-mass searches, and demonstrate the advantages of using mass-window searches.
+The we demonstrate the improvements in the performance of the enhanced G-PTM-D over the original proposed methods, that are due to using mass-window searches.
+Finally, we discuss the application of mass-window searches to the discovery of novel modifications.
  
+\subsection{Mass-Window Searches}
+
+\subsubsection{Notch Search vs Narrow-Mass Search}
+
+The purpose of a narrow-mass search is to use the provided precursor mass along with fragmentation spectra information to find an exact match in a protein database.
+
+\subsubsection{Mass Window Searches vs Open-Mass Search}
+
+Restricting the allowed precursor masses is beneficial in searches that are intended to discover mass shift peaks.
+We ran a completely open precursor mass search, and restricted ourselves to looking at 1\% FDR matches, both targets and decoys.
+The plots in Figure~\ref{fig:figure2-upperlowerbounds} show the FDR in the list filtered by using a lower or upper bound cutoff on the allowed mass shifts.
+It shows the fundamental difference between upper and lower bound cutoffs: while it is beneficial to restrict open searches to ignore large negative values, restricting matches with a large positive mass difference has a negative effect on the overall FDR.
+
+This effect can be explained by the fact that it's easier to match long sequences to short peptide fragmentation profiles than it is to match short sequences to fragmentation pattern of a long peptide.
+
+\begin{figure}
+\caption{Upper and Lower bound cutoffs in Mouse Data}
+\label{fig:figure2-upperlowerbounds}
+\includegraphics[scale=0.5]{figure_2-upperlowerbounds}
+\end{figure}
+
+MetaMorpheus includes a capability to identify peaks in a mass shift histogram obtained from a search, using a recently described peak finding algorithm\cite{Rodriguez_2014}.
+We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
+Some histogram peaks are illustrated in Figure~\ref{fig:figure3}, including peaks corresponding to masses of Sulfo and Phospho, and a problematic peak at mass of Leucine, with a high FDR.
+
+\begin{figure}
+\caption{Some Histogram Peaks For Mouse Data}
+\label{fig:figure3}
+\includegraphics[scale=0.6]{figure_3peaks}
+\end{figure}
+
+We identified the property of some specific mass shifts that correspond to anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
+
+Mass windows provide an mechanism to exclude these problematic mass shifts from a wide-mass search by employing a interval search.
+
 \subsection{Enhanced G-PTM-D}
 
 By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in Uniprot, the number of confidently identified PSMs increased by 6\%.
@@ -159,35 +196,6 @@ We identified hundreds of glycosylated peptides in these unenriched samples, wit
 \end{tabular}
 \end{table}
 
-
-\subsection{Mass Windows in an Open Search}
-
-Restricting the allowed precursor masses is beneficial in searches that are intended to discover mass shift peaks.
-We ran a completely open precursor mass search, and restricted ourselves to looking at 1\% FDR matches, both targets and decoys.
-The plots in Figure~\ref{fig:figure2-upperlowerbounds} show the FDR in the list filtered by using a lower or upper bound cutoff on the allowed mass shifts.
-It shows the fundamental difference between upper and lower bound cutoffs: while it is beneficial to restrict open searches to ignore large negative values, restricting matches with a large positive mass difference has a negative effect on the overall FDR.
-
-This effect can be explained by the fact that it's easier to match long sequences to short peptide fragmentation profiles than it is to match short sequences to fragmentation pattern of a long peptide.
-
-\begin{figure}
-\caption{Upper and Lower bound cutoffs in Mouse Data}
-\label{fig:figure2-upperlowerbounds}
-\includegraphics[scale=0.5]{figure_2-upperlowerbounds}
-\end{figure}
-
-MetaMorpheus includes a capability to identify peaks in a mass shift histogram obtained from a search, using a recently described peak finding algorithm\cite{Rodriguez_2014}.
-We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
-Some histogram peaks are illustrated in Figure~\ref{fig:figure3}, including peaks corresponding to masses of Sulfo and Phospho, and a problematic peak at mass of Leucine, with a high FDR.
-
-\begin{figure}
-\caption{Some Histogram Peaks For Mouse Data}
-\label{fig:figure3}
-\includegraphics[scale=0.6]{figure_3peaks}
-\end{figure}
-
-We identified the property of some specific mass shifts that correspond to anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
-
-Mass windows provide an mechanism to exclude these problematic mass shifts from a wide-mass search by employing a interval search.
 
 \subsection{Discovery of Modifications not in Database}
 
