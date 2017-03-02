@@ -200,6 +200,27 @@ We identified hundreds of glycosylated peptides in these unenriched samples, wit
 \end{tabular}
 \end{table}
 
+The initial notch search is significantly faster than a corresponding wide mass search, and this suggests that multiple search rounds could be conducted, iteratively adding more and more modifications.
+This recursive nature of the algorithm is well suited to add multiple modifications of different types on the same peptide.
+Due to these enhancements, we test the performance of our methods 
+
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+                      &        & \multicolumn{2}{l|}{Single Round}                                                                              & \multicolumn{2}{l|}{Multiple Rounds}                                                                           \\ \hline
+                      &        & \begin{tabular}[c]{@{}l@{}}Mods:\\ none\end{tabular} & \begin{tabular}[c]{@{}l@{}}Mods:\\ ptmlist\end{tabular} & \begin{tabular}[c]{@{}l@{}}Mods:\\ none\end{tabular} & \begin{tabular}[c]{@{}l@{}}Mods:\\ ptmlist\end{tabular} \\ \hline
+\multirow{2}{*}{PSMs} & Jurkat &                                                      &                                                         &                                                      &                                                         \\ \cline{2-6} 
+                      & Mouse  &                                                      &                                                         &                                                      &                                                         \\ \hline
+\multirow{2}{*}{Mods} & Jurkat &                                                      &                                                         &                                                      &                                                         \\ \cline{2-6} 
+                      & Mouse  &                                                      &                                                         &                                                      &                                                         \\ \hline
+\multirow{2}{*}{Time} & Jurkat &                                                      &                                                         &                                                      &                                                         \\ \cline{2-6} 
+                      & Mouse  &                                                      &                                                         &                                                      &                                                         \\ \hline
+\end{tabular}
+\end{table}
+
 
 \subsection{Discovery of Modifications not in Database}
 
