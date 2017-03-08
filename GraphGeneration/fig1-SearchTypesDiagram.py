@@ -3,48 +3,67 @@ import matplotlib.pyplot as plt
 
 plt.figure(1)
 
+plt.subplot(411)
+
+dates = [-100,-1,0,1,100]
+values = [1,1,2,1,1]
+
+plt.plot(dates, values, '-')
+
 ylabels = ['Reject', 'Accept']
 yTicks = [1,2]
 
-plt.subplot(411)
-plt.plot([0],[2], 'go')
-plt.hlines(1,-100,-2, colors = 'r')
-plt.hlines(1,2,100, colors = 'r')
-plt.ylim([0,3])
+plt.ylim([0.5,2.5])
 plt.yticks(yTicks, ylabels)
 plt.title("Narrow-Mass Search")
 
 plt.subplot(412)
-plt.plot([0],[2], 'go')
-plt.plot([16],[2], 'go')
-plt.plot([-17],[2], 'go')
-plt.plot([42],[2], 'go')
-plt.hlines(1,-100,-19, colors = 'r')
-plt.hlines(1,-15,-2, colors = 'r')
-plt.hlines(1,2,14, colors = 'r')
-plt.hlines(1,18,40, colors = 'r')
-plt.hlines(1,44,100, colors = 'r')
-plt.ylim([0,3])
-plt.yticks(yTicks, ylabels)
+
+dates =  [-100,-18,-17,-16,-1,0,1,41,42,43,79,80,81,100]
+values = [1   ,  1,  2,  1 ,1,2,1, 1, 2, 1,1 ,2 ,1 , 1]
+
+plt.plot(dates, values, '-')
+
+ylabels = ['Reject', 'Accept']
+yTicks = [1,2]
+
 plt.title("Notch Search")
+plt.ylim([0.5,2.5])
 
+plt.yticks(yTicks, ylabels)
 plt.subplot(413)
-plt.hlines(1,-100,-57, colors = 'r')
-plt.plot([-16],[1], 'ro')
-plt.plot([57],[1], 'ro')
-plt.hlines(2,-57,-18, colors = 'g')
-plt.hlines(2,-14,55, colors = 'g')
-plt.hlines(2,59,100, colors = 'g')
-plt.ylim([0,3])
-plt.yticks(yTicks, ylabels)
-plt.title("Interval Search")
 
-plt.subplot(414)
-plt.hlines(2,-100,100, colors = 'g')
-plt.ylim([0,3])
+
+
+
+dates =  [-100,-87,-86,-15,-14,-13,56,57,58,100]
+values = [1   ,  1, 2, 2,  1,  2, 2,1 ,2 ,2]
+plt.plot(dates, values, '-')
+
+ylabels = ['Reject', 'Accept']
+yTicks = [1,2]
+
+plt.ylim([0.5,2.5])
+
+plt.title("Interval Search")
 plt.yticks(yTicks, ylabels)
+plt.subplot(414)
+
+
+
+dates =  [-100,100]
+values = [2 ,2]
+
+plt.plot(dates, values, '-')
+
+ylabels = ['Reject', 'Accept']
+yTicks = [1,2]
+
+plt.ylim([0.5,2.5])
+
 plt.title("Wide-Mass Search")
 
+plt.yticks(yTicks, ylabels)
 plt.tight_layout()
 
 plt.show()

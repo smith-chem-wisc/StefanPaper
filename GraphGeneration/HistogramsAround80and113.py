@@ -16,9 +16,9 @@ TDhighConf = B[C<0.01]
 
 ok = plt.subplot(122)
 
-halfWidth = 0.01
-min1 = 113.08406-halfWidth
-max1 = 113.08406+halfWidth
+halfWidth = 0.05
+min1 = 21.96-halfWidth
+max1 = 21.96+halfWidth
 
 massDiffsHighConf1 = massDiffsHighConf[(massDiffsHighConf>min1) & (massDiffsHighConf<max1)]
 massDiffsHighConf1decoy = massDiffsHighConf[(massDiffsHighConf>min1) & (massDiffsHighConf<max1) & (TDhighConf=="D")]
@@ -26,8 +26,10 @@ massDiffsHighConf1decoy = massDiffsHighConf[(massDiffsHighConf>min1) & (massDiff
 print(massDiffsHighConf1)
 
 
-a = plt.hist(massDiffsHighConf1, bins  = 25, range=[min1, max1], label = "Targets")
-b = plt.hist(massDiffsHighConf1decoy, bins  =25, range=[min1, max1], label = "Decoys")
+a = plt.hist(massDiffsHighConf1, bins  = 250, range=[min1, max1], label = "Targets")
+b = plt.hist(massDiffsHighConf1decoy, bins  =250, range=[min1, max1], label = "Decoys")
+
+ok.set_yscale("log", nonposy='clip')
 
 plt.legend()
 
