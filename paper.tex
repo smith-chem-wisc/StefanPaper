@@ -22,12 +22,13 @@
 
 \begin{abstract}
 
-Correct identification of protein posttranslational-modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes.
+Correct identification of protein post-translational modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes.
 G-PTM-D\cite{Li_2016} is a recently developed tool for global identification and localization of PTMs.
-Spectral file calibration prior to applying the tool, and algorithmic improvements in the peptide database search greatly improve the accuracy and efficiency of PTM identification.
-We enhanced G-PTM-D by using targeted mass-window searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations.
+Spectral file calibration prior to applying G-PTM-D, and algorithmic enhancements in the peptide database search significantly increase the accuracy and efficiency of PTM identification.
+We enhance G-PTM-D by using targeted mass-window searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations.
 The proposed changes lead to a 20\% increase in the number of identified modifications and an order of magnitude decrease in the search time.
-Targeted mass-windows searches are also shown to be useful as a replacement to a standard wide-mass search, resulting in a 10\% increase in the number of confidently identified peptides: this leads to improvements in novel modification discovery heuristics originally based on the wide-mass search.
+Targeted mass-window searches are also shown to be useful as replacements to standard wide-mass searches, resulting in a 10\% increase in the overall number of confidently identified peptides, and a 5\% increase in the number of mass shifts observed.
+Using a modification discovery heuristic originally based on the wide-mass search, targeted mass-window searches lead to an increase in the number of novel modifications discovered.
 \end{abstract}
 
 \section{Introduction}
@@ -49,9 +50,9 @@ Furthermore, in G-PTM-D, modification discovery is limited to PTMs in the Unipro
 Finally, PTMs that are similar in mass, such as Phosphorylation and Sulfonation are problematic since they are virtually indistinguishable in unprocessed spectra files. 
 
 Spectral calibration prior to running the G-PTM-D procedure is essential for distinguishing modifications with similar mass.
-As a side effect, calibration signinficantly increases the overall number of confidently identified peptides and modifications.
+As a side effect, calibration significantly increases the overall number of confidently identified peptides and modifications.
 
-We propose an enhancement to G-PTM-D, that addresses the long search times of the wide-mass search, and the limitations of the standard final narrow-mass search.
+We present an enhancement to G-PTM-D, that addresses the long search times of the wide-mass search, and the limitations of the standard final narrow-mass search.
 The wide-mass search is replaced by a notch search in the discovery phase, using notches centered at the monoisotopic mass differences introduced by known modifications.
 This change improves the specificity and significantly decreases search time.
 The final narrow-mass search is also replaced by a notch search, further increasing the number of confidently identified peptides.
@@ -99,8 +100,7 @@ The spectral calibration procedure consists of two steps: Step 1: A standard tol
 This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy (ref)).
 Step 2:  The identifications from step 1 are used to extract peak matches from the spectra, and a calibration procedure is performed.
 The calibration algorithm is described in detail in Supplementary Material 1.
-A simple test of the calibration quality is to withhold some known peak matches from the inputs of the calibration software, and to determine if they have been shifted closer to the theoretically correct value.
-We withheld 30\% of identifications, and measured the standard deviation and the average errors of the peak differences for the monoisotopic MS1 peaks with known charge states.
+
 The average mass error went down from -3.67ppm to -0.15ppm in the jurkat dataset and from -3.32ppm for the mouse dataset.
 The standard deviations decreased from 3.64ppm to 2.82ppm, and from 3.07ppm to 2.54ppm for the jurkat and mouse datasets respectively.
 Figure 2 shows the clear improvement in the error for the withheld identified peptides, as a result of applying spectral calibration.
@@ -184,7 +184,7 @@ We identified the property of some specific mass shifts that correspond to anoma
 
 Mass windows provide an mechanism to exclude these problematic mass shifts from a wide-mass search by employing a interval search.
 
-\subsection{Enhanced G-PTM-D}
+\subsection{G-PTM-D}
 
 By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in Uniprot, the number of confidently identified PSMs increased by 6\%.
 The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-label}.
