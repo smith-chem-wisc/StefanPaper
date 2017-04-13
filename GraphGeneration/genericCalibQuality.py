@@ -2,32 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 
-maxi = 6000 
-
-#ok = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-02-25-13-59-40\Task1Search\aggregate20ppmAroundZero.psmtsv", sep='\t')
-#ok = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-02-25-13-59-40\Task3Search\aggregate20ppmAroundZero.psmtsv", sep='\t')
-
-#ok = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-02-25-13-57-45\Task1Search\aggregate20ppmAroundZero.psmtsv", sep='\t')
-#ok = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-02-25-13-57-45\Task3Search\aggregate20ppmAroundZero.psmtsv", sep='\t')
-
-#ok = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-25-14-00-36\Task1Search\aggregate20ppmAroundZero.psmtsv", sep='\t') #Br
-#ok = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-25-14-00-36\Task3Search\aggregate20ppmAroundZero.psmtsv", sep='\t') #Br
-
-#ok = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-25-14-01-16\Task1Search\aggregate20ppmAroundZero.psmtsv", sep='\t') #Cl
-#ok = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-27-09-26-26\Task2Search\aggregate20ppmAroundZero.psmtsv", sep='\t')  #Cl
+maxi = 3000
 
 
+#start =  r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task1Calibrate\120426_Jurkat_highLC_Frac19_allPSMs_10ppmAroundZero"
+start =  r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task1Calibrate\120426_Jurkat_highLC_Frac14_allPSMs_10ppmAroundZero"
 
-#start = r"C:\Users\stepa\Desktop\QE-HF_mass_cali_tests\2017-03-09-16-07-50\Task1Calibrate\c\03-07-17_YL_3e6_30K10ppmAroundZero"
-#start = r"C:\Users\stepa\Desktop\QE-HF_mass_cali_tests\2017-03-09-16-07-50\Task1Calibrate\d\03-07-17_YL_3e6_60K10ppmAroundZero"
-#start = r"C:\Users\stepa\Desktop\QE-HF_mass_cali_tests\2017-03-09-16-07-50\Task1Calibrate\e\03-07-17_YL_5e6_30K10ppmAroundZero"
-#start = r"C:\Users\stepa\Desktop\QE-HF_mass_cali_tests\2017-03-09-16-07-50\Task1Calibrate\f\03-07-17_YL_5e6_60K10ppmAroundZero"
-#start = r"C:\Users\stepa\Desktop\QE-HF_mass_cali_tests\2017-03-09-16-07-50\Task1Calibrate\a\03-07-17_YL_1e6_30K10ppmAroundZero"
-#start = r"C:\Users\stepa\Desktop\QE-HF_mass_cali_tests\2017-03-09-16-07-50\Task1Calibrate\b\03-07-17_YL_1e6_60K10ppmAroundZero"
-#start = r"C:\Users\stepa\Desktop\03-12-17_for-Stefan_120K_240K_cali-tests\2017-03-13-14-13-44\Task1Calibrate\03-12-17_YL_1e6_120K10ppmAroundZero"
-#start = r"C:\Users\stepa\Desktop\03-12-17_for-Stefan_120K_240K_cali-tests\2017-03-13-14-13-44\Task1Calibrate\03-12-17_YL_1e6_240K10ppmAroundZero"
-
-start = r"C:\Users\stepa\Data\CalibrationPaperData\Yeast\2017-03-13-14-25-38\Task1Calibrate\12-10-16_A17A_yeast_BU_fract8_rep1_8uL10ppmAroundZero"
+#start =  r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\04-30-13_CAST_Frac3_6uL_allPSMs_10ppmAroundZero"
+#start =  r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\04-30-13_CAST_Frac9_9p5uL_allPSMs_10ppmAroundZero"
+#start =  r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\04-29-13_B6_Frac9_9p5uL_allPSMs_10ppmAroundZero"
 
 
 plt.figure(num=1,figsize=(10.9,6))

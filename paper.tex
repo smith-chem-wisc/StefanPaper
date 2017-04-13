@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}       % Use modern font encodings
 \usepackage{multirow}
 \usepackage{subcaption}
+\usepackage{booktabs}
 
 \newcommand*\mycommand[1]{\texttt{\emph{#1}}}
 
@@ -81,9 +82,9 @@ For the discovery of novel modifications, we used a combination of two searches:
 
 \section{Results and Discussion}
 
-Post-acquisition calibration is a useful tool that is shown to increase the number of confidently identified peptides, and enables qualitatively distinguishing modifications with similar mass.
-Then, mass-window searches are contrasted with narrow-mass and open-mass searches.
-The improvements in the performance of the enhanced G-PTM-D over the originally proposed G-PTM-D, that are due to using mass-window searches are shown.
+The first modification to the G-PTM-D workflow, post-acquisition calibration, is shown to increase the number of confidently identified peptides, and enables qualitatively distinguishing modifications with similar mass.
+The other major enhancement, the mass-window search, is contrasted with the narrow-mass and open-mass search.
+The superior performance of G-PTM-D achieved by the use of mass-window searches is demonstrated.
 Finally, the application of mass-window searches to the discovery of novel modifications is discussed.
 
 \subsection{Calibration}
@@ -91,47 +92,49 @@ Finally, the application of mass-window searches to the discovery of novel modif
 A critical parameter for peptide identification and PTM localization is mass accuracy\cite{Scherl_2008}.
 Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.
 Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.
-Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\cite{Olsen_2005}); and subsequent to the MS experiment (post-acquisition spectral calibration, REF).
+Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\cite{Olsen_2005}); and subsequent to the MS experiment (post-acquisition spectral calibration).
 We use a post-acquisition calibration procedure, that builds upon the software lock mass concept\cite{Cox_2011} recently reported by the Mann group.
 In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.
-The increased mass accuracy of the recalibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
+The increased mass accuracy of the calibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
 
-The spectral calibration procedure consists of two steps: Step 1: A standard tolerance (e.g. 10 ppm) database search is performed on the dataset.
-This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy (ref)).
-Step 2:  The identifications from step 1 are used to extract peak matches from the spectra, and a calibration procedure is performed.
+The spectral calibration procedure consists of two steps: Step 1: A narrow tolerance (e.g. 10 ppm precursor, 0.01 Dalton fragment) database search is performed on the dataset.
+This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy \cite{Elias_2007}).
+Step 2:  The identifications from Step 1 are used to extract peak matches from the spectra, and a calibration procedure is performed.
 The calibration algorithm is described in detail in Supplementary Material 1.
 
-The average mass error went down from -3.67ppm to -0.15ppm in the jurkat dataset and from -3.32ppm for the mouse dataset.
-The standard deviations decreased from 3.64ppm to 2.82ppm, and from 3.07ppm to 2.54ppm for the jurkat and mouse datasets respectively.
-Figure 2 shows the clear improvement in the error for the withheld identified peptides, as a result of applying spectral calibration.
 
-A 10 ppm narrow tolerance search produces matches with mass differences in ppm given in~\ref{fgr:figure1}.
-The average and standard deviations along with 1, 2, and 3 standard deviation widths are given in Table~\ref{tbl:calib}.
+Calibration quality is accessed through the results of a standard 10ppm precursor tolerance database search.
+PSMs within 1\% FDR prior to calibration are compared with PSMs after the calibration procedure, see Table~\ref{tbl:calib}.
+The calibration procedure successfully addresses instrument miscalibration by centering the average error around zero.
+Furthermore, the systemic noise introduced by various other factors is addressed: this is evident by the decrease in the standard deviation of the errors in the precursor mass estimates, which places calibrated data squarely in the sub-ppm mode.
+Histograms of the mass errors before and after calibration are plotted in Figure~\ref{fgr:figure1}.
 
-\begin{table}
-  \caption{Calibration Results: ppm Mass Differences}
-  \label{tbl:calib}
-  \begin{tabular}{llll}
-    \hline
-    & prior& after smooth & after rf  \\
-    \hline
-    stdev&	1.553	&1.039&	0.898 \\
-	avg&	-3.148&	0.204&0.215\\
-	68.3\% within	& [-4.701,-1.595 ]&	[-0.834,1.243	]&	[-0.683,1.114]\\
-	95.4\% within&[	-6.254,	-0.042]&[	-1.873,2.282]&[	-1.581,	2.012]\\
-	99.7\% within&	[-7.807,	1.511]&[	-2.912,3.321]&[	-2.479,	2.910]\\
-    \hline
-  \end{tabular}
+\begin{table}[]
+\centering
+\caption{PSMs Before and After Calibration}
+\label{tbl:calib}
+\begin{tabular}{@{}llllll@{}}
+                                                                                &        & \multicolumn{2}{l}{Mouse} & \multicolumn{2}{l}{Jurkat} \\ \cmidrule(l){3-6} 
+                                                                                &        & Orig        & Calib       & Orig        & Calib        \\ \cmidrule(l){3-6} 
+\multicolumn{2}{l}{PSM Count}                                                            &    152208       &        155617 &         217612   &   219172        \\
+\multicolumn{2}{l}{Average Error (ppm)}                                                           &    -1.09         &       -0.16      &      -2.10      &        -0.16      \\
+\multicolumn{2}{l}{St. Dev of Error}                                                     &     3.35        &      0.90       &       2.15      &        0.91      \\
+\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}Confidence\\ Intervals\end{tabular}} & 68.3\% &   [-4.44,2.27]          &    [-1.06,0.74]          &    [-4.26,0.05]          &  [-1.08,0.75]            \\
+                                                                                & 95.4\% &   [-7.80,5.62]          &    [-1.97,1.64]         &   [-6.41,2.20]          &      [-1.99,1.61]         \\
+                                                                                & 99.7\% &   [-11.15,8.98]          &      [-2.87,2.54]        &    [-8.56,4.36]          &      [-2.90,2.58]         \\ \cmidrule(l){3-6} 
+\end{tabular}
 \end{table}
 
-
 \begin{figure}
-  \includegraphics[scale=0.6]{figure_1.eps}
-  \caption{An example figure}
+  \includegraphics[scale=0.85]{fig2-calibrationQuality.eps}
+  \caption{Histograms demonstrating the effect of calibration on PSM mass errors}
   \label{fgr:figure1}
 \end{figure}
 
+\newpage
+
 \subsection{Mass-Window Searches}
+
 A standard \textit{narrow-mass} search considers matching theoretical peptides to spectra if the peptide mass and the identified precursor mass are equal, within some tolerance (i.e. 5ppm, or 2.1 Da).
 A \textit{wide-mass} search matches peptide fragment masses to fragmentation spectra while allowing large differences (i.e. $\pm 500$ Da) between the observed precursor mass and the peptide mass.
 An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account.

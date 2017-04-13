@@ -3,13 +3,17 @@ import matplotlib.pyplot as plt
 import pandas
 
 #data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-02-25-13-57-45\Task4Search\aggregateintervals[-187.000-Infinity].psmtsv", sep='\t')
-data = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-25-14-00-36\Task4Search\aggregateintervals[-187.000-Infinity].psmtsv", sep='\t')
+#data = pandas.read_csv(r"C:\Users\stepa\Desktop\02-15-17_Cys-tag_light\2017-02-25-14-00-36\Task4Search\aggregateintervals[-187.000-Infinity].psmtsv", sep='\t')
 
 #data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-02-25-13-59-40\Task4Search\aggregateintervals[-187.000-Infinity].psmtsv", sep='\t')
 
+
+data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-02-25-13-59-40\Task2Calibrate\2017-03-31-12-50-27\Task1Search\04-30-13_CAST_Frac5_4uL-Calibrated2.1aroundZero.psmtsv", sep='\t')
+
 data_sorted = data.sort_values(['MassDiff (Da)'], ascending=True)
 
-massDiffs=data_sorted['MassDiff (Da)'].values
+#massDiffs=data_sorted['MassDiff (Da)'].values
+massDiffs=data_sorted['MassDiffToBestMass (Da)'].values
 B=data_sorted['Decoy/Contaminant/Target'].values
 C=data_sorted['QValue_notch'].values
 
