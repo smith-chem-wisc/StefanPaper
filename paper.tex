@@ -135,30 +135,47 @@ Histograms of the mass errors before and after calibration are plotted in Figure
 
 \subsection{Mass-Window Searches}
 
-A standard \textit{narrow-mass} search considers matching theoretical peptides to spectra if the peptide mass and the identified precursor mass are equal, within some tolerance (i.e. 5ppm, or 2.1 Da).
+Prior to discussing the impact mass-windows searches have on the G-PTM-D workflow, we need to define the search modes discussed. A standard \textit{narrow-mass} search considers matching theoretical peptides to spectra if the peptide mass and the identified precursor mass are equal, within some tolerance (i.e. 5ppm, or 2.1 Da).
 A \textit{wide-mass} search matches peptide fragment masses to fragmentation spectra while allowing large differences (i.e. $\pm 500$ Da) between the observed precursor mass and the peptide mass.
 An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account.
 We propose alternatives to these search modes, namely a \textit{notch search} and an \textit{interval search} that fall under a broad category of \textit{mass-window} searches.
 The notch search is an extension of the narrow-mass search: it allows exact matches (within a tolerance) to specific mass differences between the theoretical peptide and observed precursor masses.
 The interval search is an extension of the wide-mass search: specific problematic mass differences are excluded from allowed matches.
-The smaller the fraction of the mass space, and the narrower the mass window per search element, the faster the search will run (as fewer searches are executed per mass spectrum).
 Figure~\ref{fgr:differentSearchModes} provides a convenient way to visualize the various search modes.
 
 \begin{figure}
-  \includegraphics{figureDifferentSearchModes.eps}
+  \includegraphics[scale=0.7]{figureDifferentSearchModes.eps}
   \caption{Search Modes}
   \label{fgr:differentSearchModes}
 \end{figure}
 
 \subsubsection{Notch Search vs Narrow-Mass Search}
 
-The purpose of a narrow-mass search is to use the provided precursor mass along with fragmentation spectra information to find an exact match in a protein database.
+The purpose of a narrow-mass search is to use the provided precursor mass along with fragmentation spectra information to find an exact match to the observed peptide in a protein database.
 
-One has to be extremely careful in using a narrow-mass search beyond a nominal tolerance of 5 or 10 ppm. 
-While it does provide more identifications, a search within say $\pm 3.1$ Daltons should be done with great care.
-We only recommend such a search after peaks that correspond to modifications/sequence differences are excluded.
+Using a calibration or instrument noise percursor tolerance, such as 5ppm or 10ppm is a valid approach, since it identifies only exact matches.
+A major drawback of this approach is that it misses monoisotope errors and co-isolated peptides.
+To avoid those complications, and to get a more comprehensive list of matches, a wider search tolerance is used, e.g. $\pm 3.5$ Da.
+This gives a substantially larger list of matches, and all the mass shifts could be attributed to co-isolation or missed monoisotopes.
+A post-processing step may be employed to confidently identify the co-isolated and missed monoisotope matches, but a wide range of high-confidence matches with un-identified mass shifts remain.
+These often correspond to modifications on the identified peptides, and require an extensive framework (such as G-PTM-D) to identify and label them.
+More importantly, those modified peptides \textit{do not} correspond to the identified one, thus arguably defeating the purpose of a narrow-mass search. 
 
-\subsubsection{Mass Window Searches vs Open-Mass Search}
+We observe that when using an incomplete database that does not include comprehensive modification information, a notch search with notches at monoisotopic peaks is superior to either of the narrow-mass searches.
+
+\begin{table}[]
+\centering
+\caption{Notch Search vs Narrow-Mass Search comparison of PSMs for Mouse}
+\label{my-label}
+\begin{tabular}{@{}llll@{}}
+                    & 5ppm Search & 3.5 Da Search & Notch Search \\ \cmidrule(l){2-4}
+PSMs Within 1\% FDR & 157188      & 178003        & 173483       \\
+MisAssigned PSMs    & 0           & 7783          & 0            \\
+Good PSMs           & 157188      & 170220        & 173483       \\ 
+\end{tabular}
+\end{table}
+
+\subsubsection{Mass-Window Searches vs Open-Mass Search}
 
 Restricting the allowed precursor masses is beneficial in searches that are intended to discover mass shift peaks.
 We ran a completely open precursor mass search, and restricted ourselves to looking at 1\% FDR matches, both targets and decoys.

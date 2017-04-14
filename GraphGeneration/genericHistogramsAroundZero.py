@@ -4,7 +4,9 @@ import pandas
 
 #data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
 #data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task4Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
-data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
+
+#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
+data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task4Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
 
 
 data_sorted = data.sort_values(['MassDiffToBestMass (Da)'], ascending=True)
