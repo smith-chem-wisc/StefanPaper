@@ -4,7 +4,11 @@ import pandas
 
 maxi = 25000
 
-f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row')
+
+height = 6
+width = 7
+
+f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row', figsize=(width,height))
 ax1.set_title('Uncalibrated')
 ax2.set_title('Calibrated')
 

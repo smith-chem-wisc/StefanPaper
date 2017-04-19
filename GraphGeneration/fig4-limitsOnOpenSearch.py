@@ -2,10 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 
+height = 3
+width = 7
+plt.figure(figsize=(width, height))
+
+
 offset = 200
 
-#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-02-25-13-57-45\Task4Search\aggregateOpenSearch.psmtsv", sep='\t')
-data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-02-25-13-59-40\Task4Search\aggregateOpenSearch.psmtsv", sep='\t')
+data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\2017-04-14-16-50-03\Task1Search\allPSMs_OpenSearch.psmtsv", sep='\t')
 
 
 data_sorted = data.sort_values(['MassDiff (Da)'], ascending=True)
@@ -80,6 +84,7 @@ print(backwardDiv[6])
 print(backwardDiv[7])
 
 
+plt.tick_params(axis='both', which='major', labelsize=8)
 
 ok = plt.subplot(122)
 
@@ -90,5 +95,14 @@ plt.xticks([-1e4, -1e3, -1e2, -1e1, 0,1e1, 1e2, 1e3, 1e4])
 plt.ylabel("FDR")
 plt.xlabel("Mass Diff")
 plt.title("Limit From Above")
+
+plt.tick_params(axis='both', which='major', labelsize=8)
+
+plt.tight_layout() 
  
+
+plt.savefig('fig4-limitsOnOpenSearch.eps', format='eps', dpi=1200)
+plt.savefig('fig4-limitsOnOpenSearch.png', format='png', dpi=1200)
+
+
 plt.show()

@@ -25,7 +25,7 @@
 
 Correct identification of protein post-translational modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes.
 G-PTM-D\cite{Li_2016} is a recently developed tool for global identification and localization of PTMs.
-Spectral file calibration prior to applying G-PTM-D, and algorithmic enhancements in the peptide database search significantly increase the accuracy and efficiency of PTM identification.
+Spectral file calibration prior to applying G-PTM-D, and algorithmic enhancements in the peptide database search shown here significantly increase the accuracy and efficiency of PTM identification.
 We enhance G-PTM-D by using targeted mass-window searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations.
 The proposed changes lead to a 20\% increase in the number of identified modifications and an order of magnitude decrease in the search time.
 Targeted mass-window searches are also shown to be useful as replacements to standard wide-mass searches, resulting in a 10\% increase in the overall number of confidently identified peptides, and a 5\% increase in the number of mass shifts observed.
@@ -63,7 +63,7 @@ Its efficacy is demonstrated in context of a search for novel modifications, whi
 A combination of specialized notch and interval searches produces superior identification and discovery results.
 
 \begin{figure}
-  \includegraphics[scale=0.5]{diagram.eps}
+  \includegraphics{diagram.eps}
   \caption{Workflows}
   \label{fgr:diagram}
 \end{figure}
@@ -126,7 +126,7 @@ Histograms of the mass errors before and after calibration are plotted in Figure
 \end{table}
 
 \begin{figure}
-  \includegraphics[scale=0.85]{fig2-calibrationQuality.eps}
+  \includegraphics{fig2-calibrationQuality.eps}
   \caption{Histograms demonstrating the effect of calibration on PSM mass errors}
   \label{fgr:figure1}
 \end{figure}
@@ -144,9 +144,9 @@ The interval search is an extension of the wide-mass search: specific problemati
 Figure~\ref{fgr:differentSearchModes} provides a convenient way to visualize the various search modes.
 
 \begin{figure}
-  \includegraphics[scale=0.7]{figureDifferentSearchModes.eps}
-  \caption{Search Modes}
-  \label{fgr:differentSearchModes}
+\includegraphics{fig1-searchTypes.eps}
+\caption{Search Modes}
+\label{fig:fig1-searchtypes}
 \end{figure}
 
 \subsubsection{Notch Search vs Narrow-Mass Search}
@@ -154,14 +154,14 @@ Figure~\ref{fgr:differentSearchModes} provides a convenient way to visualize the
 The purpose of a narrow-mass search is to use the provided precursor mass along with fragmentation spectra information to find an exact match to the observed peptide in a protein database.
 
 Using a calibration or instrument noise percursor tolerance, such as 5ppm or 10ppm is a valid approach, since it identifies only exact matches.
-A major drawback of this approach is that it misses monoisotope errors and co-isolated peptides.
-To avoid those complications, and to get a more comprehensive list of matches, a wider search tolerance is used, e.g. $\pm 3.5$ Da.
-This gives a substantially larger list of matches, and all the mass shifts could be attributed to co-isolation or missed monoisotopes.
-A post-processing step may be employed to confidently identify the co-isolated and missed monoisotope matches, but a wide range of high-confidence matches with un-identified mass shifts remain.
-These often correspond to modifications on the identified peptides, and require an extensive framework (such as G-PTM-D) to identify and label them.
+A major drawback of this strategy is that it misses monoisotope errors.
+To avoid this complication, and to get a more comprehensive list of matches, a wider search tolerance is often used, e.g. $\pm 3.5$ Da.
+This gives a substantially larger list of matches, and the resulting PSMs with non-zero mass shifts could be attributed to missed monoisotopes or co-isolated peptides.
+While this approach provides a larger list of confident PSMs, a substantial fraction of those is wrong, since certain mass shifts in the chosen Dalton range arise due to sequence variations or PTMs.
+These require an extensive framework (such as G-PTM-D) to identify and label them.
 More importantly, those modified peptides \textit{do not} correspond to the identified one, thus arguably defeating the purpose of a narrow-mass search. 
 
-We observe that when using an incomplete database that does not include comprehensive modification information, a notch search with notches at monoisotopic peaks is superior to either of the narrow-mass searches.
+We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the narrow-mass searches.
 
 \begin{table}[]
 \centering
@@ -169,11 +169,25 @@ We observe that when using an incomplete database that does not include comprehe
 \label{my-label}
 \begin{tabular}{@{}llll@{}}
                     & 5ppm Search & 3.5 Da Search & Notch Search \\ \cmidrule(l){2-4}
-PSMs Within 1\% FDR & 157188      & 178003        & 173483       \\
-MisAssigned PSMs    & 0           & 7783          & 0            \\
-Good PSMs           & 157188      & 170220        & 173483       \\ 
+PSMs Within 1\% FDR & 157188      & 178003        &        \\
+MisAssigned PSMs    & 0           &               & 0            \\
+Good PSMs           & 157188      &         &        \\ 
 \end{tabular}
 \end{table}
+
+\begin{figure}
+\caption{Mouse histograms around 0}
+\label{fig:fig3mouse-1012}
+\includegraphics{fig3mouse-1012}
+\end{figure}
+
+\begin{figure}
+\caption{Jurkat histograms around 0}
+\label{fig:fig3jurkat-1012}
+\includegraphics{fig3jurkat-1012}
+\end{figure}
+
+
 
 \subsubsection{Mass-Window Searches vs Open-Mass Search}
 
@@ -186,8 +200,8 @@ This effect can be explained by the fact that it's easier to match long sequence
 
 \begin{figure}
 \caption{Upper and Lower bound cutoffs in Mouse Data}
-\label{fig:figure2-upperlowerbounds}
-\includegraphics[scale=0.5]{figure_2-upperlowerbounds}
+\label{fig:fig4-limitsOnOpenSearch}
+\includegraphics{fig4-limitsOnOpenSearch}
 \end{figure}
 
 MetaMorpheus includes a capability to identify peaks in a mass shift histogram obtained from a search, using a recently described peak finding algorithm\cite{Rodriguez_2014}.
@@ -196,8 +210,8 @@ Some histogram peaks are illustrated in Figure~\ref{fig:figure3}, including peak
 
 \begin{figure}
 \caption{Some Histogram Peaks For Mouse Data}
-\label{fig:figure3}
-\includegraphics[scale=0.6]{figure_3peaks}
+\label{fig:fig5-HistogramsAround80and113}
+\includegraphics{fig5-HistogramsAround80and113}
 \end{figure}
 
 We identified the property of some specific mass shifts that correspond to anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.

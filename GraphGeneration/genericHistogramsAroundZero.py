@@ -2,16 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 
-#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
+data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
 #data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task4Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
 
 #data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
-data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task4Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
+#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task4Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
 
 
-data_sorted = data.sort_values(['MassDiffToBestMass (Da)'], ascending=True)
+data_sorted = data.sort_values(['MassDiff (Da)'], ascending=True)
 
-massDiffs=data_sorted['MassDiffToBestMass (Da)'].values
+massDiffs=data_sorted['MassDiff (Da)'].values
 B=data_sorted['Decoy/Contaminant/Target'].values
 C=data_sorted['QValue_notch'].values
 
@@ -20,7 +20,7 @@ TDhighConf = B[C<0.01]
 
 ok = plt.subplot(321)
 
-halfWidth = 2.5
+halfWidth = 3.5
 min1 = -halfWidth
 max1 = halfWidth
 

@@ -1,7 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.figure(1)
+
+
+height = 4
+width = 3.25 
+plt.figure(figsize=(width, height))
 
 plt.subplot(411)
 
@@ -65,5 +69,10 @@ plt.title("Wide-Mass Search")
 
 plt.yticks(yTicks, ylabels)
 plt.tight_layout()
+
+
+plt.savefig('fig1-searchTypes.eps', format='eps', dpi=1200)
+plt.savefig('fig1-searchTypes.png', format='png', dpi=1200)
+
 
 plt.show()
