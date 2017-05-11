@@ -2,18 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 
-data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
-#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task4Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
-
-#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task2Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
-#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-04-10-15-00-59\Task4Search\allPSMs_3.5aroundZero.psmtsv", sep='\t')
+#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\2017-05-04-11-56-07\Task1Search\04-30-13_CAST_Frac5_4uL-Calibrated_allPSMs_3.5aroundZero.psmtsv", sep='\t')
+#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\2017-05-04-11-56-07\Task2Search\04-30-13_CAST_Frac5_4uL-Calibrated_allPSMs_3.5aroundZero.psmtsv", sep='\t')
+data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\2017-05-04-11-56-07\Task3Search\04-30-13_CAST_Frac5_4uL-Calibrated_allPSMs_3.5aroundZero.psmtsv", sep='\t')
 
 
-data_sorted = data.sort_values(['MassDiff (Da)'], ascending=True)
+data_sorted = data.sort_values(['Mass Diff (Da)'], ascending=True)
 
-massDiffs=data_sorted['MassDiff (Da)'].values
+massDiffs=data_sorted['Mass Diff (Da)'].values
 B=data_sorted['Decoy/Contaminant/Target'].values
-C=data_sorted['QValue_notch'].values
+C=data_sorted['QValue Notch'].values
 
 massDiffsHighConf = massDiffs[C<0.01]
 TDhighConf = B[C<0.01]

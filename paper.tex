@@ -77,45 +77,44 @@ Uniprot XML protein databases acquired on Feb 27, 2017 containing only reviewed 
 
 A 10ppm precursor mass tolerance was used for the initial calibration step, and then reduced to 5ppm for subsequent notch searches.
 For the database augmentation step, we allowed 120 modifications including PTMs, adducts, and chemical modifications.
-Final notch search used notches centered at \{0, 1.003, 2.005, 3.008\} in order to capture missed identifications due to missed monoisotopic peaks.
+Final notch search used notches centered at \{0, 1.0029, 2.0052, 3.0077\} in order to capture missed identifications due to missed monoisotopic peaks.
 
 For the discovery of novel modifications, we used a combination of two searches: A notch search with notches at all combinations of up to 2 residue mass additions or removals, and an interval search with lower bound of -187 Daltons, and with exclusions at masses corresponding to the notch search.
 
 \section{Results and Discussion}
 
+This work recommends introducing two major changes to the standard G-PTM-D workflow: a spectral calibration, and a replacement of the standard searches with custom mass-window type searches.
+In order to clearly show the advantage of each proposed change, they are initially discussed in isolation, and then the following section shows the combined effect on the overall PTM identification.
 
-
-
-The first modification to the G-PTM-D workflow, post-acquisition calibration, is shown to increase the number of confidently identified peptides, and enables qualitatively distinguishing modifications with similar mass.
-The other major enhancement, the mass-window search, is contrasted with the narrow-mass and open-mass search.
-The superior performance of G-PTM-D achieved by the use of mass-window searches is demonstrated.
-Finally, the application of mass-window searches to the discovery of novel modifications is discussed.
+%The first modification to the G-PTM-D workflow, post-acquisition calibration, is shown to increase the number of confidently identified peptides, and enables qualitatively distinguishing modifications with similar mass.
+%The other major enhancement, the mass-window search, is contrasted with the narrow-mass and open-mass search.
+%The superior performance of G-PTM-D achieved by the use of mass-window searches is demonstrated.
+%Finally, the application of mass-window searches to the discovery of novel modifications is discussed.
 
 \subsection{Calibration}
 
-A critical parameter for peptide identification and PTM localization is mass accuracy\cite{Scherl_2008}.
+A critical parameter for peptide identification is mass accuracy\cite{Scherl_2008}.
 Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.
 Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.
 Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\cite{Olsen_2005}); and subsequent to the MS experiment (post-acquisition spectral calibration).
 We use a post-acquisition calibration procedure, that builds upon the software lock mass concept\cite{Cox_2011} recently reported by the Mann group.
 In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.
-The increased mass accuracy of the calibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
+%The increased mass accuracy of the calibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
 
 The spectral calibration procedure consists of two steps: Step 1: A narrow tolerance (e.g. 10 ppm precursor, 0.01 Dalton fragment) database search is performed on the dataset.
 This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy \cite{Elias_2007}).
-Step 2:  The identifications from Step 1 are used to extract peak matches from the spectra, and a calibration procedure is performed.
+Step 2: The identifications from Step 1 are used to extract peak matches from the spectra, and a peak shifting procedure is performed.
 The calibration algorithm is described in detail in Supplementary Material 1.
-
 
 Calibration quality is accessed through the results of a standard 10ppm precursor tolerance database search.
 PSMs within 1\% FDR prior to calibration are compared with PSMs after the calibration procedure, see Table~\ref{tbl:calib}.
 The calibration procedure successfully addresses instrument miscalibration by centering the average error around zero.
-Furthermore, the systemic noise introduced by various other factors is addressed: this is evident by the decrease in the standard deviation of the errors in the precursor mass estimates, which places calibrated data squarely in the sub-ppm mode.
+	Furthermore, the systemic noise introduced by various other factors is addressed: this is evident in the decrease in the standard deviation of the errors in the precursor mass estimates, which places calibrated data squarely in the sub-ppm mode.
 Histograms of the mass errors before and after calibration are plotted in Figure~\ref{fgr:figure1}.
 
 \begin{table}[]
 \centering
-\caption{PSMs Before and After Calibration}
+\caption{PSMs Within 1\% FDR Before and After Calibration}
 \label{tbl:calib}
 \begin{tabular}{@{}llllll@{}}
                                                                                 &        & \multicolumn{2}{l}{Mouse} & \multicolumn{2}{l}{Jurkat} \\ \cmidrule(l){3-6} 
@@ -135,6 +134,14 @@ Histograms of the mass errors before and after calibration are plotted in Figure
   \label{fgr:figure1}
 \end{figure}
 
+Besides simply increasing the number of confidently identified peptides, calibration is instrumental in increasing the discernibility between different mass shifts. A search that allows mass differences in the interval [79.942541, 79.980605] was conducted: the resultant mass shifts are aggregated in the histogram plots below. It is evident that the phosphorylation and sulfonation peaks are clearly separated and identifyable when the search is conducted on calibrated data.
+
+
+\begin{figure}
+  \includegraphics{fig2-calibrationQualityPhospho.eps}
+  \caption{Histograms demonstrating the effect of calibration on PSM mass errors}
+  \label{fgr:figure1}
+\end{figure}
 \newpage
 
 \subsection{Mass-Window Searches}
