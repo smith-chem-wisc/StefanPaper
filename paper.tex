@@ -97,7 +97,7 @@ A critical parameter for peptide identification is mass accuracy\cite{Scherl_200
 Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.
 Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.
 Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories:  External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\cite{Olsen_2005}); and subsequent to the MS experiment (post-acquisition spectral calibration).
-We use a post-acquisition calibration procedure, that builds upon the software lock mass concept\cite{Cox_2011} recently reported by the Mann group.
+We use a post-acquisition calibration procedure that builds upon the software lock mass concept\cite{Cox_2011} recently reported by the Mann group.
 In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.
 %The increased mass accuracy of the calibrated spectra leads directly to improved identifications of both modified and unmodified peptides, as well as to increased confidence for PTM localization.
 
@@ -109,7 +109,7 @@ The calibration algorithm is described in detail in Supplementary Material 1.
 Calibration quality is accessed through the results of a standard 10ppm precursor tolerance database search.
 PSMs within 1\% FDR prior to calibration are compared with PSMs after the calibration procedure, see Table~\ref{tbl:calib}.
 The calibration procedure successfully addresses instrument miscalibration by centering the average error around zero.
-	Furthermore, the systemic noise introduced by various other factors is addressed: this is evident in the decrease in the standard deviation of the errors in the precursor mass estimates, which places calibrated data squarely in the sub-ppm mode.
+Furthermore, the systemic noise introduced by various other factors is addressed: this is evident in the decrease in the standard deviation of the errors in the precursor mass estimates, which places calibrated data squarely in the sub-ppm mode.
 Histograms of the mass errors before and after calibration are plotted in Figure~\ref{fgr:figure1}.
 
 \begin{table}[]
@@ -129,7 +129,7 @@ Histograms of the mass errors before and after calibration are plotted in Figure
 \end{table}
 
 \begin{figure}
-  \includegraphics{fig2-calibrationQuality.eps}
+\frac{num}{den}  \includegraphics{fig2-calibrationQuality.eps}
   \caption{Histograms demonstrating the effect of calibration on PSM mass errors}
   \label{fgr:figure1}
 \end{figure}
