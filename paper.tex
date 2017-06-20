@@ -83,7 +83,6 @@ Uniprot XML protein databases acquired on Feb 27, 2017 containing only reviewed 
 
 A 10ppm precursor mass tolerance is used for the initial calibration step, and then reduced to 5ppm for subsequent searches.
 We allowed 120 modifications including PTMs, adducts, and chemical modifications in the database augmentation step.
-%Final notch search used notches centered at \{0, 1.0029, 2.0052, 3.0077\} in order to capture missed identifications due to missed monoisotopic peaks.
 
 %For the discovery of novel modifications, we used a combination of two searches: A notch search with notches at all combinations of up to 2 residue mass additions or removals, and an interval search with lower bound of -187 Daltons, and with exclusions at masses corresponding to the notch search.
 
@@ -224,6 +223,14 @@ Mass windows provide an mechanism to exclude these problematic mass shifts from 
 
 MSFragger, a method recently described in\cite{Kong_2017}, significantly decreases the runtime of wide-mass searches, but lacks specificity.
 
+
+\subsubsection{Discovery of Modifications not in Database}
+
+Previously described wide mass search strategies for discovery and localization of unknown modifications benefit from using alternative, carefully designed search modes based on interval and notch searches.
+We discovered that limiting mass shifts to a lower bound of -187 Da (corresponding to the largest mass difference that could be attributed to loss of a single residue, Tryptophan), and no upper bound, is an important step in eliminating spurious PSMs.
+Furthermore, treating highly suspect mass shifts corresponding to residue additions/substitutions/deletions in a separate notch search with individualized false discovery rate estimates is beneficial.
+An automated tool built into MetaMorpheus allows confidently identifying novel modifications based on these search results.
+
 \subsection{Enhanced G-PTM-D Results}
 
 A major improvement in the G-PTM-D performance arises from using calibrated spectra as inputs to the procedure. Calibration is instrumental in increasing the discernibility between different mass shifts. Mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:phosphoHistograms}. It is evident that the phosphorylation and sulfonation peaks are clearly separated and identifyable when the search is conducted on calibrated data.
@@ -263,7 +270,8 @@ The overall search time dropped significantly, from 35 hours to 4 hours for all 
 \end{table}
 
 
-The final search with the augmented database is conducted with notches: we only recommend including the common missed monoisotopic mass values in the final search,.
+The final notch search uses notches centered at \{0, 1.0029, 2.0052, 3.0077\}, in order to capture missed identifications due to missed monoisotopic peaks.
+The results are contrasted with the standard narrow-mass final search.
 The effect of using these notches is shown in Table~\ref{tab:table2}.
 
 \begin{table}[]
@@ -297,35 +305,6 @@ We identified hundreds of glycosylated peptides in these unenriched samples, wit
                       & Mouse    & 170743   &   171432& 174783 
 \end{tabular}
 \end{table}
-
-The initial notch search is significantly faster than a corresponding wide mass search, and this suggests that multiple search rounds could be conducted, iteratively adding more and more modifications.
-This recursive nature of the algorithm is well suited to add multiple modifications of different types on the same peptide.
-Due to these enhancements, we test the performance of our methods 
-
-\begin{table}[]
-\centering
-\caption{My caption}
-\label{my-label}
-\begin{tabular}{|l|l|l|l|l|l|}
-\hline
-                      &        & \multicolumn{2}{l|}{Single Round}                                                                              & \multicolumn{2}{l|}{Multiple Rounds}                                                                           \\ \hline
-                      &        & \begin{tabular}[c]{@{}l@{}}Mods:\\ none\end{tabular} & \begin{tabular}[c]{@{}l@{}}Mods:\\ ptmlist\end{tabular} & \begin{tabular}[c]{@{}l@{}}Mods:\\ none\end{tabular} & \begin{tabular}[c]{@{}l@{}}Mods:\\ ptmlist\end{tabular} \\ \hline
-\multirow{2}{*}{PSMs} & Jurkat &                                                      &                                                         &                                                      &                                                         \\ \cline{2-6} 
-                      & Mouse  &                                                      &                                                         &                                                      &                                                         \\ \hline
-\multirow{2}{*}{Mods} & Jurkat &                                                      &                                                         &                                                      &                                                         \\ \cline{2-6} 
-                      & Mouse  &                                                      &                                                         &                                                      &                                                         \\ \hline
-\multirow{2}{*}{Time} & Jurkat &                                                      &                                                         &                                                      &                                                         \\ \cline{2-6} 
-                      & Mouse  &                                                      &                                                         &                                                      &                                                         \\ \hline
-\end{tabular}
-\end{table}
-
-
-\subsection{Discovery of Modifications not in Database}
-
-Previously described wide mass search strategies for discovery and localization of unknown modifications benefit from using alternative, carefully designed search modes based on interval and notch searches.
-We discovered that limiting mass shifts to a lower bound of -187 Da (corresponding to the largest mass difference that could be attributed to loss of a single residue, Tryptophan), and no upper bound, is an important step in eliminating spurious PSMs.
-Furthermore, treating highly suspect mass shifts corresponding to residue additions/substitutions/deletions in a separate notch search with individualized false discovery rate estimates is beneficial.
-An automated tool built into MetaMorpheus allows confidently identifying novel modifications based on these search results.
 
 
 %
