@@ -36,28 +36,32 @@ Targeted mass-window searches are also shown to be useful in contexts other than
 
 Many peptide residue modification types are known, and databases containing detailed information about such modifications are readily available\cite{Creasy_2004}.
 Information about a modification often includes the chemical or isotopic composition, mass, specificity to certain residues, and possible restriction of placement to peptide or protein termini.
-Despite the extensive cataloging of the different possible protein modifications, their comprehensive discovery and identifications in complex biological samples has continued to pose a difficult challenge for proteomics\cite{Olsen_2013}.
+\textbf{Protein databases such as UniProt may include localization information such as the observation of a modification on a specific amino acid in a protein, but this information is incomplete.}
+Despite the extensive cataloging of the different possible protein modifications, their comprehensive discovery and identifications in complex biological samples has continued to pose a challenge for proteomics\cite{Olsen_2013}.
 
-Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist, and those concentrate on easily studied modifications (e.g. phosphorylations) in well studied systems.
-Global discovery tools, such as MODa\cite{Na_2011} are available.
-G-PTM-D\cite{Li_2016}, is one recently described bioinformatics tool for the discovery and localization of new PTMs in unenriched samples that enables high confidence identification and discovery of a wide variety of different PTMs at the same time.
-The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\cite{Chick_2015, Na_2011} that provides spectral matches to unmodified peptides along with the mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM).
-2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the proteins in the search database.
+Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist, and those concentrate on common modifications (e.g. phosphorylations) in well studied systems.
+Global discovery tools, such as MODa\cite{Na_2011} are also available, \textbf{but those have some drawbacks}.
+G-PTM-D\cite{Li_2016}, is one recently described bioinformatics tool for high confidence identification and localization of a wide variety of different PTMs at the same time in unenriched samples.
+The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\cite{Chick_2015, Na_2011} that provides mass differences between the identified peptides and the measured parent peptide masses (hypothesized to differ in mass due to the presence of a PTM)
+2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the proteins in the search database
 3) A final standard narrow-mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
 
 As described, G-PTM-D has a few significant limitations.
 The initial wide-mass search procedure is slow, taking hours for modest size datasets.
 Due to this, high mass modifications, such as glycosolations are out of reach, since widening the search window from the suggested $\pm 200$ Daltons increases the search time even more.
-Furthermore, in G-PTM-D, modification discovery is limited to PTMs in the Uniprot database. 
+The final narrow-mass search is also problematic, since it does not account for mass errors due to missing the monoisotopic peak.
+Furthermore, in G-PTM-D, modification discovery is limited to PTMs in the Uniprot database.
+This is a significant limitation since that database does not include modifications arising from sample handling, and ignoring those significantly degrades the overall final identification rates.
 Finally, PTMs that are similar in mass, such as phosphorylation and sulfonation are problematic since they are virtually indistinguishable in unprocessed spectra files.
-These three limitations motivated the work described here.
+These limitations motivated the work described here.
 
+We enhance the G-PTM-D procedure in the following ways.
 Spectral calibration is essential for distinguishing modifications with similar mass, so we recommend running the G-PTM-D procedure only on calibrated spectra files.
-We present an enhancement to G-PTM-D, that addresses the long search times of the wide-mass search, and the limitations of the standard final narrow-mass search.
-MSFragger, a method recently described in\cite{Kong_2017}, significantly decreases the runtime of wide-mass searches, but lacks specificity.
-Thererfore, we replace the wide-mass search in the first stage by a specialized search that only allows specific mass differences which correspond to pre-selected modification masses.
+To address the long search times of the wide-mass search, we replace the wide-mass search in the first stage by a specialized search that only allows specific mass differences which correspond to pre-selected modification masses.
 This change improves the specificity and significantly decreases search time.
-The final narrow-mass search is also replaced by a specialized missed-monoisotope identifying search, further increasing the number of confidently identified peptides. 
+The final narrow-mass search is also replaced by a specialized missed-monoisotope identifying search, further increasing the number of confidently identified peptides.
+Finally, we expand the limited Uniprot PTM list with a customizeable expanded list of modifications that includes chemical adducts, glycosylations, lipids, and other important modifications.
+This change not only expands the list of identified and localized modifications, but also indirectly improves the confident PSM count. 
 
 The idea of restricting the search space by only allowing certain mass differences between the precursor and the identified peptide mass is useful in other procedures as well, beyond the G-PTM-D workflow.
 Its efficacy is demonstrated in context of a search for novel modifications, that is usually based on a wide-mass or an open-mass search.
@@ -72,10 +76,12 @@ A combination of specialized notch and interval searches produces superior ident
 
 \section{Experimental Procedures}
 We developed a modified version of the Morpheus software for bottom-up spectral database searching\cite{Wenger_2013} that we call MetaMorpheus\footnote{Free and Open Source software available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}}, which integrates the database search procedure with spectral calibration and the G-PTM-D workflow.
-Two multi-fraction mammalian datasets (\textit{Mouse} and \textit{Jurkat}) with deep proteome coverage were used to evaluate performance. These tryptically digested cell lysates correspond to 18 and 27 spectra files (fractions) respectively, and are described in detail in~\cite{Shortreed_2015, Cesnik_2016}.
+Two multi-fraction mammalian datasets (\textit{Jurkat} and \textit{Mouse}) with deep proteome coverage were used to evaluate performance.
+These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells, and 18 fractions from Mouse islets, and are described in detail in~\cite{Shortreed_2015, Cesnik_2016}.
+
 Uniprot XML protein databases acquired on Feb 27, 2017 containing only reviewed human/mouse proteins were employed. 
 
-A 10ppm precursor mass tolerance was used for the initial calibration step, and then reduced to 5ppm for subsequent notch searches.
+A 10ppm precursor mass tolerance is used for the initial calibration step, and then reduced to 5ppm for subsequent notch searches.
 For the database augmentation step, we allowed 120 modifications including PTMs, adducts, and chemical modifications.
 Final notch search used notches centered at \{0, 1.0029, 2.0052, 3.0077\} in order to capture missed identifications due to missed monoisotopic peaks.
 
@@ -228,6 +234,8 @@ Some histogram peaks are illustrated in Figure~\ref{fig:figure3}, including peak
 We identified the property of some specific mass shifts that correspond to anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
 
 Mass windows provide an mechanism to exclude these problematic mass shifts from a wide-mass search by employing a interval search.
+
+MSFragger, a method recently described in\cite{Kong_2017}, significantly decreases the runtime of wide-mass searches, but lacks specificity.
 
 \subsection{G-PTM-D}
 
