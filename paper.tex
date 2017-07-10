@@ -264,7 +264,7 @@ The overall search time dropped significantly, from 35 hours to 4 hours for all 
 
 \begin{table}[]
 \centering
-\caption{Effects of Replacing Initial Wide-Mass Search by a Notch Search}
+\caption{Effects of Replacing Initial Wide-Mass Search by a Multi-Notch Search}
 \label{my-labelff}
 \begin{tabular}{ll|l|l}
                       &        & Wide-Mass Search & Notch Search\\
@@ -297,10 +297,10 @@ The effect of using these notches is shown in Table~\ref{tab:table2}.
 Since the XML database is annotated with PTMs from the UniProt PTM list, it is natural to use it in the augmentation step as well.
 It has a few significant drawbacks: Some mass values do not correspond to actual mass shifts, lability of modifications is not taken into account, and many PTMs are missing, including adducts and glycosylations.
 Notch searches allow using expanded modification lists that include chemical modifications such as adducts and large mass PTMs such as glycosylations.
-Even though adducts arising from experimental artifacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMS.
+Even though adducts arising from experimental artifacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMs.
 A curated set of notches and the corresponding modifications is given in Appendix A.
 The overall identification rate increased from 164,697 to 179,345 peptide-spectral matches (PSMs), which in turn increased the number of modified peptides by an additional 20\%.
-We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Daltons. 
+We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Da.
 
 \begin{table}[]
 \centering
