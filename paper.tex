@@ -25,7 +25,7 @@
 \begin{abstract}
 
 Correct identification of protein post-translational modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes.
-G-PTM-D\cite{Li_2016} is a recently developed tool for global identification and localization of PTMs.
+G-PTM-D\citep{Li_2016} is a recently developed tool for global identification and localization of PTMs.
 Spectral file calibration prior to applying G-PTM-D, and algorithmic enhancements in the peptide database search shown here significantly increase the accuracy and speed of PTM identification.
 We enhance G-PTM-D by using targeted multi-notch searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations.
 The changes described in this work lead to a 20\% increase in the number of identified modifications and an order of magnitude decrease in the search time.
@@ -34,15 +34,15 @@ Targeted multi-notch searches are also shown to be useful in contexts other than
 
 \section{Introduction}
 
-Many types of post-translational modifications (PTMs) are known, and databases containing detailed information about such modifications are readily available\cite{Creasy_2004}.
+Many types of post-translational modifications (PTMs) are known, and databases containing detailed information about such modifications are readily available\citep{Creasy_2004}.
 Information about a modification often includes the chemical or isotopic composition, mass, specificity to certain residues, and possible restriction of placement to peptide or protein termini.
 Protein databases such as UniProt include information on the localization of specific modifications to specific residues in the protein, but this information is incomplete.
-Despite the extensive cataloging of the different possible protein modifications, their comprehensive discovery and identification in complex biological samples has continued to pose a challenge for proteomics\cite{Olsen_2013}.
+Despite the extensive cataloging of the different possible protein modifications, their comprehensive discovery and identification in complex biological samples has continued to pose a challenge for proteomics\citep{Olsen_2013}.
 
 Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist, and those address primarily common modifications (e.g. phosphorylations) in well-studied systems.
-Global discovery tools, such as MODa\cite{Na_2011} are also available.
-G-PTM-D\cite{Li_2016} is one recently described bioinformatics tool for high confidence identification and localization of a wide variety of different PTMs.
-The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\cite{Chick_2015, Na_2011}, that provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
+Global discovery tools, such as MODa\citep{Na_2011} are also available.
+G-PTM-D\citep{Li_2016} is one recently described bioinformatics tool for high confidence identification and localization of a wide variety of different PTMs.
+The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\citep{Chick_2015, Na_2011}, that provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
 2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the corresponding protein entries in the search database;
 3) A final standard narrow-mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
 
@@ -63,17 +63,17 @@ This change not only expands the list of identified and localized modifications,
 The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
 
 \begin{figure}[H]
-  \includegraphics[scale=0.5]{diagram.eps}
-  \caption{Workflows}
+  \includegraphics{paperDiagram.png}
+  \caption{The three steps of the G-PTM-D workflow are indicated in the light beige color.}
   \label{fgr:diagram}
 \end{figure}
 
 
 \section{Experimental Procedures}
 
-We developed a modified version of the Morpheus software for bottom-up spectral database searching\cite{Wenger_2013} that we call MetaMorpheus\footnote{Free and Open Source software available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}}, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
+We developed a modified version of the Morpheus software for bottom-up spectral database searching\citep{Wenger_2013} that we call MetaMorpheus\footnote{Free and Open Source software available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}}, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
 Three multi-fraction mammalian datasets (Jurkat cell, C57BL/6J (B6) and CAST/EiJ (CAST) mouse islet lysates) with deep proteome coverage were used to evaluate performance.
-These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells, and 18 fractions from Mouse islets, and are described in detail in~\cite{Shortreed_2015, Cesnik_2016}.
+These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells, and 18 fractions from Mouse islets, and are described in detail in~\citep{Shortreed_2015, Cesnik_2016}.
 
 Uniprot XML protein databases acquired on Feb 27, 2017 containing only reviewed human/mouse proteins were employed.
 
@@ -91,14 +91,14 @@ To clarify the advantage of each change, they are first discussed separately, fo
 
 \subsection{Calibration}
 
-A critical parameter for peptide identification is mass accuracy\cite{Scherl_2008}.
+A critical parameter for peptide identification is mass accuracy\citep{Scherl_2008}.
 Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.
 Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.
-Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories: External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\cite{Olsen_2005}); and spectral calibration subsequent to the MS experiment (post-acquisition spectral calibration).
-We developed a post-acquisition calibration procedure that builds upon the software lock mass concept\cite{Cox_2011} recently reported by the Mann group.
+Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories: External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\citep{Olsen_2005}); and spectral calibration subsequent to the MS experiment (post-acquisition spectral calibration).
+We developed a post-acquisition calibration procedure that builds upon the software lock mass concept\citep{Cox_2011} recently reported by the Mann group.
 In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.
 The spectral calibration procedure consists of two steps: Step 1: A narrow tolerance (e.g. 10 ppm precursor, 0.01 Dalton fragment) database search is performed on the dataset.
-This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy\cite{Elias_2007}).
+This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy\citep{Elias_2007}).
 Step 2: The identifications from Step 1 are used to extract peak matches from the spectra, and a peak shifting procedure is performed.
 The calibration algorithm is described in detail in Supplementary Material 1.
 
@@ -124,11 +124,11 @@ Histograms of the mass errors before and after calibration are plotted in Figure
 \end{tabular}
 \end{table}
 
-\begin{figure}
-  \includegraphics{fig2-calibrationQuality.eps}
-  \caption{Histograms demonstrating the effect of calibration on PSM mass errors}
-  \label{fgr:figure1}
-\end{figure}
+%\begin{figure}
+%  \includegraphics{calib1.png}
+ % \caption{Histograms demonstrating the effect of calibration on PSM mass errors}
+ % \label{fgr:figure1}
+%\end{figure}
 
 \newpage
 
@@ -145,11 +145,11 @@ The \textit{multi-notch} search is an extension of the single-notch search to mu
 It can also be seen as a narrowing of the wide-parent tolerance search to only include pre-specified mass differences.
 The advantages and disadvantages of this alternative strategy are described below.
 
-\begin{figure}
-\includegraphics{fig1-searchTypes.eps}
-\caption{Search Modes}
-\label{fig:fig1-searchtypes}
-\end{figure}
+%\begin{figure}
+%\includegraphics{fig1-searchTypes.png}
+%\caption{Search Modes}
+%\label{fig:fig1-searchtypes}
+%\end{figure}
 
 \subsubsection{Traditional Single-Notch Search vs. Limited Multi-Notch Search}
 
@@ -189,24 +189,24 @@ Good PSMs           & 157188      &         &        \\
 \end{tabular}
 \end{table}
 
-\begin{figure}
-\caption{Mouse histograms around 0}
-\label{fig:fig3mouse-1012}
-\includegraphics{fig3mouse-1012.eps}
-\end{figure}
+%\begin{figure}
+%\caption{Mouse histograms around 0}
+%\label{fig:fig3mouse-1012}
+%\includegraphics{fig3mouse-1012.png}
+%\end{figure}
 
-\begin{figure}
-\caption{Jurkat histograms around 0}
-\label{fig:fig3jurkat-1012}
-\includegraphics{fig3jurkat-1012.eps}
-\end{figure}
+%\begin{figure}
+%\caption{Jurkat histograms around 0}
+%\label{fig:fig3jurkat-1012}
+%\includegraphics{fig3jurkat-1012.eps}
+%\end{figure}
 
 \subsubsection{Multi-Notch Search vs. Wide-Mass Search}
 
 Chick~\citep{Chick_2015} showed that by significantly relaxing the parent mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified.
 In particular, PTM-containing peptides could be identified from those MS2 fragments that did not possess the modification and the type of PTM could be inferred from differences in precursor and parent mass.
 A major limitation of the Chick work was the extremely long search times because of the vast number of theoretical candidate peptides that were evaluated for each and every MS2 spectrum.
-Recently, Kong\cite{Kong_2017} reported a new index-based search strategy (MSFragger) that radically improved search speeds for wide parent mass tolerance searches.
+Recently, Kong\citep{Kong_2017} reported a new index-based search strategy (MSFragger) that radically improved search speeds for wide parent mass tolerance searches.
 Search times for +/- 500 Da parent tolerances went from six years to six seconds.
 The output of both search strategies is a list of PSMs, where the best matching unmodified theoretical peptide was found for each MS2 fragmentation spectrum and the mass difference between the theoretical and experimental precursor masses was determined.
 The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, but interpretation of the mass difference was left to the user.
@@ -234,21 +234,21 @@ Calibration and the associated increase in mass accuracy is essential for discri
 To illustrate this, mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:phosphoHistograms}.
 It is evident from these histograms that the phosphorylation and sulfonation peaks are clearly separated and identifiable when the search is conducted on well-calibrated spectra.
 
-\begin{figure}	
-	\centering
-	\begin{subfigure}[t]{3.1in}
-		\centering
-		\includegraphics[scale=0.5]{figPhosphorylationPre.eps}
-		\label{fig:1a}		
-	\end{subfigure}
-	\quad
-	\begin{subfigure}[t]{3.1in}
-		\centering
-		\includegraphics[scale=0.5]{figPhosphorylationCalib.eps}
-		\label{fig:1b}
-	\end{subfigure}
-	\caption{Histograms of mass differences observed around 80 Daltons when using calibrated and uncalibrated spectra}\label{fig:phosphoHistograms}
-\end{figure}
+%\begin{figure}	
+%	\centering
+%	\begin{subfigure}[t]{3.1in}
+%		\centering
+%		\includegraphics[scale=0.5]{figPhosphorylationPre.png}
+	%	\label{fig:1a}		
+%	\end{subfigure}
+%	\quad
+%	\begin{subfigure}[t]{3.1in}
+%		\centering
+%		\includegraphics[scale=0.5]{figPhosphorylationCalib.png}
+%		\label{fig:1b}
+%	\end{subfigure}
+%	\caption{Histograms of mass differences observed around 80 Daltons when using calibrated and uncalibrated %spectra}\label{fig:phosphoHistograms}
+%\end{figure}
 
 By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in Uniprot, the number of confidently identified PSMs increased by 6\%.
 The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-labelff}.
