@@ -9,14 +9,14 @@ plt.figure(figsize=(width, height))
 
 offset = 200
 
-data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-04-07-18-09-31\Task1Calibrate\2017-04-14-16-50-03\Task1Search\allPSMs_OpenSearch.psmtsv", sep='\t')
+data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-05-05-18-28-01\Task2Calibrate\2017-07-06-17-29-30\Task1Search\aggregatePSMs_OpenSearch.psmtsv", sep='\t')
 
 
-data_sorted = data.sort_values(['MassDiff (Da)'], ascending=True)
+data_sorted = data.sort_values(['Mass Diff (Da)'], ascending=True)
 
-A=data_sorted['MassDiff (Da)'].values
+A=data_sorted['Mass Diff (Da)'].values
 B=data_sorted['Decoy/Contaminant/Target'].values
-C=data_sorted['QValue_notch'].values
+C=data_sorted['QValue Notch'].values
 
 print(A[0])
 print(A[-1])
@@ -60,7 +60,7 @@ plt.xscale('symlog')
 plt.xticks([-1e4, -1e3, -1e2, -1e1, 0,1e1, 1e2, 1e3, 1e4])
 plt.ylabel("FDR")
 plt.xlabel("Mass Diff")
-plt.title("Limit From Below")
+plt.title("Limit From Above")
 
 
 backward = [0]
@@ -94,7 +94,7 @@ plt.xscale('symlog')
 plt.xticks([-1e4, -1e3, -1e2, -1e1, 0,1e1, 1e2, 1e3, 1e4])
 plt.ylabel("FDR")
 plt.xlabel("Mass Diff")
-plt.title("Limit From Above")
+plt.title("Limit From Below")
 
 plt.tick_params(axis='both', which='major', labelsize=8)
 
