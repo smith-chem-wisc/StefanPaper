@@ -46,12 +46,12 @@ The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\ci
 2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the corresponding protein entries in the search database;
 3) A final standard narrow-mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
 
-As described, G-PTM-D has a few significant limitations.
+As described above, G-PTM-D has a few significant limitations.
 The initial wide-mass search procedure is slow, taking hours for modest size datasets.
-Due to this, high mass modifications, such as glycosolations are out of reach, since widening the search window from the suggested $\pm 200$ Daltons increases the search time even more.
-The final narrow-mass search is also problematic, since it does not account for peptide-spectral matches(PSMs) with mass differences arising due to mistaking the monoisotopic peak.
+Due to this, high mass modifications, such as glycosylations are out of reach, since widening the search window from the suggested $\pm 200$ Da increases the search time even more.
+The final narrow-mass search is also problematic, since it does not account for peptide-spectral matches(PSMs) with mass differences arising due to misidentifying the monoisotopic peak.
 In G-PTM-D, modification discovery is limited to PTMs in the Uniprot database: this is a significant limitation since that database does not include modifications arising from sample handling, and ignoring those modifications significantly degrades the final PTM identification rates.
-Finally, PTMs that are similar in mass, such as phosphorylation and sulfonation are problematic since they are virtually indistinguishable in unprocessed spectra files.
+Finally, PTMs that are similar in mass, such as phosphorylation (79.966331 Da) and sulfonation (79.956815 Da), are problematic since they are virtually indistinguishable in unprocessed spectral files.
 These limitations motivated the work described here.
 
 Spectral calibration is essential for distinguishing modifications with similar mass, so we recommend running the G-PTM-D procedure only on calibrated spectra files.
