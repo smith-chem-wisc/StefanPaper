@@ -55,12 +55,12 @@ Finally, PTMs that are similar in mass, such as phosphorylation (79.966331 Da) a
 These limitations motivated the work described here.
 
 Spectral calibration is essential for distinguishing modifications with similar mass, so we recommend running the G-PTM-D procedure only on calibrated spectra files.
-To address the long search times of the wide-mass search, we replace the wide-mass search in the first stage by a specialized search that only allows specific mass differences which correspond to pre-selected modification masses.
+To address the long search times of the wide-mass search, we replace the wide-mass search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected modification masses (e.g. PTMs and amino acids).
 This change improves the specificity of the search and significantly decreases search time.
-The final narrow-mass search is also replaced by a specialized missed-monoisotope identifying search, further increasing the number of confidently identified peptides and PTMs.
+The final narrow-mass search is also replaced by a limited multi-notch search that accommodates errors in precursor mass deconvolution (+1.0029, + 2.0052 and + 3.0077 Da), further increasing the number of confidently identified peptides and PTMs.
 Finally, we replace the limited Uniprot PTM list with a customizeable expanded list of modifications that includes chemical adducts, glycosylations, lipids, and other important modifications.
 This change not only expands the list of identified and localized modifications, but also indirectly improves the confident PSM count.
-The ehanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
+The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
 
 
 The idea of restricting the search space by only allowing certain mass differences between the precursor and the identified peptide mass is useful in procedures beyond the G-PTM-D workflow.
