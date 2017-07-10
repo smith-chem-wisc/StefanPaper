@@ -201,40 +201,31 @@ Good PSMs           & 157188      &         &        \\
 \includegraphics{fig3jurkat-1012}
 \end{figure}
 
-
-
 \subsubsection{Multi-Notch Search vs. Wide-Mass Search}
 
-Analogous to a notch search being an extension of the narrow-mass search, an interval search is a natural extension of the open-mass search.
-Restricting the allowed differences between the precursor and the identified peptide mass is often beneficial in searches that are intended to discover mass shift peaks.
-While this method is not used in the G-PTM-D pipeline, we include it here for completeness, and demonstrate the improved performance when it is used in a heuristic for the discovery of novel modifications.
+Chick~\citep{Chick_2015} showed that by significantly relaxing the parent mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified.
+In particular, PTM-containing peptides could be identified from those MS2 fragments that did not possess the modification and the type of PTM could be inferred from differences in precursor and parent mass.
+A major limitation of the Chick work was the extremely long search times because of the vast number of theoretical candidate peptides that were evaluated for each and every MS2 spectrum.
+Recently, Kong\cite{Kong_2017} reported a new index-based search strategy (MSFragger) that radically improved search speeds for wide parent mass tolerance searches.
+Search times for +/- 500 Da parent tolerances went from six years to six seconds.
+The output of both search strategies is a list of PSMs, where the best matching unmodified theoretical peptide was found for each MS2 fragmentation spectrum and the mass difference between the theoretical and experimental precursor masses was determined.
+The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, but interpretation of the mass difference was left to the user.
+PTMs corresponding to the reported mass difference can frequently be inferred; such as when the mass difference reported matches a known PTM mass (e.g. 79.966331 Da for phosphorylation).
+However, mass differences can arise from not only one modification, but frequently from two or more modifications, some of which increase the mass and the peptide and some of which decrease it. In addition, small missed cleavages are sometimes reported mistakenly as mass differences. Also, some mass differences, such as those matching to amino acid masses, are easily interpreted but suffer from high local FDR and should only be used with caution. Finally, seemingly uninterpretable mass differences can be reported when the best matching peptide has an actual precursor mass different from the precursor mass selected by the mass spectrometer. The range of masses selected for fragmentation in a tandem mass spectrometer is commonly +/- 2 Da. Therefore, multiple peptides can be introduced to the cell and co-fragmented. This often results in peptide identification of a less abundant peptide with mass slightly larger or smaller than the selected precursor.
+The unconstrained utilization of mass difference and acceptance of the theoretical best matching sequence as true can result in a high number of false positive assignments. 
 
-One way of restricting open mass searches is by introducing an upper or lower limit on the accepted mass differences.
-To illustrate the effect of such restrictions, we ran an open-mass search, and restricted ourselves to looking at 1\% FDR matches, both targets and decoys.
-The plots in Figure~\ref{fig:fig4-limitsOnOpenSearch} show the FDR in the list filtered by using an upper or lower bound cutoff on the allowed mass shifts.
-It shows the fundamental difference between upper and lower bound cutoffs: while it is beneficial to restrict open searches to ignore large negative values, restricting matches with a large positive mass difference has a negative effect on the overall FDR. This effect can be explained by the fact that it's easier to match long sequences to short peptide fragmentation profiles than it is to match short sequences to fragmentation pattern of a long peptide.
+A third alternative, reported here, is the use of a multi-notch search (>100 discrete notches) offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs and the least false positive PSMs (see the TABLE i and TABLE j).
+	Table I (Count of theoretical peptide candidates for each search mode (single notch 5ppm, single notch 3.5, limited multi notch, 500 Da, and full multi-notch).
+	Table J (Total PSMs for each search type – 500 or full multi-notch). 
+One output of an MSFragger search is a list of PSMs with each entry containing the mass difference between the isolated precursor and the mass of the best matching theoretical peptide. MSFragger also doesn’t automatically calibrate spectra prior to searching. Therefore, mass differences from closely spaced PTMs (e.g. phosphorylation and sulfonation) can easily be misinterpreted. MetaMorpheus has built in functionality to identify multiple peptides from each tandem mass spectrum resulting in improved identification of peptides and peptide modifications.
 
-\begin{figure}
-\caption{Upper and Lower bound cutoffs in Mouse Data}
-\label{fig:fig4-limitsOnOpenSearch}
-\includegraphics{fig4-limitsOnOpenSearch}
-\end{figure}
 
-MetaMorpheus includes a capability to identify peaks in a mass shift histogram obtained from a search, using a recently described peak finding algorithm\cite{Rodriguez_2014}.
-We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
-Some histogram peaks are illustrated in Figure~\ref{fig:fig5-HistogramsAround80and113}, including peaks corresponding to masses of Sulfo and Phospho, and a problematic peak at mass of Leucine, with a high FDR.
-
-\begin{figure}
-\caption{Some Histogram Peaks For Mouse Data}
-\label{fig:fig5-HistogramsAround80and113}
-\includegraphics{fig5-HistogramsAround80and113}
-\end{figure}
-
-We identified the property of some specific mass shifts that correspond to anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
-
-Mass windows provide an mechanism to exclude these problematic mass shifts from a wide-mass search by employing a interval search.
-
-MSFragger, a method recently described in\cite{Kong_2017}, significantly decreases the runtime of wide-mass searches, but lacks specificity.
+G-PTM-D originally added PTMs with masses that were included in the UniProt ptmlist… We have since increased the variety of PTMs added but including a number of new notches in the G-PTM-D first pass search. The new notches correspond to metal adducts (e.g. Na and K), glycoslyations, sample handling and processing artifacts (e.g. carbamylation, ammonia loss), lipidation, and etc. 
+Msfragger has limited mass range as reported.
+We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality. Some of these problematic histogram peaks are illustrated in Figure [fig:figure3], including peaks corresponding to masses of Sulfo and Phospho, and a problematic peak at mass of Leucine, with a high FDR .
+Some Histogram Peaks For Mouse Data
+Some Histogram Peaks For Mouse Data
+We identified some specific mass shifts that are characterized by anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals .
 
 \subsection{Enhanced G-PTM-D Results}
 
