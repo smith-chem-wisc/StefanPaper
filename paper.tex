@@ -203,7 +203,7 @@ Good PSMs           & 157188      &         &        \\
 
 
 
-\subsubsection{Mass-Window Searches vs Open-Mass Search}
+\subsubsection{Multi-Notch Search vs. Wide-Mass Search}
 
 Analogous to a notch search being an extension of the narrow-mass search, an interval search is a natural extension of the open-mass search.
 Restricting the allowed differences between the precursor and the identified peptide mass is often beneficial in searches that are intended to discover mass shift peaks.
@@ -236,17 +236,12 @@ Mass windows provide an mechanism to exclude these problematic mass shifts from 
 
 MSFragger, a method recently described in\cite{Kong_2017}, significantly decreases the runtime of wide-mass searches, but lacks specificity.
 
-
-\subsubsection{Discovery of Modifications not in Database}
-
-Previously described wide mass search strategies for discovery and localization of unknown modifications benefit from using alternative, carefully designed search modes based on interval and notch searches.
-We discovered that limiting mass shifts to a lower bound of -187 Da (corresponding to the largest mass difference that could be attributed to loss of a single residue, Tryptophan), and no upper bound, is an important step in eliminating spurious PSMs.
-Furthermore, treating highly suspect mass shifts corresponding to residue additions/substitutions/deletions in a separate notch search with individualized false discovery rate estimates is beneficial.
-An automated tool built into MetaMorpheus allows confidently identifying novel modifications based on these search results.
-
 \subsection{Enhanced G-PTM-D Results}
 
-A major improvement in the G-PTM-D performance arises from using calibrated spectra as inputs to the procedure. Calibration is instrumental in increasing the discernibility between different mass shifts. Mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:phosphoHistograms}. It is evident that the phosphorylation and sulfonation peaks are clearly separated and identifyable when the search is conducted on calibrated data.
+A major improvement in G-PTM-D performance arises from using calibrated spectra as inputs to the procedure. 
+Calibration and the associated increase in mass accuracy is essential for discrimination of small differences between mass shifts due to different modifications.
+To illustrate this, mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:phosphoHistograms}.
+It is evident from these histograms that the phosphorylation and sulfonation peaks are clearly separated and identifiable when the search is conducted on well-calibrated spectra.
 
 \begin{figure}	
 	\centering
