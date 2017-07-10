@@ -9,7 +9,8 @@ plt.figure(figsize=(width, height))
 
 offset = 200
 
-data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-05-05-18-28-01\Task2Calibrate\2017-07-06-17-29-30\Task1Search\aggregatePSMs_OpenSearch.psmtsv", sep='\t')
+#data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-05-05-18-28-01\Task2Calibrate\2017-07-06-17-29-30\Task1Search\aggregatePSMs_OpenSearch.psmtsv", sep='\t')
+data = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Jurkat\2017-05-05-18-29-43\Task2Calibrate\2017-07-07-13-19-26\Task1Search\aggregatePSMs_OpenSearch.psmtsv", sep='\t')
 
 
 data_sorted = data.sort_values(['Mass Diff (Da)'], ascending=True)
