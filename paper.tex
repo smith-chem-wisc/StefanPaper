@@ -132,15 +132,18 @@ Histograms of the mass errors before and after calibration are plotted in Figure
 
 \newpage
 
-\subsection{Mass-Window Searches}
+\subsection{Multi-Notch Searches}
 
-Prior to discussing the impact mass-windows searches have on the G-PTM-D workflow, we need to define the search modes discussed. A standard \textit{narrow-mass} search considers matching theoretical peptides to spectra if the peptide mass and the identified precursor mass are equal, within some tolerance (i.e. 5ppm, or 2.1 Da).
-A \textit{wide-mass} search matches peptide fragment masses to fragmentation spectra while allowing large differences (i.e. $\pm 500$ Da) between the observed precursor mass and the peptide mass.
-An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account.
-We describe alternatives to these search modes, namely a \textit{notch search} and an \textit{interval search} that fall under a broad category of \textit{mass-window} searches.
-The notch search is an extension of the narrow-mass search: it allows exact matches (within a tolerance) to specific mass differences between the theoretical peptide and observed precursor masses.
-The interval search is an extension of the wide-mass search: specific problematic mass differences are excluded from allowed matches.
-Figure~\ref{fig:fig1-searchtypes} provides a convenient way to visualize the various search modes.
+Prior to discussing the impact that multi-notch searches have on the G-PTM-D performance, it is useful to describe the variety of search tolerances used.
+Traditional searches in bottom-up proteomics score potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal, within some defined tolerance (e.g. 5ppm, or 2.1 Da).
+We'll refer to this type of search here as a \textit{single notch} search.
+The other common search mode, used in the original G-PTM-D publication, is a \textit{wide-parent tolerance search} ($\pm 500$ Da).
+In that search, the precursor mass and the mass of the best matching theoretical peptide could be many Da apart.
+An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account at all.
+We describe an alternative to these search modes: the multi-notch search.
+The \textit{multi-notch} search is an extension of the single-notch search to multiple specific mass differences between precursor mass and theoretical mass~\ref{fig:fig1-searchtypes} where the mass difference is easily interpretable.
+It can also be seen as a narrowing of the wide-parent tolerance search to only include pre-specified mass differences.
+The advantages and disadvantages of this alternative strategy are described below.
 
 \begin{figure}
 \includegraphics{fig1-searchTypes.eps}
