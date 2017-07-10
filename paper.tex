@@ -70,16 +70,15 @@ The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
 
 
 \section{Experimental Procedures}
+
 We developed a modified version of the Morpheus software for bottom-up spectral database searching\cite{Wenger_2013} that we call MetaMorpheus\footnote{Free and Open Source software available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}}, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
-Two multi-fraction mammalian datasets (\textit{Jurkat} and \textit{Mouse}) with deep proteome coverage were used to evaluate performance.
+Three multi-fraction mammalian datasets (Jurkat cell, C57BL/6J (B6) and CAST/EiJ (CAST) mouse islet lysates) with deep proteome coverage were used to evaluate performance.
 These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells, and 18 fractions from Mouse islets, and are described in detail in~\cite{Shortreed_2015, Cesnik_2016}.
 
-Uniprot XML protein databases acquired on Feb 27, 2017 containing only reviewed human/mouse proteins were employed. 
+Uniprot XML protein databases acquired on Feb 27, 2017 containing only reviewed human/mouse proteins were employed.
 
 A 10ppm precursor mass tolerance is used for the initial calibration step, and then reduced to 5ppm for subsequent searches.
 We allowed 120 modifications including PTMs, adducts, and chemical modifications in the database augmentation step.
-
-%For the discovery of novel modifications, we used a combination of two searches: A notch search with notches at all combinations of up to 2 residue mass additions or removals, and an interval search with lower bound of -187 Daltons, and with exclusions at masses corresponding to the notch search.
 
 \section{Results and Discussion}
 
