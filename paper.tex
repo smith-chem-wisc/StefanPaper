@@ -136,7 +136,7 @@ Histograms of the mass errors before and after calibration are plotted in Figure
 
 Prior to discussing the impact that multi-notch searches have on the G-PTM-D performance, it is useful to describe the variety of search tolerances used.
 Traditional searches in bottom-up proteomics score potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal, within some defined tolerance (e.g. 5ppm, or 2.1 Da).
-We'll refer to this type of search here as a \textit{single notch} search.
+We'll refer to this type of search here as a \textit{single-notch} search.
 The other common search mode, used in the original G-PTM-D publication, is a \textit{wide-parent tolerance search} ($\pm 500$ Da).
 In that search, the precursor mass and the mass of the best matching theoretical peptide could be many Da apart.
 An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account at all.
@@ -151,19 +151,31 @@ The advantages and disadvantages of this alternative strategy are described belo
 \label{fig:fig1-searchtypes}
 \end{figure}
 
-\subsubsection{Notch Search vs Narrow-Mass Search}
+\subsubsection{Traditional Single-Notch Search vs. Limited Multi-Notch Search}
 
-The purpose of a narrow-mass search is to use the provided precursor mass along with fragmentation spectra information to find an exact match to the observed peptide in a protein database.
+The traditional single-notch search limits the range of acceptable mass differences between a candidate peptide and the observed experimental precursor in order to find an exact match to the observed peptide in a protein database.
+A mass tolerance of 5-20ppm is a common precursor mass tolerance that allows only mass differences between theoretical and experimental of 5-20 ppm.
+This is a highly restrictive search.
+It is not uncommon for the precursor mass tolerance of single-notch searches to be reduced to as much as 2 or 3 Da.
+One rationale for this is that errors in the deconvolution of MS1 spectra frequently result in an experimental precursor mass that is in error by 1-3 Da, corresponding to missed monoisotopic errors.
+This relaxed tolerance increases the number of correctly identified peptides.
+A second rationale for this approach is that multiple peptides are frequently co-isolated and co-fragmented with all peptide fragments being reported in the same tandem mass spectrum.
+Frequently a peptide with a mass differing from the precursor mass reported by the instrument is the identified peptide.
+In case the co-fragmented peptides have the same charge, the mass difference between the identified peptide and the isolated precursor can be as much as 2 or 3 Da, so a lose 2 or 3 Da tolerance is able to identify those.
+The major limitation to this relaxed parent mass tolerance is a significant increase in the number of false positive identifications (due to a vast expansion in the number of acceptable theoretical peptides and simultaneous failure to accommodate low mass modifications such as amidation and deamidation), arguably defeating the purpose of a narrow-mass search.
+ 
+An alternative to these two traditional single-notch searches is a limited multi-notch search that allows mass differences between precursor and theoretical peptide of 0, 1.0029, 2.0051 or 3.0077 Da but limits the width about any one of those three tolerances to a few ppm (0-20 ppm).
+This approach provides a means of getting an increased number of correct identifications but mitigates problems with false positive identifications.
+This alternative would appear to result in loss of identification of co-isolated peptides.
+However, MetaMorpheus was programmed to ignore the precursor mass reported by the mass spectrometer in the mass spectrum and instead, deconvolute all peaks in the MS1 spectrum associated with the tandem mass spectrum to recover all possible precursor masses.
+This expanded list of precursors is used in every spectrum match frequently resulting in multiple peptide identifications from single tandem mass spectrum.  
 
-Using a calibration or instrument noise percursor tolerance, such as 5ppm or 10ppm is a valid approach, since it identifies only exact matches.
-A major drawback of this strategy is that it misses monoisotope errors.
-To avoid this complication, and to get a more comprehensive list of matches, a wider search tolerance is often used, e.g. $\pm 3.5$ Da.
-This gives a substantially larger list of matches, and the resulting PSMs with non-zero mass shifts could be attributed to missed monoisotopes or co-isolated peptides.
-While this approach provides a larger list of confident PSMs, a substantial fraction of those is wrong, since certain mass shifts in the chosen Dalton range arise due to sequence variations or PTMs.
-These require an extensive framework (such as G-PTM-D) to identify and label them.
-More importantly, those modified peptides \textit{do not} correspond to the identified one, thus arguably defeating the purpose of a narrow-mass search. 
 
-We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the narrow-mass searches.
+INSERT PARAGRAPH DESCRIBING RESULTS OF SINGLE NOTCH VERSUS LIMITED MULTI NOTCH \& COISOLATION
+
+
+We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the single-notch searches.
+
 
 \begin{table}[]
 \centering
