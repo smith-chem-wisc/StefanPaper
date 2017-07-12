@@ -169,26 +169,21 @@ The advantages and disadvantages of this alternative strategy are described belo
 The traditional single-notch search limits the range of acceptable mass differences between a candidate peptide and the observed experimental precursor in order to find an exact match to the observed peptide in a protein database.
 A mass tolerance of 5-20ppm is a common precursor mass tolerance that allows only mass differences between theoretical and experimental of 5-20 ppm.
 This is a highly restrictive search.
-It is not uncommon for the precursor mass tolerance of single-notch searches to be reduced to as much as 2 or 3 Da.
+It is not uncommon for the precursor mass tolerance of single-notch searches to be expanded to as much as 2 or 3 Da.
 One rationale for this is that errors in the deconvolution of MS1 spectra frequently result in an experimental precursor mass that is in error by 1-3 Da, corresponding to missed monoisotopic errors.
 This relaxed tolerance increases the number of correctly identified peptides.
 A second rationale for this approach is that multiple peptides are frequently co-isolated and co-fragmented with all peptide fragments being reported in the same tandem mass spectrum.
 Frequently a peptide with a mass differing from the precursor mass reported by the instrument is the identified peptide.
-In case the co-fragmented peptides have the same charge, the mass difference between the identified peptide and the isolated precursor can be as much as 2 or 3 Da, so a lose 2 or 3 Da tolerance is able to identify those.
+In case the co-fragmented peptides have the same charge, the mass difference between the identified peptide and the isolated precursor can be as much as 2 or 3 Da, so a loose 2 or 3 Da tolerance is able to identify those.
 The major limitation to this relaxed parent mass tolerance is a significant increase in the number of false positive identifications (due to a vast expansion in the number of acceptable theoretical peptides and simultaneous failure to accommodate low mass modifications such as amidation and deamidation), arguably defeating the purpose of a narrow-mass search.
  
-An alternative to these two traditional single-notch searches is a limited multi-notch search that allows mass differences between precursor and theoretical peptide of 0, 1.0029, 2.0051 or 3.0077 Da but limits the width about any one of those three tolerances to a few ppm (0-20 ppm).
+An alternative to these two traditional single-notch searches is a limited multi-notch search that allows mass differences between precursor and theoretical peptide of 0, 1.0029, 2.0051 or 3.0077 Da but limits the width about any one of those three tolerances to a few ppm (<20 ppm).
 This approach provides a means of getting an increased number of correct identifications but mitigates problems with false positive identifications.
 This alternative would appear to result in loss of identification of co-isolated peptides.
-However, MetaMorpheus was programmed to ignore the precursor mass reported by the mass spectrometer in the mass spectrum and instead, deconvolute all peaks in the MS1 spectrum associated with the tandem mass spectrum to recover all possible precursor masses.
+However, MetaMorpheus was programmed to ignore the precursor mass reported by the mass spectrometer in the mass spectrum and instead, deconvolutes all peaks in the MS1 spectrum associated with the tandem mass spectrum to recover all possible precursor masses.
 This expanded list of precursors is used in every spectrum match frequently resulting in multiple peptide identifications from single tandem mass spectrum.  
 
-
 INSERT PARAGRAPH DESCRIBING RESULTS OF SINGLE NOTCH VERSUS LIMITED MULTI NOTCH \& CO-ISOLATION
-
-
-We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the single-notch searches.
-
 
 \begin{table}[]
 \centering
@@ -216,34 +211,32 @@ Good PSMs           & 157188      &         &        \\
 
 \subsubsection{Multi-Notch Search vs. Wide-Mass Search}
 
-Chick~\citep{Chick_2015} showed that by significantly relaxing the parent mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified.
+Chick\citep{Chick_2015} showed that by significantly relaxing the parent mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified.
 In particular, PTM-containing peptides could be identified from those MS2 fragments that did not possess the modification and the type of PTM could be inferred from differences in precursor and parent mass.
 A major limitation of the Chick work was the extremely long search times because of the vast number of theoretical candidate peptides that were evaluated for each and every MS2 spectrum.
 Recently, Kong\citep{Kong_2017} reported a new index-based search strategy (MSFragger) that radically improved search speeds for wide parent mass tolerance searches.
 Search times for +/- 500 Da parent tolerances went from six years to six seconds.
 The output of both search strategies is a list of PSMs, where the best matching unmodified theoretical peptide was found for each MS2 fragmentation spectrum and the mass difference between the theoretical and experimental precursor masses was determined.
-The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, but interpretation of the mass difference was left to the user.
-PTMs corresponding to the reported mass difference can frequently be inferred; such as when the mass difference reported matches a known PTM mass (e.g. 79.966331 Da for phosphorylation).
-However, mass differences can arise from not only one modification, but frequently from two or more modifications, some of which increase the mass and the peptide and some of which decrease it. In addition, small missed cleavages are sometimes reported mistakenly as mass differences. Also, some mass differences, such as those matching to amino acid masses, are easily interpreted but suffer from high local FDR and should only be used with caution. Finally, seemingly uninterpretable mass differences can be reported when the best matching peptide has an actual precursor mass different from the precursor mass selected by the mass spectrometer. The range of masses selected for fragmentation in a tandem mass spectrometer is commonly +/- 2 Da. Therefore, multiple peptides can be introduced to the cell and co-fragmented. This often results in peptide identification of a less abundant peptide with mass slightly larger or smaller than the selected precursor.
-The unconstrained utilization of mass difference and acceptance of the theoretical best matching sequence as true can result in a high number of false positive assignments. 
+The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, with interpretation of the mass difference left as an exercise the user.
 
-A third alternative, reported here, is the use of a multi-notch search (>100 discrete notches) offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs and the least false positive PSMs (see the TABLE i and TABLE j).
-	Table I (Count of theoretical peptide candidates for each search mode (single notch 5ppm, single notch 3.5, limited multi notch, 500 Da, and full multi-notch).
-	Table J (Total PSMs for each search type – 500 or full multi-notch). 
-One output of an MSFragger search is a list of PSMs with each entry containing the mass difference between the isolated precursor and the mass of the best matching theoretical peptide. MSFragger also doesn't automatically calibrate spectra prior to searching.
-Therefore, mass differences from closely spaced PTMs (e.g. phosphorylation and sulfonation) can easily be misinterpreted.
-MetaMorpheus has built in functionality to identify multiple peptides from each tandem mass spectrum resulting in improved identification of peptides and peptide modifications.
+There are two major problems with using the results from unrestricted precursor mass tolerance searches to infer peptide modifications regardless of whether or not they are of the Chick or Kong variety.
 
+First, the freedom in precursor mass difference results in a multitude of false positive identifications.
+For example, small missed cleavages are often reported as mass differences.
+The peptide PEPKK is often identified as PEPK with a mass error of 128 Da (the converse is also true, PEPK may be identified with a mass error of -128 Da).
+This error is relatively easy to spot but when the missed cleavages contain multiple amino acids, the interpretation and discovery of the error is much more difficult.
+Another example of this relates to peptide modifications.
+The peptide PEPSphosphoK could be reported with a mass error of -79.96Da when the better identification would have been PEPSK.
+Constraining the search using the multi-notch approach described below, directly prohibits assignment of the best match for a peak erroneously, and instead produces an alternative peak assignment with a much lower false positive rate (see below).
 
-G-PTM-D originally added PTMs with masses that were included in the UniProt PTM list.
-We have since increased the variety of PTMs added but including a number of new notches in the G-PTM-D first pass search.
-The new notches correspond to metal adducts (e.g. Na and K), glycosylations., sample handling and processing artifacts (e.g. carbamylation, ammonia loss), lipidation, and etc.
-MSFragger has limited mass range as reported.
-We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
-Some of these problematic histogram peaks are illustrated in Figure, including peaks corresponding to masses of Sulfonation and Phosphorylation, and a problematic peak at mass of Leucine, with a high FDR.
-Some Histogram Peaks For Mouse Data
-Some Histogram Peaks For Mouse Data
-We identified some specific mass shifts that are characterized by anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals .
+Second, unrestricted precursor mass search struggle to correctly identify co-isolated/co-fragmented peptides as we described above for single notch searches with tolerance of 2-3Da.
+
+The alternative, described here, is the use of a multi-notch search (>100 discrete notches), which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the least false positive PSM identifications (see the TABLE i and TABLE j).
+Table I (Count of theoretical peptide candidates for each search mode (single notch 5ppm, single notch 3.5, limited multi notch, 500 Da, and full multi-notch).
+Table J (Total PSMs for each search type – 500 or full multi-notch).
+The results of the multi-notch search used in conjunction with G-PTM-D, provide and even further refinement of the results with actual assignment of PTMs and other modifications (see below). 
+
+\subsection{Co-isolation}
 
 \subsection{Enhanced G-PTM-D Results}
 
