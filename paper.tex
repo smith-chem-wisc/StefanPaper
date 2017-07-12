@@ -103,11 +103,11 @@ Step 2: The identifications from Step 1 are used to extract peak matches from th
 The calibration algorithm is described in detail in Supplementary Material 2.
 
 We demonstrated the effectiveness of the calibration approach using a single CAST Mouse raw file as an example by displaying the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, before and after the calibration procedure is applied.
-In Figure [fgr:fig1-calibErrors] these errors are plotted versus two important variables: the m/z value of the peak and the retention time.
-It can be seen in the graphs of Figure ### that calibration successfully addresses errors in non-linearity as a function of both retention time and m/z.
+In Figure\ref{fgr:fig1-calibErrors} these errors are plotted versus two important variables: the m/z value of the peak and the retention time.
+It can be seen in the graphs of Figure\ref{fgr:fig1-calibErrors} that calibration successfully addresses errors in non-linearity as a function of both retention time and m/z.
 We note that in addition to these two parameters, the calibration function native to MetaMorpheus also considers non-linearities in peak intensity, injection time, total ion count, etc.
 In addition, MetaMorpheus calibrates both MS1 and MS2 (using MS2 fragment matches), but only results from MS1 are shown here.
-The complete list of parameters analyzed in the calibration is provided as Table $$$ in the supplement. 
+The complete list of parameters analyzed in the calibration is provided as Table lala in the supplement. 
 
 \begin{figure}[H]
  \includegraphics{fig1-calibErrors.png}
@@ -115,11 +115,12 @@ The complete list of parameters analyzed in the calibration is provided as Table
  \label{fgr:fig1-calibErrors}
 \end{figure}
 
-Calibration quality is further evaluated through the results of a standard 10ppm precursor tolerance database search.
+Calibration quality improvements are further shown through the results of a standard 10ppm precursor tolerance database search (Table\ref{tbl:calib}).
 PSMs within 1\% FDR prior to calibration are compared with PSMs after the calibration procedure (Table~\ref{tbl:calib}).
 The calibration procedure successfully addresses instrument miscalibration by centering the average error around zero.
 The systemic noise introduced by various other factors is also addressed: this is evident in the decrease in the standard deviation of the errors in the precursor mass estimates, which show that the calibrated mass spectra have sub-ppm mass errors.
 Histograms of the mass errors in identified peptides before and after calibration are plotted in Figure~\ref{fgr:fig2-10ppmSearchCalib}.
+The main results of calibration in summary are increased PSMs at 1\% FDR, decreased error in precursor mass, and decreased standard deviation in average mass error. 
 
 \begin{table}[]
 \centering
@@ -147,12 +148,11 @@ Confidence Intervals& 68.3\%     &    [-4.26,0.05]          &  [-1.08,0.75]     
 
 \subsection{Multi-Notch Searches}
 
-Prior to discussing the impact that multi-notch searches have on the G-PTM-D performance, it is useful to describe the variety of search tolerances used.
-Traditional searches in bottom-up proteomics score potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal, within some defined tolerance (e.g. 5ppm, or 2.1 Da).
+It is useful to describe the variety of search tolerances used, prior to discussing the impact that multi-notch searches have on the G-PTM-D performance.
+Traditional searches in bottom-up proteomics score potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal within some defined tolerance (e.g. 5ppm, or 2.1 Da).
 We'll refer to this type of search here as a \textit{single-notch} search.
-The other common search mode, used in the original G-PTM-D publication, is a \textit{wide-parent tolerance search} ($\pm 500$ Da).
-In that search, the precursor mass and the mass of the best matching theoretical peptide could be many Da apart.
-An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account at all.
+The other common search mode is a \textit{wide-parent tolerance search} (e.g. +/- 500Da)[Chick, Kong, Qiyao].
+In searches of that type, the precursor mass and the mass of the best matching theoretical peptide could be many Da apart.
 We describe an alternative to these search modes: the multi-notch search.
 The \textit{multi-notch} search is an extension of the single-notch search to multiple specific mass differences between precursor mass and theoretical mass~\ref{fig:fig3-searchTypes} where the mass difference is easily interpretable.
 It can also be seen as a narrowing of the wide-parent tolerance search to only include prespecified mass differences.
