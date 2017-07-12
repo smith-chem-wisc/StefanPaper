@@ -238,6 +238,22 @@ The results of the multi-notch search used in conjunction with G-PTM-D, provide 
 
 \subsection{Co-isolation}
 
+[Cite Bo Zhang if paper exists].
+We showed above in some amazing figure an example where several peptides were co-eluting from the column into that mass-spec within the tolerance used for isolation for fragmentation.
+In that particular case, the precursor with m/z dsfadf was chosen for isolation and fragmentation.
+In a conventional search, only that precursor mass would be used to select a range of theoretical for comparison.
+However, all peptides in that range are co-fragmented and a better solution would be to use all co-isolated precursor masses.
+In MetaMorpheus, for each MS2 scan, the corresponding MS1 scan is deconvoluted and the complete list of precursors is gathered for the range surrounding the isolated precursor (+/- 3 Da).
+Each deconvoluted mass is used to select a range of theoreticals to use for identification.
+The result of this is that often, more than one peptide can be identified from a single MS2 scan.
+Below, in Table 3434, we should the number of PSMs for a raw file where we use only a single precursor mass and we compare that to the case where we allow for multiple different precursors.
+You can see a significant increase in the number of identified PSMs.
+Importantly, you can see in Supplemental Figure erf3e, that the precursor mass errors go down significantly and the standard deviation is much reduced.
+This is extremely benficial in both open mass and multi-notch searches because it reduces the number the more difficult to interpret mass shifts and substantially improves G-PTM-D (see below).
+
+Get the story about how precurors with similar m/z with different z can in their deconvoluted state be many (10s, 100s of Da apart).
+This is a big problem in general searches but also for open mass and multi-notch searches which are used to discover possible PTMs. 
+
 \subsection{Enhanced G-PTM-D Results}
 
 A major improvement in G-PTM-D performance arises from using calibrated spectra as inputs to the procedure. 
