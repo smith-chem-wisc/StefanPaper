@@ -256,10 +256,34 @@ This is a big problem in general searches but also for open mass and multi-notch
 
 \subsection{Enhanced G-PTM-D Results}
 
+In the original G-PTM-D manuscript, an open mass search (+/- 200-500Da) was used to create a histogram of mass difference peaks, from which a number of PTMs could be inferred.
+A perl script was used to mine those mass differences to modify a proteomics database with potential PTMs.
+This database was used for a final search and a number of PTMs were identified.
+There were several limitations to that work.
+One, the open mass search was really slow.
+Two, uncalibrated data made it hard to discern closely spaced modifications.
+Three, certain mass differences with high FDRs were incorrectly allowed.
+Four, missed monoisotopic peaks and co-isolated peaks were not handled.
+Five, separate programs were required (both Morpheus and a perl script).
+MetaMorpheus resolves all of these issues and more.
+Below we will show how each individual enhancement to G-PTM-D improved performance over the original work and then we will show at the end, the combined effect of all enhancements.
+
 A major improvement in G-PTM-D performance arises from using calibrated spectra as inputs to the procedure. 
 Calibration and the associated increase in mass accuracy is essential for discrimination of small differences between mass shifts due to different modifications.
 To illustrate this, mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:phosphoHistograms}.
 It is evident from these histograms that the phosphorylation and sulfonation peaks are clearly separated and identifiable when the search is conducted on well-calibrated spectra.
+
+[THERE IS SUPPOSED TO BE A COOL FIGURE HERE]
+
+G-PTM-D originally added PTMs with masses that were included in the UniProt PTM list. 
+We have since increased the variety of PTMs added but including a number of new notches in the G-PTM-D first pass search. The new notches correspond to metal adducts (e.g. Na and K), glycosylations., sample handling and processing artifacts (e.g. carbamylation, ammonia loss), lipidation, and etc.
+MSFragger has limited mass range as reported. We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
+Some of these problematic histogram peaks are illustrated in Figure, including peaks corresponding to masses of Sulfonation and Phosphorylation, and a problematic peak at mass of Leucine, with a high FDR.
+Some Histogram Peaks For Mouse Data Some Histogram Peaks For Mouse Data We identified some specific mass shifts that are characterized by anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals .
+MSFragger also doesn’t automatically calibrate spectra prior to searching.
+Therefore, mass differences from closely spaced PTMs (e.g. phosphorylation and sulfonation) can easily be misinterpreted.
+MetaMorpheus has built in functionality to identify multiple peptides from each tandem mass spectrum resulting in improved identification of peptides and peptide modifications.
+
 
 By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in UniProt, the number of confidently identified PSMs increased by 6\%.
 The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-labelff}.
@@ -283,6 +307,8 @@ The overall search time dropped significantly, from 35 hours to 4 hours for all 
 The final notch search uses notches centered at \{0, 1.0029, 2.0052, 3.0077\}, in order to capture missed identifications due to missed monoisotopic peaks.
 The results are contrasted with the standard narrow-mass final search.
 The effect of using these notches is shown in Table~\ref{tab:table2}.
+
+We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the single-notch searches.
 
 \begin{table}[]
 \centering
