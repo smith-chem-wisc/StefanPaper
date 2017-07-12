@@ -78,7 +78,7 @@ These tryptically digested cell lysates correspond to 28 fractions from human Ju
 UniProt XML protein databases acquired on Feb 27, 2017 containing only reviewed human/mouse proteins were employed.
 
 A 10ppm precursor mass tolerance is used for the initial calibration step, and then reduced to 5ppm for subsequent searches.
-We allowed 120 modifications including PTMs, adducts, and chemical modifications in the database augmentation step.
+We allowed 120 modifications including PTMs, adducts, and chemical modifications in the database augmentation step, see Supplementary Material 1 for a complete listing.
 
 \section{Results and Discussion}
 
@@ -100,35 +100,48 @@ In our strategy, the m/z differences between expected and observed peaks in the 
 The spectral calibration procedure consists of two steps: Step 1: A narrow tolerance (e.g. 10 ppm precursor, 0.01 Dalton fragment) database search is performed on the dataset.
 This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy\citep{Elias_2007}).
 Step 2: The identifications from Step 1 are used to extract peak matches from the spectra, and a peak shifting procedure is performed.
-The calibration algorithm is described in detail in Supplementary Material 1.
+The calibration algorithm is described in detail in Supplementary Material 2.
 
-Calibration quality is evaluated through the results of a standard 10ppm precursor tolerance database search.
+We demonstrated the effectiveness of the calibration approach using a single CAST Mouse raw file as an example by displaying the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, before and after the calibration procedure is applied.
+In Figure [fgr:fig1-calibErrors] these errors are plotted versus two important variables: the m/z value of the peak and the retention time.
+It can be seen in the graphs of Figure ### that calibration successfully addresses errors in non-linearity as a function of both retention time and m/z.
+We note that in addition to these two parameters, the calibration function native to MetaMorpheus also considers non-linearities in peak intensity, injection time, total ion count, etc.
+In addition, MetaMorpheus calibrates both MS1 and MS2 (using MS2 fragment matches), but only results from MS1 are shown here.
+The complete list of parameters analyzed in the calibration is provided as Table $$$ in the supplement. 
+
+\begin{figure}[H]
+ \includegraphics{fig1-calibErrors.png}
+ \caption{Errors in m/z plotted vs the m/z value and the retention time}
+ \label{fgr:fig1-calibErrors}
+\end{figure}
+
+Calibration quality is further evaluated through the results of a standard 10ppm precursor tolerance database search.
 PSMs within 1\% FDR prior to calibration are compared with PSMs after the calibration procedure (Table~\ref{tbl:calib}).
 The calibration procedure successfully addresses instrument miscalibration by centering the average error around zero.
 The systemic noise introduced by various other factors is also addressed: this is evident in the decrease in the standard deviation of the errors in the precursor mass estimates, which show that the calibrated mass spectra have sub-ppm mass errors.
-Histograms of the mass errors before and after calibration are plotted in Figure~\ref{fgr:figure1}.
+Histograms of the mass errors in identified peptides before and after calibration are plotted in Figure~\ref{fgr:fig2-10ppmSearchCalib}.
 
 \begin{table}[]
 \centering
 \caption{PSMs Within 1\% FDR Before and After Calibration}
 \label{tbl:calib}
-\begin{tabular}{llllll}
+\begin{tabular}{llll}
 
-                                                                                &        & Orig        & Calib       & Orig        & Calib        \\
- &PSM Count                                                           &    152208       &        155617 &         217612   &   219172        \\
- &Average Error (ppm)                                                           &    -1.09         &       -0.16      &      -2.10      &        -0.16      \\
- &St. Dev of Error                                                     &     3.35        &      0.90       &       2.15      &        0.91      \\
-Confidence Intervals& 68.3\% &   [-4.44,2.27]          &    [-1.06,0.74]          &    [-4.26,0.05]          &  [-1.08,0.75]            \\
-                                                                                & 95.4\% &   [-7.80,5.62]          &    [-1.97,1.64]         &   [-6.41,2.20]          &      [-1.99,1.61]         \\
-                                                                                & 99.7\% &   [-11.15,8.98]          &      [-2.87,2.54]        &    [-8.56,4.36]          &      [-2.90,2.58]         \\
+                                                                                &      & Orig        & Calib        \\
+ &PSM Count                                                           &      217612   &   219172        \\
+ &Average Error (ppm)                                                              &      -2.10      &        -0.16      \\
+ &St. Dev of Error                                                    &       2.15      &        0.91      \\
+Confidence Intervals& 68.3\%     &    [-4.26,0.05]          &  [-1.08,0.75]            \\
+                                                                                & 95.4\%      &   [-6.41,2.20]          &      [-1.99,1.61]         \\
+                                                                                & 99.7\%       &    [-8.56,4.36]          &      [-2.90,2.58]         \\
 \end{tabular}
 \end{table}
 
-%\begin{figure}
-%  \includegraphics{calib1.png}
- % \caption{Histograms demonstrating the effect of calibration on PSM mass errors}
- % \label{fgr:figure1}
-%\end{figure}
+\begin{figure}[H]
+ \includegraphics{fig2-10ppmSearchCalib.png}
+ \caption{Errors in m/z plotted vs the m/z value and the retention time}
+ \label{fgr:fig2-10ppmSearchCalib}
+\end{figure}
 
 \newpage
 
@@ -141,15 +154,15 @@ The other common search mode, used in the original G-PTM-D publication, is a \te
 In that search, the precursor mass and the mass of the best matching theoretical peptide could be many Da apart.
 An even less restrictive \textit{open-mass} search, matches peptides from a database to fragmentation spectra without taking the precursor mass into account at all.
 We describe an alternative to these search modes: the multi-notch search.
-The \textit{multi-notch} search is an extension of the single-notch search to multiple specific mass differences between precursor mass and theoretical mass~\ref{fig:fig1-searchtypes} where the mass difference is easily interpretable.
+The \textit{multi-notch} search is an extension of the single-notch search to multiple specific mass differences between precursor mass and theoretical mass~\ref{fig:fig3-searchTypes} where the mass difference is easily interpretable.
 It can also be seen as a narrowing of the wide-parent tolerance search to only include prespecified mass differences.
 The advantages and disadvantages of this alternative strategy are described below.
 
-%\begin{figure}
-%\includegraphics{fig1-searchTypes.png}
-%\caption{Search Modes}
-%\label{fig:fig1-searchtypes}
-%\end{figure}
+\begin{figure}[H]
+\includegraphics{fig3-searchTypes.png}
+\caption{Search Modes}
+\label{fig:fig3-searchTypes}
+\end{figure}
 
 \subsubsection{Traditional Single-Notch Search vs. Limited Multi-Notch Search}
 
