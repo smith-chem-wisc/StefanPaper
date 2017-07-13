@@ -36,7 +36,7 @@ Targeted multi-notch searches are also shown to be useful in contexts other than
 
 Many types of post-translational modifications (PTMs) are known, and databases containing detailed information about such modifications are readily available\citep{Creasy_2004}.
 Information about a modification often includes the chemical or isotopic composition, mass, specificity to certain residues, and possible restriction of placement to peptide or protein termini.
-Protein databases such as UniProt include information on the localization of specific modifications to specific residues in the protein, but this information is incomplete.
+Protein databases such as UniProt\citep{Uniprot_2017} include information on the localization of specific modifications to specific residues in the protein, but this information is incomplete.
 Despite the extensive cataloging of the different possible protein modifications, their comprehensive discovery and identification in complex biological samples has continued to pose a challenge for proteomics\citep{Olsen_2013}.
 
 Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist, and those address primarily common modifications (e.g. phosphorylations) in well-studied systems.
@@ -102,10 +102,10 @@ This yields a set of peptide identifications subject to a desired false discover
 Step 2: The identifications from Step 1 are used to extract peak matches from the spectra, and a peak shifting procedure is performed.
 The calibration algorithm is described in detail in Supplementary Material 2.
 
-We demonstrated the effectiveness of the calibration approach using a single CAST Mouse raw file as an example by displaying the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, before and after the calibration procedure is applied.
-In Figure\ref{fgr:fig1-calibErrors} these errors are plotted versus two important variables: the m/z value of the peak and the retention time.
-It can be seen in the graphs of Figure\ref{fgr:fig1-calibErrors} that calibration successfully addresses errors in non-linearity as a function of both retention time and m/z.
-We note that in addition to these two parameters, the calibration function native to MetaMorpheus also considers non-linearities in peak intensity, injection time, total ion count, etc.
+We demonstrate the effectiveness of the calibration approach using a single CAST Mouse raw file as an example by displaying the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, before and after the calibration procedure is applied.
+In Figure~\ref{fgr:fig1-calibErrors} these errors are plotted versus two important variables: the m/z value of the peak and the retention time of the corresponding scan.
+Calibration successfully removes both linear and non-linear dependencies between the m/z errors and these variables.
+We note that in addition to these two parameters, the calibration function native to MetaMorpheus also considers  peak intensity, injection time, total ion count, and other variables as potentially influencing the m/z errors.
 In addition, MetaMorpheus calibrates both MS1 and MS2 (using MS2 fragment matches), but only results from MS1 are shown here.
 The complete list of parameters analyzed in the calibration is provided as Table lala in the supplement. 
 
@@ -115,7 +115,7 @@ The complete list of parameters analyzed in the calibration is provided as Table
  \label{fgr:fig1-calibErrors}
 \end{figure}
 
-Calibration quality improvements are further shown through the results of a standard 10ppm precursor tolerance database search (Table\ref{tbl:calib}).
+Calibration quality improvements are further shown through the results of a standard 10ppm precursor tolerance database search (Table~\ref{tbl:calib}).
 PSMs within 1\% FDR prior to calibration are compared with PSMs after the calibration procedure (Table~\ref{tbl:calib}).
 The calibration procedure successfully addresses instrument miscalibration by centering the average error around zero.
 The systemic noise introduced by various other factors is also addressed: this is evident in the decrease in the standard deviation of the errors in the precursor mass estimates, which show that the calibrated mass spectra have sub-ppm mass errors.
