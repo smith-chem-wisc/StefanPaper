@@ -145,13 +145,13 @@ The main results of calibration in summary are increased PSMs at 1\% FDR, decrea
 
 \subsection{Multi-Notch Searches}
 
-It is useful to describe the variety of search tolerances used, prior to discussing the impact that multi-notch searches have on the G-PTM-D performance.
-Traditional searches in bottom-up proteomics score potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal within some defined tolerance (e.g. 5ppm, or 2.1 Da).
-We'll refer to this type of search here as a \textit{single-notch} search.
-The other common search mode is a \textit{wide-parent tolerance search} (e.g. +/- 500Da)[Chick, Kong, Qiyao].
+It is useful to carefully describe the two commonly used database search approaches, prior to defining multi-notch searches and the impact that they have on G-PTM-D performance.
+A traditional search in bottom-up proteomics considers potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal within some defined tolerance (e.g. 5ppm, or 2.1 Da).
+We refer to this type of search here as a \textit{single-notch} search.
+The other common search is a \textit{wide-parent tolerance search} (e.g. +/- 500Da)\citep{Chick_2015,Kong_2017,Li_2016}.
 In searches of that type, the precursor mass and the mass of the best matching theoretical peptide could be many Da apart.
-We describe an alternative to these search modes: the multi-notch search.
-The \textit{multi-notch} search is an extension of the single-notch search to multiple specific mass differences between precursor mass and theoretical mass~\ref{fig:fig3-searchTypes} where the mass difference is easily interpretable.
+We describe an alternative to these search modes: the \textit{multi-notch} search.
+This search is an extension of the single-notch search that allows a variety of multiple specific mass differences between precursor mass and theoretical mass (See Figure~\ref{fig:fig3-searchTypes}) where the mass difference is easily interpretable.
 It can also be seen as a narrowing of the wide-parent tolerance search to only include prespecified mass differences.
 The advantages and disadvantages of this alternative strategy are described below.
 
