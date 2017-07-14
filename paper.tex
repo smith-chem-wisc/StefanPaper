@@ -209,9 +209,8 @@ Search times for +/- 500 Da parent tolerances went from six years to six seconds
 The output of both search strategies is a list of PSMs, where the best matching unmodified theoretical peptide was found for each MS2 fragmentation spectrum and the mass difference between the theoretical and experimental precursor masses was determined.
 The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, with interpretation of the mass difference left as an exercise the user.
 
-There are two major problems with using the results from unrestricted precursor mass tolerance searches to infer peptide modifications regardless of whether or not they are of the Chick or Kong variety.
-
-First, the freedom in precursor mass difference results in a multitude of false positive identifications.
+There is a major problem with using the results from unrestricted precursor mass tolerance searches to infer peptide modifications regardless of whether or not they are of the Chick or Kong variety.
+The freedom in precursor mass difference results in a multitude of false positive \textit{mass difference identifications}.
 For example, small missed cleavages are often reported as mass differences.
 The peptide PEPKK is often identified as PEPK with a mass error of 128 Da (the converse is also true, PEPK may be identified with a mass error of -128 Da).
 This error is relatively easy to spot but when the missed cleavages contain multiple amino acids, the interpretation and discovery of the error is much more difficult.
@@ -219,12 +218,21 @@ Another example of this relates to peptide modifications.
 The peptide PEPSphosphoK could be reported with a mass error of -79.96Da when the better identification would have been PEPSK.
 Constraining the search using the multi-notch approach described below, directly prohibits assignment of the best match for a peak erroneously, and instead produces an alternative peak assignment with a much lower false positive rate (see below).
 
-Second, unrestricted precursor mass search struggle to correctly identify co-isolated/co-fragmented peptides as we described above for single notch searches with tolerance of 2-3Da.
+The alternative we recommend, is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the least false positive PSM identifications.
 
-The alternative, described here, is the use of a multi-notch search (>100 discrete notches), which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the least false positive PSM identifications (see the TABLE i and TABLE j).
-Table I (Count of theoretical peptide candidates for each search mode (single notch 5ppm, single notch 3.5, limited multi notch, 500 Da, and full multi-notch).
-Table J (Total PSMs for each search type – 500 or full multi-notch).
-The results of the multi-notch search used in conjunction with G-PTM-D, provide and even further refinement of the results with actual assignment of PTMs and other modifications (see below). 
+To compare the multi-notch search with the wide-mass search, we conducted searches of all of Mouse fractions, with a multi-notch search with notches at 0 and 79.96, and a +/-500 Da wide mass search.
+The advantage of the multi-notch search over the wide-mass search is shown in Table~\ref{tbl:multiVsWide} by comparing mass difference histogram peak membership numbers.
+
+\begin{table}[]
+\centering
+\caption{Multi-Notch Search vs. Wide-Mass Search}
+\label{tbl:multiVsWide}
+\begin{tabular}{lll}
+                    & Multi-Notch & Wide-Mass\\
+0 peak & 139374      & 137483        \\
+79.96 peak & 3402           & 3298          \\
+\end{tabular}
+\end{table}
 
 \subsection{Co-isolation}
 
@@ -297,7 +305,7 @@ The overall search time dropped significantly, from 35 hours to 4 hours for all 
 \end{table}
 
 
-The final notch search uses notches centered at \{0, 1.0029, 2.0054, 3.0078\}, in order to capture missed identifications due to missed monoisotopic peaks.
+The final notch search uses notches centered at \{0, 1.0029, 2.0054\}, in order to capture missed identifications due to missed monoisotopic peaks.
 The results are contrasted with the standard narrow-mass final search.
 The effect of using these notches is shown in Table~\ref{tab:table2}.
 
