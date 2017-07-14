@@ -57,7 +57,7 @@ These limitations motivated the work described here.
 Spectral calibration is essential for distinguishing modifications with similar mass, so we recommend running the G-PTM-D procedure only on calibrated spectra files.
 To address the long search times of the wide-mass search, we replace the wide-mass search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected modification masses (e.g. PTMs and amino acids).
 This change improves the specificity of the search and significantly decreases search time.
-The final narrow-mass search is also replaced by a limited multi-notch search that accommodates errors in precursor mass deconvolution (+1.0029, + 2.0052 and + 3.0077 Da), further increasing the number of confidently identified peptides and PTMs.
+The final narrow-mass search is also replaced by a limited multi-notch search that accommodates errors in precursor mass deconvolution (+1.0029, + 2.0054 and + 3.0078 Da), further increasing the number of confidently identified peptides and PTMs.
 Finally, we replace the limited UniProt PTM list with a customizable expanded list of modifications that includes chemical adducts, glycosylations, lipids, and other important modifications.
 This change not only expands the list of identified and localized modifications, but also indirectly improves the confident PSM count.
 The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
@@ -165,45 +165,39 @@ The advantages and disadvantages of this alternative strategy are described belo
 
 The traditional single-notch search limits the range of acceptable mass differences between a candidate peptide and the observed experimental precursor in order to find an exact match to the observed peptide in a protein database.
 A mass tolerance of 1-20ppm is a commonly used, resulting in a highly restrictive search.
-It is not uncommon for the precursor mass tolerance of single-notch searches to be expanded to as much as 2 or 3 Da.
-One rationale for this is that errors in the deconvolution of MS1 spectra frequently result in an experimental precursor mass that is in error by 1-3 Da, corresponding to missed monoisotopic errors.
-This relaxed tolerance increases the number of correctly identified peptides.
+It is not uncommon for the precursor mass tolerance of single-notch searches to be relaxed to as much as 2 or 3 Da.
+One rationale for this is that errors in the deconvolution of MS1 spectra frequently result in an experimental precursor mass reported being different by 1.0029 or 2.0054 Da from the true isolated peptide mass.
+The relaxed tolerance approach identifies those peptides correctly.
 A second rationale for this approach is that multiple peptides are frequently co-isolated and co-fragmented with all peptide fragments being reported in the same tandem mass spectrum.
-Frequently a peptide with a mass differing from the precursor mass reported by the instrument is the identified peptide.
-In case the co-fragmented peptides have the same charge, the mass difference between the identified peptide and the isolated precursor can be as much as 2 or 3 Da, so a loose 2 or 3 Da tolerance is able to identify those.
-The major limitation to this relaxed parent mass tolerance is a significant increase in the number of false positive identifications (due to a vast expansion in the number of acceptable theoretical peptides and simultaneous failure to accommodate low mass modifications such as amidation and deamidation), arguably defeating the purpose of a narrow-mass search.
- 
-An alternative to these two traditional single-notch searches is a limited multi-notch search that allows mass differences between precursor and theoretical peptide of 0, 1.0029, 2.0051 or 3.0077 Da but limits the width about any one of those three tolerances to a few ppm (<20 ppm).
-This approach provides a means of getting an increased number of correct identifications but mitigates problems with false positive identifications.
-This alternative would appear to result in loss of identification of co-isolated peptides.
-However, MetaMorpheus was programmed to ignore the precursor mass reported by the mass spectrometer in the mass spectrum and instead, deconvolutes all peaks in the MS1 spectrum associated with the tandem mass spectrum to recover all possible precursor masses.
-This expanded list of precursors is used in every spectrum match frequently resulting in multiple peptide identifications from single tandem mass spectrum.  
+Frequently the only well-fragmented peptide is different from the one corresponding to the isolated peak reported by the instrument, and the relaxed tolerance approach may identify this peptide, provided the reported charge state matches.
+The major limitation of this approach is that a 2 or 3 Da tolerance includes mass shifts that, when present, may indicate that the matched peptide is not the correct identification, arguably defeating the purpose of a narrow-mass search.
+This may happen when the mass difference arises due to identified peptide being different from the actual isolated one by a low mass modification or an amino acid substitution.
 
-INSERT PARAGRAPH DESCRIBING RESULTS OF SINGLE NOTCH VERSUS LIMITED MULTI NOTCH \& CO-ISOLATION
+The described issues are apparent in mass difference histograms in Figure~\ref{fig:fig4mouse-1012}, generated by compiling the results of a 2.5 Da tolerance single-notch search.
+
+\begin{figure}
+\caption{Jurkat histograms around 0}
+\label{fig:fig4mouse-1012}
+\includegraphics{fig4mouse-1012.png}
+\end{figure}
+
+An alternative to these two traditional single-notch searches is a limited multi-notch search that allows mass differences between precursor and theoretical peptide of 0, 1.0029 or 2.0054 Da but limits the width about any one of those three tolerances to a few ppm (1-20 ppm).
+This approach provides a means of getting an increased number of correct identifications but mitigates problems with wrong identifications.
+This alternative would appear to result in loss of identification of co-isolated peptides, but MetaMorpheus is programmed to mitigate this problem by identifying multiple co-isolated precursor masses, see below.
+
+To qualitatively illustrate the described advantages, we conducted the three searches on all 28 calibrated Jurkat fractions.
+The numbers of confidently identified PSMs, misassigned PSMs are reported in Table~\ref{tbl:singleVsMultiNotch}.
 
 \begin{table}[]
 \centering
 \caption{Notch Search vs Narrow-Mass Search comparison of PSMs for Mouse}
-\label{my-label}
+\label{tbl:singleVsMultiNotch}
 \begin{tabular}{llll}
                     & 5ppm Search & 3.5 Da Search & Notch Search \\
-PSMs Within 1\% FDR & 157188      & 178003        &        \\
-misassigned PSMs    & 0           &               & 0            \\
-Good PSMs           & 157188      &         &        \\ 
+PSMs Within 1\% FDR & 157188      & 178003        & 177213       \\
+misassigned PSMs    & 0           & 1521          & 0            \\
 \end{tabular}
 \end{table}
-
-%\begin{figure}
-%\caption{Mouse histograms around 0}
-%\label{fig:fig3mouse-1012}
-%\includegraphics{fig3mouse-1012.png}
-%\end{figure}
-
-%\begin{figure}
-%\caption{Jurkat histograms around 0}
-%\label{fig:fig3jurkat-1012}
-%\includegraphics{fig3jurkat-1012.eps}
-%\end{figure}
 
 \subsubsection{Multi-Notch Search vs. Wide-Mass Search}
 
@@ -249,6 +243,9 @@ This is extremely benficial in both open mass and multi-notch searches because i
 
 Get the story about how precurors with similar m/z with different z can in their deconvoluted state be many (10s, 100s of Da apart).
 This is a big problem in general searches but also for open mass and multi-notch searches which are used to discover possible PTMs. 
+
+MetaMorpheus was programmed to ignore the precursor mass reported by the mass spectrometer in the mass spectrum and instead, deconvolutes all peaks in the MS1 spectrum associated with the tandem mass spectrum to recover all possible precursor masses.
+This expanded list of precursors is used in every spectrum match,frequently resulting in multiple peptide identifications from single tandem mass spectrum.  
 
 \subsection{Enhanced G-PTM-D Results}
 
@@ -300,7 +297,7 @@ The overall search time dropped significantly, from 35 hours to 4 hours for all 
 \end{table}
 
 
-The final notch search uses notches centered at \{0, 1.0029, 2.0052, 3.0077\}, in order to capture missed identifications due to missed monoisotopic peaks.
+The final notch search uses notches centered at \{0, 1.0029, 2.0054, 3.0078\}, in order to capture missed identifications due to missed monoisotopic peaks.
 The results are contrasted with the standard narrow-mass final search.
 The effect of using these notches is shown in Table~\ref{tab:table2}.
 
