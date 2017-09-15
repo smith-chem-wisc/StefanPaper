@@ -2,9 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 
-nice= pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-07-10-17-50-26\Task1Calibrate\04-30-13_CAST_Frac5_4uLinLinearbeforesc1.ms1dptsv", sep='\t')
-nice2= pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-07-10-17-50-26\Task1Calibrate\04-30-13_CAST_Frac5_4uLinNonLinearafterfc4.ms1dptsv", sep='\t')
-
+nice= pandas.read_csv(r"C:\Users\stepa\Data\PaperData\Jurkat\2017-07-31-17-44-19\Task1Calibrate\120426_Jurkat_highLC_Frac21inLinearbeforesc1.ms1dptsv", sep='\t')
+nice2= pandas.read_csv(r"C:\Users\stepa\Data\PaperData\Jurkat\2017-07-31-17-44-19\Task1Calibrate\120426_Jurkat_highLC_Frac21inNonLinearafterfc9.ms1dptsv", sep='\t')
 
 height = 6
 width = 7

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 
-maxi = 25000
+maxi = 40000
 
 
 height = 6
@@ -10,7 +10,10 @@ width = 7
 
 f, ((ax1), (ax3)) = plt.subplots(2, 1, sharex='col', sharey='row', figsize=(width,height))
 
-ok = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-05-05-18-28-01\Task1Search\allPSMs_10ppmAroundZero.psmtsv", sep='\t')  
+ok = pandas.read_csv(r"C:\Users\stepa\Data\PaperData\Jurkat\2017-08-01-09-15-26\Task1Search\aggregatePSMs_10ppmAroundZero.psmtsv", sep='\t')  
+
+ok['Mass Diff (ppm)'] = pandas.to_numeric(ok['Mass Diff (ppm)'], errors='coerce')
+
 A=ok[r"Mass Diff (ppm)"]
 B=ok[r"Decoy/Contaminant/Target"]=="T"
 C=ok[r"QValue Notch"]
@@ -22,9 +25,12 @@ ax1.set_ylabel('PSM count')
 ax1.annotate(r"Uncalibrated", xy=(0, 0.5), xycoords=ax1.yaxis.label, textcoords='offset points',
                 size='large', ha='right', va='center', xytext=(0,0.5))
 
-maxi = 35000
+maxi = 40000
 
-ok = pandas.read_csv(r"C:\Users\stepa\Data\CalibrationPaperData\Mouse\2017-05-05-18-28-01\Task3Search\allPSMs_10ppmAroundZero.psmtsv", sep='\t')  
+ok = pandas.read_csv(r"C:\Users\stepa\Data\PaperData\Jurkat\2017-07-31-17-44-19\Task1Calibrate\2017-08-01-09-28-39\Task1Search\aggregatePSMs_10ppmAroundZero.psmtsv", sep='\t')  
+
+ok['Mass Diff (ppm)'] = pandas.to_numeric(ok['Mass Diff (ppm)'], errors='coerce')
+
 A=ok[r"Mass Diff (ppm)"]
 B=ok[r"Decoy/Contaminant/Target"]=="T"
 C=ok[r"QValue Notch"]
