@@ -205,27 +205,27 @@ misassigned PSMs    & 0           & 1521          & 0            \\
 
 \subsubsection{Multi-Notch Search vs. Wide-Mass Search}
 
-Chick\citep{Chick_2015} showed that by significantly relaxing the parent mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified.
+Chick et al. showed that by significantly relaxing the parent mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified\citep{Chick_2015}.
 In particular, PTM-containing peptides could be identified from those MS2 fragments that did not possess the modification and the type of PTM could be inferred from differences in precursor and parent mass.
 A major limitation of the Chick work was the extremely long search times because of the vast number of theoretical candidate peptides that were evaluated for each and every MS2 spectrum.
 Recently, Kong\citep{Kong_2017} reported a new index-based search strategy (MSFragger) that radically improved search speeds for wide parent mass tolerance searches.
-Search times for +/- 500 Da parent tolerances went from six years to six seconds.
+Search times for $\pm 500$ Da parent tolerances went from six years to six seconds.
 The output of both search strategies is a list of PSMs, where the best matching unmodified theoretical peptide was found for each MS2 fragmentation spectrum and the mass difference between the theoretical and experimental precursor masses was determined.
-The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, with interpretation of the mass difference left as an exercise the user.
+The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, with interpretation of the mass difference left as an exercise for the user.
 
-There is a major problem with using the results from unrestricted precursor mass tolerance searches to infer peptide modifications regardless of whether or not they are of the Chick or Kong variety.
+There is a major problem with using the results from unrestricted precursor mass tolerance searches to infer peptide modifications regardless of whether they are of the Chick or Kong variety.
 The freedom in precursor mass difference results in a multitude of false positive \textit{mass difference identifications}.
 For example, small missed cleavages are often reported as mass differences.
 The peptide PEPKK is often identified as PEPK with a mass error of 128 Da (the converse is also true, PEPK may be identified with a mass error of -128 Da).
 This error is relatively easy to spot but when the missed cleavages contain multiple amino acids, the interpretation and discovery of the error is much more difficult.
 Another example of this relates to peptide modifications.
-The peptide PEPSphosphoK could be reported with a mass error of -79.96Da when the better identification would have been PEPSK.
-Constraining the search using the multi-notch approach described below, directly prohibits assignment of the best match for a peak erroneously, and instead produces an alternative peak assignment with a much lower false positive rate (see below).
+The phosphopeptide PEPpSK could be reported with a mass error of -79.96 Da when the better identification would have been PEPSK.
+Constraining the search using the multi-notch approach described below, directly prohibits erroneous assignment of the best match for a peak, and instead produces an alternative peak assignment with a much lower false positive rate (see below).
 
-The alternative we recommend, is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the least false positive PSM identifications.
+The alternative we recommend, is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the fewest false positive PSM identifications.
 
-To compare the multi-notch search with the wide-mass search, we conducted searches of all of Mouse fractions, with a multi-notch search with notches at 0 and 79.96, and a +/-500 Da wide mass search.
-The advantage of the multi-notch search over the wide-mass search is shown in Table~\ref{tbl:multiVsWide} by comparing mass difference histogram peak membership numbers.
+We compared searches of all Mouse islet fractions using a $\pm 500$ Da wide mass search versus a multi-notch search with notches at 0 and 79.96.
+The advantage of the multi-notch search over the wide-mass search is shown in Table~\ref{tbl:multiVsWide} by an increase in confidently identified PSMs (1\% FDR) for both regions (0 Da no-PTM peptides and +79.96 Da phosphorylated peptides).
 
 \begin{table}[]
 \centering
