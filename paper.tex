@@ -98,21 +98,22 @@ To clarify the advantage of each change, they are first discussed separately, fo
 
 A critical parameter for peptide identification is mass accuracy\citep{Scherl_2008}.
 Higher mass accuracy provides increased specificity and thus confidence in peptide identifications, decreasing the false discovery rate.
-Instrument noise, systemic drift and miscalibration limit the mass accuracy in acquired spectra.
-Multiple calibration strategies to improve mass accuracy have been devised, and fall into three general categories: External calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\citep{Olsen_2005}); and spectral calibration subsequent to the MS experiment (post-acquisition spectral calibration).
+Instrument noise, systematic drift and miscalibration all limit the mass accuracy in acquired spectra.
+Multiple calibration strategies to improve mass accuracy have been devised and fall into three general categories: external calibration prior to the MS experiment (e.g. standard instrument calibration protocols); internal calibration during the MS experiment (e.g. real-time calibration using a lock mass standard\citep{Olsen_2005}); and spectral calibration subsequent to the MS experiment (post-acquisition spectral calibration).
 We developed a post-acquisition calibration procedure that builds upon the software lock mass concept\citep{Cox_2011} recently reported by the Mann group.
-In our strategy, the m/z differences between expected and observed peaks in the peptide tandem ms spectra are compiled, and then used to recalibrate the spectra.
+In our strategy, the m/z differences between expected and observed peaks in the peptide tandem MS spectra are compiled, and then used to recalibrate the spectra.
 The spectral calibration procedure consists of two steps: Step 1: A narrow tolerance (e.g. 10 ppm precursor, 0.01 Dalton fragment) database search is performed on the dataset.
-This yields a set of peptide identifications subject to a desired false discovery rate (e.g 1\%; based upon the target:decoy strategy\citep{Elias_2007}).
+This yields a set of peptide identifications subject to a desired false discovery rate (e.g. 1\% based upon the target:decoy strategy\citep{Elias_2007}).
 Step 2: The identifications from Step 1 are used to extract peak matches from the spectra, and a peak shifting procedure is performed.
 The calibration algorithm is described in detail in Supplementary Material 2.
 
-We demonstrate the effectiveness of the calibration approach using a single CAST Mouse raw file as an example by displaying the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, before and after the calibration procedure is applied.
-In Figure~\ref{fgr:fig1-calibErrors} these errors are plotted versus two important variables: the m/z value of the peak and the retention time of the corresponding scan.
+We demonstrate the effectiveness of the calibration approach using a single CAST Mouse raw file as an example.
+Figure~\ref{fgr:fig1-calibErrors} displays the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, both before and after the calibration procedure is applied.
+These errors are plotted versus two important variables: the m/z value of the peak and the retention time of the corresponding scan.
 Calibration successfully removes both linear and non-linear dependencies between the m/z errors and these variables.
-We note that in addition to these two parameters, the calibration function native to MetaMorpheus also considers  peak intensity, injection time, total ion count, and other variables as potentially influencing the m/z errors.
-In addition, MetaMorpheus calibrates both MS1 and MS2 (using MS2 fragment matches), but only results from MS1 are shown here.
-The complete list of parameters analyzed in the calibration is provided as Table lala in the supplement. 
+We note that in addition to these two parameters, the calibration function native to MetaMorpheus also considers peak intensity, injection time, total ion count, and other variables as potentially influencing the m/z errors.
+MetaMorpheus calibrates both MS1 and MS2 scans (using MS2 fragment matches), but only the results from MS1 are shown here.
+MetaMorpheus calibrated files are verified to be compatible with a variety of tools and workflows, including TPP, Mascot, and MsFragger.
 
 \begin{figure}[H]
  \includegraphics{fig1-calibErrors.png}
@@ -120,12 +121,13 @@ The complete list of parameters analyzed in the calibration is provided as Table
  \label{fgr:fig1-calibErrors}
 \end{figure}
 
-Calibration quality improvements are further shown through the results of standard 10ppm precursor tolerance database search, conducted on uncalibrated vs calibrated spectra files.
-Table~\ref{tbl:calib} details the results of these searches, showing the number of confidently identified PSMs, the average ppm differences between the identified peptide and the precursor mass, and the standard deviation of those differences.
-The calibration procedure successfully addresses instrument miscalibration by centering the average ppm error around zero.
-The systemic noise introduced by various other factors is also addressed: this is evident in the decrease in the standard deviation of the errors in the precursor mass estimates, which show that the calibrated mass spectra have sub-ppm mass errors.
+Calibration quality improvements are also shown by the results of a standard database search, conducted on uncalibrated versus calibrated spectra using a 10 ppm precursor mass tolerance.
+Table~\ref{tbl:calib} details the results of these searches.
+The calibration procedure successfully addresses instrument miscalibration by centering the mass errors around zero ppm.
+The systematic noise introduced by various other factors has also been corrected, as evidenced by the decrease in the standard deviation of the errors in the precursor masses, which shows that the calibrated mass spectra predominantly have sub-ppm mass errors.
+A beneficial side effect of calibration is a corresponding increase in the number of confidently identified PSMs by around 1\%, when using the same wide 10 ppm precursor mass tolerance.
 Histograms of the mass errors in identified peptides before and after calibration are plotted in Figure~\ref{fgr:fig2-10ppmSearchCalib}.
-The main results of calibration in summary are increased PSMs at 1\% FDR, decreased error in precursor mass, and decreased standard deviation in average mass error. 
+In summary, the main results of calibration are: more PSMs at 1\% FDR, decreased error in precursor mass, and decreased standard deviation in average mass error.
 
 \begin{table}[]
 \centering
