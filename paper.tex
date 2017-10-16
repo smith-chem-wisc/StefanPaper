@@ -39,27 +39,27 @@ Information about a modification often includes the chemical or isotopic composi
 Protein databases such as UniProt\citep{Uniprot_2017} include information on the localization of specific modifications to specific residues in the protein, but this information is incomplete.
 Despite the extensive cataloging of the different possible protein modifications, their comprehensive discovery and identification in complex biological samples has continued to pose a challenge for proteomics\citep{Olsen_2013}.
 
-Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist, and those address primarily common modifications (e.g. phosphorylations) in well-studied systems.
-Global discovery tools, such as MODa\citep{Na_2011} are also available.
-G-PTM-D\citep{Li_2016} is one recently described bioinformatics tool for high confidence identification and localization of a wide variety of different PTMs.
-The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\citep{Chick_2015, Na_2011}, that provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
+Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist.
+These primarily address common modifications (e.g. phosphorylations) in well-studied systems, but global discovery tools, such as MODa\citep{Na_2011} and G-PTM-D\citep{Li_2016}, are also available.
+G-PTM-D is a bioinformatics tool for high confidence identification and localization of a wide variety of different PTMs.
+The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\citep{Chick_2015, Na_2011}, which provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
 2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the corresponding protein entries in the search database;
 3) A final standard narrow-mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
 
-As described above, G-PTM-D has a few significant limitations.
+While G-PTM-D delivers confident identification of numerous types of PTMs, it has a few significant limitations.
 The initial wide-mass search procedure is slow, taking hours for modest size datasets.
-Due to this, high mass modifications, such as glycosylations are out of reach, since widening the search window from the suggested $\pm 200$ Da increases the search time even more.
-The final narrow-mass search is also problematic, since it does not account for peptide-spectral matches(PSMs) with mass differences arising due to misidentifying the monoisotopic peak.
-In G-PTM-D, modification discovery is limited to PTMs in the UniProt database: this is a significant limitation since that database does not include modifications arising from sample handling, and ignoring those modifications significantly degrades the final PTM identification rates.
+Thus, high mass modifications such as glycosylations are out of reach, since widening the search window from the suggested $\pm 200$ Da increases the already-slow search time.
+The final narrow-mass search is also problematic, as it does not account for peptide-spectral matches (PSMs) with mass differences arising from misassignment of the monoisotopic peak.
+Discovery of modifications is limited to PTMs in the UniProt database: this is a significant limitation since that database does not include modifications arising from sample handling, and ignoring those modifications significantly degrades the final PTM identification rates.
 Finally, PTMs that are similar in mass, such as phosphorylation (79.966331 Da) and sulfonation (79.956815 Da), are problematic since they are virtually indistinguishable in unprocessed spectral files.
 These limitations motivated the work described here.
 
-Spectral calibration is essential for distinguishing modifications with similar mass, so we recommend running the G-PTM-D procedure only on calibrated spectra files.
-To address the long search times of the wide-mass search, we replace the wide-mass search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected modification masses (e.g. PTMs and amino acids).
+Spectral calibration is essential for distinguishing modifications with similar mass, and so we recommend running the G-PTM-D procedure on calibrated spectra files.
+To address the long search times of the wide-mass search, we replace the wide-mass search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected masses (e.g. PTMs and amino acids).
 This change improves the specificity of the search and significantly decreases search time.
-The final narrow-mass search is also replaced by a limited multi-notch search that accommodates errors in precursor mass deconvolution (+1.0029, + 2.0054 and + 3.0078 Da), further increasing the number of confidently identified peptides and PTMs.
-Finally, we replace the limited UniProt PTM list with a customizable expanded list of modifications that includes chemical adducts, glycosylations, lipids, and other important modifications.
-This change not only expands the list of identified and localized modifications, but also indirectly improves the confident PSM count.
+The final narrow-mass search is also replaced by a limited multi-notch search that accommodates errors in the precursor mass deisotoping (+1.0029 and + 2.0054), further increasing the number of confidently identified peptides and PTMs.
+Finally, we replace the limited UniProt PTM list with a custom expanded list of modifications that includes chemical adducts, glycosylations, lipids, and other important modifications.
+This change not only expands the list of identified and localized modifications, but also increases the number of confidently identified PSMs.
 The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
 
 \begin{figure}[H]
@@ -71,14 +71,19 @@ The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
 
 \section{Experimental Procedures}
 
-We developed a modified version of the Morpheus software for bottom-up spectral database searching\citep{Wenger_2013} that we call MetaMorpheus\footnote{Free and Open Source software available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}}, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
-Three multi-fraction mammalian datasets (Jurkat cell, C57BL/6J (B6) and CAST/EiJ (CAST) mouse islet lysates) with deep proteome coverage were used to evaluate performance.
-These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells, and 18 fractions from Mouse islets, and are described in detail in~\citep{Shortreed_2015, Cesnik_2016}.
+We developed a modified version of the Morpheus software for bottom-up spectral database searching\citep{Wenger_2013} that we call MetaMorpheus, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
+MetaMorpheus is freely available as a standalone Windows executable program from GitHub \url{https://github.com/smith-chem-wisc/MetaMorpheus}.
+All of the source code is also available at that link.
+MetaMorpheus heavily utilizes a NuGet package called mzLib, which is a vast library of software tools for analyzing and processing mass spectral data.
+mzLib can be found at link \url{https://github.com/smith-chem-wisc/mzLib}.
 
-UniProt XML protein databases acquired on Feb 27, 2017 containing only reviewed human/mouse proteins were employed.
+Three multi-fraction mammalian datasets with deep proteome coverage were used to evaluate performance.
+These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells and 9 fractions from each of two different pancreatic islets from two species of mice.
+These datasets are available at \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00215} and \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00470} repositories, and are described in detail in~\citep{Shortreed_2015, Cesnik_2016}.
 
-A 10ppm precursor mass tolerance is used for the initial calibration step, and then reduced to 5ppm for subsequent searches.
-We allowed 120 modifications including PTMs, adducts, and chemical modifications in the database augmentation step, see Supplementary Material 1 for a complete listing.
+UniProt XML protein databases used were downloaded on Sept 14, 2017, and contained only reviewed human/mouse proteins.
+
+209 modifications including PTMs, adducts, and chemical modifications were allowed in the database augmentation step, see Supplementary Table 1 for a complete listing.
 
 \section{Results and Discussion}
 
@@ -174,12 +179,6 @@ The major limitation of this approach is that a 2 or 3 Da tolerance includes mas
 This may happen when the mass difference arises due to identified peptide being different from the actual isolated one by a low mass modification or an amino acid substitution.
 
 The described issues are apparent in mass difference histograms in Figure~\ref{fig:fig4mouse-1012}, generated by compiling the results of a 2.5 Da tolerance single-notch search.
-
-\begin{figure}
-\caption{Jurkat histograms around 0}
-\label{fig:fig4mouse-1012}
-\includegraphics{fig4mouse-1012.png}
-\end{figure}
 
 An alternative to these two traditional single-notch searches is a limited multi-notch search that allows mass differences between precursor and theoretical peptide of 0, 1.0029 or 2.0054 Da but limits the width about any one of those three tolerances to a few ppm (1-20 ppm).
 This approach provides a means of getting an increased number of correct identifications but mitigates problems with wrong identifications.
