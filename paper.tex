@@ -281,15 +281,20 @@ It is evident from these histograms that the phosphorylation and sulfonation pea
 
 [THERE IS SUPPOSED TO BE A COOL FIGURE HERE]
 
-G-PTM-D originally added PTMs with masses that were included in the UniProt PTM list. 
-We have since increased the variety of PTMs added but including a number of new notches in the G-PTM-D first pass search. The new notches correspond to metal adducts (e.g. Na and K), glycosylations., sample handling and processing artifacts (e.g. carbamylation, ammonia loss), lipidation, and etc.
-MSFragger has limited mass range as reported. We identified peaks with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
-Some of these problematic histogram peaks are illustrated in Figure, including peaks corresponding to masses of Sulfonation and Phosphorylation, and a problematic peak at mass of Leucine, with a high FDR.
-Some Histogram Peaks For Mouse Data Some Histogram Peaks For Mouse Data We identified some specific mass shifts that are characterized by anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals .
+G-PTM-D originally added PTMs with masses that were included in the UniProt PTM list.
+We have since greatly increased the variety of PTMs added by including a number of new notches in the G-PTM-D first pass search.
+The new notches correspond to metal adducts (e.g. Na and K), glycosylations., sample handling and processing artifacts (e.g. carbamylation, ammonia loss), lipidation, and etc.
+The improvement in accuracy and lowering of mass error were sufficient that many new modifications at large mass and many PTM combinations could be confidently added and discovered using the newly enhanced G-PTM-D approach.
+We show, in TABLE/FIGURE below a list of PTMs used in the original G-PTM-D search along with the list of PTMs used in the enhanced G-PTM-D search.
+The number of different modifications increased from 22 to 333.
+The total number of PSMs increased by . We also show in the table the associated local FDR.
+
+We identified peaks in the original G-PTM-D approach with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
+Some of these problematic histogram peaks are illustrated in Figure, including peaks corresponding to masses of sulfonation and phosphorylation, and a problematic peak at mass of Leucine, with a high FDR (see Table above).
+INSERT A GREAT PLOT HERE We identified some specific mass shifts that are characterized by anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
 MSFragger also doesn’t automatically calibrate spectra prior to searching.
 Therefore, mass differences from closely spaced PTMs (e.g. phosphorylation and sulfonation) can easily be misinterpreted.
 MetaMorpheus has built in functionality to identify multiple peptides from each tandem mass spectrum resulting in improved identification of peptides and peptide modifications.
-
 
 By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in UniProt, the number of confidently identified PSMs increased by 6\%.
 The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-labelff}.
@@ -328,9 +333,6 @@ We observe that when using an incomplete database that does not include comprehe
 \end{tabular}
 \end{table}
 
-Since the protein database is annotated with PTMs from the UniProt PTM list, it is natural to use it in the augmentation step as well.
-It has a few significant drawbacks: Some mass values do not correspond to actual mass shifts, lability of modifications is not taken into account, and many PTMs are missing, including adducts and glycosylations.
-Notch searches allow using expanded modification lists that include chemical modifications such as adducts and large mass PTMs such as glycosylations.
 Even though adducts arising from experimental artifacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMs.
 A curated set of notches and the corresponding modifications is given in Appendix A.
 The overall identification rate increased from 164,697 to 179,345 peptide-spectral matches (PSMs), which in turn increased the number of modified peptides by an additional 20\%.
@@ -348,8 +350,12 @@ We identified hundreds of glycosylated peptides in these unenriched samples, wit
 \end{tabular}
 \end{table}
 
+In the final table of this manuscript we show the combined effect of all G-PTM-D enhancements (calibration, mult-notch search for PTMs, limited multi-notch final search and coisolation.
+The number of PSMs, PTMs, unique peptides, PTM-containing proteins all went up a bunch.
+The total search time dropped by an order of magnitude.
+These enhancements demonstrate that this approach can and should be used whenever bottom-up proteomics is done. It is fast enough to be part of every regular work-flow.
+And, the significant contribution of signal from PTM peptides is clearly beneficial to biologists seeking to understand their data better.
 
-%
 \begin{acknowledgement}
 
 The authors thank \ldots
