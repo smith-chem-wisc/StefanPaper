@@ -262,19 +262,19 @@ This expanded list of precursors is used in every spectrum match, frequently res
 
 \subsection{Enhanced G-PTM-D Results}
 
-In the original G-PTM-D manuscript, an open mass search (+/- 200-500Da) was used to create a histogram of mass difference peaks, from which a number of PTMs could be inferred.
-A perl script was used to mine those mass differences to modify a proteomics database with potential PTMs.
+In the original G-PTM-D manuscript, an open mass search ($\pm 200-500 $ Da) was used to create a histogram of mass difference peaks, from which a number of PTMs could be inferred.
+A Perl script was used to mine those mass differences to modify a proteomics database with potential PTMs.
 This database was used for a final search and a number of PTMs were identified.
 There were several limitations to that work.
 One, the open mass search was really slow.
 Two, uncalibrated data made it hard to discern closely spaced modifications.
 Three, certain mass differences with high FDRs were incorrectly allowed.
 Four, missed monoisotopic peaks and co-isolated peaks were not handled.
-Five, separate programs were required (both Morpheus and a perl script).
+Five, separate programs were required (both Morpheus and a Perl script).
 MetaMorpheus resolves all of these issues and more.
 Below we will show how each individual enhancement to G-PTM-D improved performance over the original work and then we will show at the end, the combined effect of all enhancements.
 
-A major improvement in G-PTM-D performance arises from using calibrated spectra as inputs to the procedure. 
+A major improvement in G-PTM-D performance arises from using calibrated spectra as inputs to the procedure.
 Calibration and the associated increase in mass accuracy is essential for discrimination of small differences between mass shifts due to different modifications.
 To illustrate this, mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:phosphoHistograms}.
 It is evident from these histograms that the phosphorylation and sulfonation peaks are clearly separated and identifiable when the search is conducted on well-calibrated spectra.
