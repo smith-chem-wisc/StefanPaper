@@ -29,35 +29,34 @@ G-PTM-D\citep{Li_2016} is a recently developed tool for global identification an
 Spectral file calibration prior to applying G-PTM-D, and algorithmic enhancements in the peptide database search shown here significantly increase the accuracy and speed of PTM identification.
 We enhance G-PTM-D by using targeted multi-notch searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations.
 The changes described in this work lead to a 20\% increase in the number of identified modifications and an order of magnitude decrease in the search time.
-Targeted multi-notch searches are also shown to be useful in contexts other than G-PTM-D, producing superior results when used instead of standard narrow-mass and wide-mass searches.
+Targeted multi-notch searches are also shown to be useful in contexts other than G-PTM-D, producing superior results when used instead of standard narrow-window and open database searches.
 \end{abstract}
 
 \section{Introduction}
 
-Many types of post-translational modifications (PTMs) are known, and databases containing detailed information about such modifications are readily available\citep{Creasy_2004}.
+Many types of protein post-translational modifications (PTMs) are known, and databases containing detailed information about such modifications are readily available\citep{Creasy_2004}.
 Information about a modification often includes the chemical or isotopic composition, mass, specificity to certain residues, and possible restriction of placement to peptide or protein termini.
-Protein databases such as UniProt\citep{Uniprot_2017} include information on the localization of specific modifications to specific residues in the protein, but this information is incomplete.
-Despite the extensive cataloging of the different possible protein modifications, their comprehensive discovery and identification in complex biological samples has continued to pose a challenge for proteomics\citep{Olsen_2013}.
+Protein databases such as UniProt\citep{Uniprot_2017} include information on the localization of specific modifications to specific residues in the protein, but this information is far from complete.
+Despite the extensive cataloging of the different protein modifications, their comprehensive discovery and identification in complex biological samples has continued to pose a challenge for proteomics\citep{Olsen_2013}.
 
 Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist.
-These primarily address common modifications (e.g. phosphorylations) in well-studied systems, but global discovery tools, such as MODa\citep{Na_2011} and G-PTM-D\citep{Li_2016}, are also available.
-G-PTM-D is a bioinformatics tool for high confidence identification and localization of a wide variety of different PTMs.
-The G-PTM-D workflow consists of three stages: 1) A wide-mass database search\citep{Chick_2015, Na_2011}, which provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
+These primarily address common modifications (e.g. phosphorylations) in well-studied systems, but global discovery tools, such as MODa\citep{Na_2011} and G-PTM-D\citep{Li_2016}, for identification and localization of a wide variety of different PTMs are also available.
+The G-PTM-D workflow consists of three stages: 1) A wide precursor mass tolerance database search ('open' search)\citep{Chick_2015, Na_2011}, which provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
 2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the corresponding protein entries in the search database;
-3) A final standard narrow-mass search of the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
+3) A final standard tight precursor tolerance search ('narrow-window' search) using the augmented database to identify both modified and unmodified peptides subject to the standard FDR threshold (e.g. 1\% FDR).
 
 While G-PTM-D delivers confident identification of numerous types of PTMs, it has a few significant limitations.
-The initial wide-mass search procedure is slow, taking hours for modest size datasets.
+The initial open search is slow, taking hours for modest size datasets.
 Thus, high mass modifications such as glycosylations are out of reach, since widening the search window from the suggested $\pm 200$ Da increases the already-slow search time.
-The final narrow-mass search is also problematic, as it does not account for peptide-spectral matches (PSMs) with mass differences arising from misassignment of the monoisotopic peak.
+The final narrow-window search is also problematic, as it does not account for peptide-spectral matches (PSMs) with mass differences arising from misassignment of the monoisotopic peak during precursor deisotoping.
 Discovery of modifications is limited to PTMs in the UniProt database: this is a significant limitation since that database does not include modifications arising from sample handling, and ignoring those modifications significantly degrades the final PTM identification rates.
 Finally, PTMs that are similar in mass, such as phosphorylation (79.966331 Da) and sulfonation (79.956815 Da), are problematic since they are virtually indistinguishable in unprocessed spectral files.
 These limitations motivated the work described here.
 
 Spectral calibration is essential for distinguishing modifications with similar mass, and so we recommend running the G-PTM-D procedure on calibrated spectra files.
-To address the long search times of the wide-mass search, we replace the wide-mass search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected masses (e.g. PTMs and amino acids).
+To address the long search times of the open search, we replace the search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected masses (e.g. PTMs and amino acids).
 This change improves the specificity of the search and significantly decreases search time.
-The final narrow-mass search is also replaced by a limited multi-notch search that accommodates errors in the precursor mass deisotoping (+1.0029 and + 2.0054), further increasing the number of confidently identified peptides and PTMs.
+The final narrow-window search is also replaced by a limited multi-notch search that accommodates errors in the precursor mass deisotoping (+1.0029 and + 2.0054), further increasing the number of confidently identified peptides and PTMs.
 Finally, we replace the limited UniProt PTM list with a custom expanded list of modifications that includes chemical adducts, glycosylations, lipids, and other important modifications.
 This change not only expands the list of identified and localized modifications, but also increases the number of confidently identified PSMs.
 The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
@@ -72,16 +71,16 @@ The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
 \section{Experimental Procedures}
 
 We developed a modified version of the Morpheus software for bottom-up spectral database searching\citep{Wenger_2013} that we call MetaMorpheus, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
-MetaMorpheus is freely available as a standalone Windows executable program from GitHub \url{https://github.com/smith-chem-wisc/MetaMorpheus}.
-All of the source code is also available at that link.
-MetaMorpheus heavily utilizes a NuGet package called mzLib, which is a vast library of software tools for analyzing and processing mass spectral data.
-mzLib can be found at link \url{https://github.com/smith-chem-wisc/mzLib}.
+MetaMorpheus is freely accessible at \url{https://github.com/smith-chem-wisc/MetaMorpheus} as a standalone Windows executable program.
+.NET Core versions, as well as the complete source code are available.
+MetaMorpheus heavily utilizes an auxiliary library called mzLib, which is a vast library of software tools for analyzing and processing mass spectral data.
+mzLib can be found at \url{https://github.com/smith-chem-wisc/mzLib}.
 
 Three multi-fraction mammalian datasets with deep proteome coverage were used to evaluate performance.
 These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells and 9 fractions from each of two different pancreatic islets from two species of mice.
-These datasets are available at \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00215} and \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00470} repositories, and are described in detail in~\citep{Shortreed_2015, Cesnik_2016}.
+These datasets are available at \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00215} and \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00470}, and are described in detail in~\citep{Shortreed_2015, Cesnik_2016}.
 
-UniProt XML protein databases used were downloaded on Sept 14, 2017, and contained only reviewed human/mouse proteins.
+UniProt XML protein databases used were downloaded on Sept 14, 2017, and contain only reviewed human/mouse/contaminant proteins.
 
 209 modifications including PTMs, adducts, and chemical modifications were allowed in the database augmentation step, see Supplementary Table 1 for a complete listing.
 
@@ -89,7 +88,7 @@ UniProt XML protein databases used were downloaded on Sept 14, 2017, and contain
 
 This work presents four major changes to the previously published G-PTM-D workflow:
 a spectral calibration;
-a replacement of the wide parent mass tolerance search with a custom multi-notch search for PTM discovery;
+a replacement of the open search with a custom multi-notch search for PTM discovery;
 replacement of the final traditional narrow mass search with a limited multi-notch search that permits identification of incorrectly deconvoluted precursor masses;
 and lastly, addition of capacity for identification of multiple co-fragmented peptides from a single MS/MS scan.
 To clarify the advantage of each change, they are first discussed separately, followed by an analysis of their combined effect upon overall G-PTM-D performance.
@@ -153,13 +152,12 @@ In summary, the main results of calibration are: more PSMs at 1\% FDR, decreased
 \subsection{Multi-Notch Searches}
 
 It is useful to carefully describe the two commonly used database search approaches, prior to defining multi-notch searches and the impact that they have on G-PTM-D performance.
-A traditional search in bottom-up proteomics considers potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal within some defined tolerance (e.g. 5ppm, or 2.1 Da).
-We refer to this type of search here as a \textit{single-notch} search.
-The other common search is a \textit{wide-parent tolerance search} (e.g. $\pm 500$ Da)\citep{Chick_2015,Kong_2017,Li_2016}.
+A traditional narrow-window search in bottom-up proteomics considers potential matches between theoretical peptides and experimental spectra if the candidate peptide mass and the observed precursor mass are equal within some defined tolerance (e.g. 5ppm, or 2.1 Da).
+The other common search is an open search (e.g. $\pm 500$ Da)\citep{Chick_2015,Kong_2017,Li_2016}.
 In searches of that type, the precursor mass and the mass of the best matching theoretical peptide could be many Da apart.
 We describe an alternative to these search modes: the \textit{multi-notch} search.
-This search is an extension of the single-notch search that allows a variety of multiple specific mass differences between precursor mass and theoretical mass (See Figure~\ref{fig:fig3-searchTypes}) where the mass difference is easily interpretable.
-It can also be seen as a narrowing of the wide-parent tolerance search to only include prespecified mass differences.
+This search is an extension of the narrow-window search that allows a variety of multiple specific mass differences between precursor mass and theoretical mass (See Figure~\ref{fig:fig3-searchTypes}) where the mass difference is easily interpretable.
+It can also be seen as a narrowing of the open search to only allow prespecified mass differences.
 The advantages and disadvantages of this alternative strategy are described below.
 
 \begin{figure}[H]
@@ -168,22 +166,22 @@ The advantages and disadvantages of this alternative strategy are described belo
 \label{fig:fig3-searchTypes}
 \end{figure}
 
-\subsubsection{Traditional Single-Notch Search vs. Limited Multi-Notch Search}
+\subsubsection{Traditional Narrow-Window Search vs. Limited Multi-Notch Search}
 
-The traditional single-notch search limits the range of acceptable mass differences between a candidate peptide and the observed experimental precursor in order to find an exact match to the observed peptide in a protein database.
+The traditional narrow-window search limits the range of acceptable mass differences between a candidate peptide and the observed experimental precursor in order to find an exact match to the observed peptide in a protein database.
 A mass tolerance of <20ppm is commonly used on high-resolution MS1 data, resulting in a highly restrictive search.
-It is not uncommon for the precursor mass tolerance of single-notch searches to be relaxed to as much as 2 or 3 Da.
+It is not uncommon for the precursor mass tolerance of narrow-window searches to be relaxed to as much as 2 or 3 Da.
 One rationale for this is that errors in the deisotoping of MS1 spectra frequently result in a reported experimental precursor mass being different by 1.0029 or 2.0054 Da from the true isolated peptide mass.
 The relaxed tolerance approach identifies those peptides correctly.
 A second rationale for this approach is that multiple peptides are frequently co-isolated and co-fragmented with all peptide fragments being observed in the same tandem mass spectrum.
 Frequently, the best-fragmented peptide is different from the one corresponding to the precursor mass reported by the instrument, and the relaxed tolerance approach may identify this peptide, provided the reported charge state matches.
-The major limitation of this approach is that a 2 or 3 Da tolerance includes mass shifts that, when present, may indicate that the matched peptide is not the correct identification, arguably defeating the purpose of a narrow-mass search.
+The major limitation of this approach is that a 2 or 3 Da tolerance includes mass shifts that, when present, may indicate that the matched peptide is not the correct identification, arguably defeating the purpose of a narrow-window search.
 This may happen when the mass difference arises due to the identified peptide being different from the actual isolated precursor by a low mass modification or amino acid substitutions.
 
-The described issues are apparent in mass difference histograms in Figure~\ref{fig:fig4mouse-1012}, generated by compiling the results of a 2.5 Da tolerance single-notch search.
+The described issues are apparent in mass difference histograms in Figure~\ref{fig:fig4mouse-1012}, generated by compiling the results of a 2.5 Da tolerance narrow-window search.
 These plots clearly show that numerous peptides have missed monoisotopic (Mm) peaks, deamidation, or an amino acid substitution.
 
-We propose a limited multi-notch search as a remedy to the trade-offs caused by choosing a narrow (few ppm) or wider (few Da) precursor mass tolerance during a traditional single-notch search.
+We propose a limited multi-notch search as a remedy to the trade-offs caused by choosing a narrow (few ppm) or wider (few Da) precursor mass tolerance during a traditional narrow-window search.
 This limited multi-notch search allows mass differences between precursor and theoretical peptides of 0, 1.0029 and 2.0054 Da, but it limits the width around these three mass differences to a few ppm (1-20 ppm).
 This approach provides a means of getting an increased number of correct identifications while mitigating problems with incorrect identifications.
 This alternative would appear to result in loss of identification of co-isolated peptides, but MetaMorpheus is programmed to handle this problem by identifying multiple co-isolated precursor masses (see section below).
@@ -194,7 +192,7 @@ We consider PSMs to be misassigned if the G-PTM-D procedure determines a higher-
 
 \begin{table}[]
 \centering
-\caption{Notch Search vs Narrow-Mass Search comparison of PSMs for Mouse}
+\caption{Notch Search vs Narrow-Window Search comparison of PSMs for Mouse}
 \label{tbl:singleVsMultiNotch}
 \begin{tabular}{llll}
                     & 5ppm Search & 3.5 Da Search & Notch Search \\
@@ -203,13 +201,13 @@ misassigned PSMs    & 0           & 1521          & 0            \\
 \end{tabular}
 \end{table}
 
-\subsubsection{Multi-Notch Search vs. Wide-Mass Search}
+\subsubsection{Multi-Notch Search vs. Open Search}
 
-Chick et al. showed that by significantly relaxing the parent mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified\citep{Chick_2015}.
-In particular, PTM-containing peptides could be identified from those MS2 fragments that did not possess the modification and the type of PTM could be inferred from differences in precursor and parent mass.
+Chick et al. showed that by significantly relaxing the precursor mass tolerance in bottom-up searches, an incredible variety of unforeseen peptides were being fragmented and could be identified\citep{Chick_2015}.
+In particular, PTM-containing peptides could be identified from those MS2 fragments that did not possess the modification and the type of PTM could be inferred from differences in identified peptide mass and precursor mass.
 A major limitation of the Chick work was the extremely long search times because of the vast number of theoretical candidate peptides that were evaluated for each and every MS2 spectrum.
-Recently, Kong\citep{Kong_2017} reported a new index-based search strategy (MSFragger) that radically improved search speeds for wide parent mass tolerance searches.
-Search times for $\pm 500$ Da parent tolerances went from six years to six seconds.
+Recently, Kong\citep{Kong_2017} reported a new index-based search strategy (MSFragger) that radically improved search speeds for open searches.
+Search times for $\pm 500$ Da precursor tolerance went from six years to six seconds.
 The output of both search strategies is a list of PSMs, where the best matching unmodified theoretical peptide was found for each MS2 fragmentation spectrum and the mass difference between the theoretical and experimental precursor masses was determined.
 The mass differences can be clustered into histogram peaks\citep{Rodriguez_2014}, with interpretation of the mass difference left as an exercise for the user.
 
@@ -225,14 +223,14 @@ Constraining the search using the multi-notch approach described below, directly
 The alternative we recommend, is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the fewest false positive PSM identifications.
 
 We compared searches of all Mouse islet fractions using a $\pm 500$ Da wide mass search versus a multi-notch search with notches at 0 and 79.96.
-The advantage of the multi-notch search over the wide-mass search is shown in Table~\ref{tbl:multiVsWide} by an increase in confidently identified PSMs (1\% FDR) for both regions (0 Da no-PTM peptides and +79.96 Da phosphorylated peptides).
+The advantage of the multi-notch search over the open search is shown in Table~\ref{tbl:multiVsWide} by an increase in confidently identified PSMs (1\% FDR) for both regions (0 Da no-PTM peptides and +79.96 Da phosphorylated peptides).
 
 \begin{table}[]
 \centering
-\caption{Multi-Notch Search vs. Wide-Mass Search}
+\caption{Multi-Notch Search vs. Open Search}
 \label{tbl:multiVsWide}
 \begin{tabular}{lll}
-                    & Multi-Notch & Wide-Mass\\
+                    & Multi-Notch & Open\\
 0 peak & 139374      & 137483        \\
 79.96 peak & 3402           & 3298          \\
 \end{tabular}
@@ -296,7 +294,7 @@ MSFragger also doesn’t automatically calibrate spectra prior to searching.
 Therefore, mass differences from closely spaced PTMs (e.g. phosphorylation and sulfonation) can easily be misinterpreted.
 MetaMorpheus has built in functionality to identify multiple peptides from each tandem mass spectrum resulting in improved identification of peptides and peptide modifications.
 
-By employing the novel notch search strategy instead of the wide-mass search in the G-PTM-D process, using only the modifications listed in UniProt, the number of confidently identified PSMs increased by 6\%.
+By employing the novel multi-notch search strategy instead of the open search in the G-PTM-D process, using only the modifications listed in UniProt, the number of confidently identified PSMs increased by 6\%.
 The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-labelff}.
 
 \begin{table}[]
@@ -316,17 +314,17 @@ The overall search time dropped significantly, from 35 hours to 4 hours for all 
 
 
 The final notch search uses notches centered at \{0, 1.0029, 2.0054\}, in order to capture missed identifications due to missed monoisotopic peaks.
-The results are contrasted with the standard narrow-mass final search.
+The results are contrasted with the standard narrow-window final search.
 The effect of using these notches is shown in Table~\ref{tab:table2}.
 
-We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the single-notch searches.
+We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the narrow-window searches.
 
 \begin{table}[]
 \centering
-\caption{Effects of Replacing Final Narrow-Mass Search by a Notch Search}
+\caption{Effects of Replacing Final Narrow-Window Search by a Notch Search}
 \label{tab:table2}
 \begin{tabular}{ll|l|l}
-                      &        & Narrow-Mass Search & Notch Search\\
+                      &        & Narrow-Window Search & Notch Search\\
 \hline
 \multirow{2}{*}{PSMs} & Jurkat  & 210566   &  220574  \\
                       & Mouse    & 162473   &   170743
