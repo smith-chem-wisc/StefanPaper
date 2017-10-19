@@ -19,7 +19,7 @@ yTicks = [1,2]
 
 plt.ylim([0.5,2.5])
 plt.yticks(yTicks, ylabels)
-plt.title("Narrow-Mass Search")
+plt.title("Narrow-Window Search")
 
 plt.subplot(312)
 
@@ -31,7 +31,7 @@ plt.plot(dates, values, '-')
 ylabels = ['Reject', 'Accept']
 yTicks = [1,2]
 
-plt.title("Notch Search")
+plt.title("Multi-Notch Search")
 plt.ylim([0.5,2.5])
 
 plt.yticks(yTicks, ylabels)
@@ -50,7 +50,7 @@ yTicks = [1,2]
 
 plt.ylim([0.5,2.5])
 
-plt.title("Wide-Mass Search")
+plt.title("Open Search")
 
 plt.yticks(yTicks, ylabels)
 plt.tight_layout()
