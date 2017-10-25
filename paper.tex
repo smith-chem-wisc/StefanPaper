@@ -209,7 +209,10 @@ misassigned PSMs    & ?           & ?          & ?            \\
 \end{table}
 
 A specific example of a misassigned PSM is the example where the correct identification has oxidation and ammonia loss, but was identified as an unmodified peptide with score 10.
+It is Frac9 scan 21230.
 With G-PTM-D added modifications, it is clear that the correct identification has a mass difference of 0 and a score 20.
+
+\newpage
 
 \subsubsection{Multi-Notch Search vs. Open Search}
 
@@ -231,21 +234,35 @@ The phosphopeptide PEPpSK could be reported with a mass error of -79.96 Da when 
 
 The alternative we recommend, is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the fewest false positive PSM identifications.
 
-We compared searches of all Mouse islet fractions using a $\pm 500$ Da wide mass search versus a multi-notch search with notches at 0 and 79.96.
-The advantage of the multi-notch search over the open search is shown in Table~\ref{tbl:multiVsWide} by an increase in confidently identified PSMs (1\% FDR) for both regions (0 Da no-PTM peptides and +79.96 Da phosphorylated peptides).
+We compared searches of all Jurkat fractions using a $\pm 500$ Da wide mass search versus a multi-notch search with notches at 0 and 79.961 with 0.02 Dalton tolerance.
+The advantage of the multi-notch search over the open search is shown in Table~\ref{tbl:multiVsWide} by at least a $10\%$ increase in the number of target PSMs with score of at least 9.079, for both regions (0 Da no-PTM peptides and +79.96 Da phosphorylated and sulfonated peptides).
+It is important to point out that the difference in the numbers of PSMs is not due to FDR considerations, but rather to the erroneous peak assignment in open searches.
 
 \begin{table}[]
 \centering
 \caption{Multi-Notch Search vs. Open Search}
 \label{tbl:multiVsWide}
 \begin{tabular}{lll}
-                    & Multi-Notch & Open\\
-0 peak & 139374      & 137483        \\
-79.96 peak & 3402           & 3298          \\
+                    & Open & Multi-Notch\\
+0 peak    & 176073  (0.15\% FDR)     & 193328 (0.23\% FDR)     \\
+79.96 peak     & 732   (0.68\% FDR)   & 957  (0.84\% FDR)           \\
 \end{tabular}
 \end{table}
 
+The same results are presented in a graph format in Figure~\ref{fig:fig6-ZeroAndPhospho}.
 
+\begin{figure}[H]
+\includegraphics{fig6-ZeroAndPhospho.png}
+\caption{Zero and Phoshpo and Sulfo}
+\label{fig:fig6-ZeroAndPhospho}
+\end{figure}
+
+A specific example of a PSM that has been erroneously assigned in a open search is scan 12835 in Jurkat frac 5.
+The open search identifies ATPARAPESPPSADPALVAGPAEEAEC[Common Fixed:Carbamidomethyl of C]PPPR as the best match with a score of 17.231 and mass difference of -416.31028, and a single missed cleavage.
+The identified b ion matches are 172.08479,269.13756,880.44028.
+The better match is identified by the multi-notch search, as APESPPSADPALVAGPAEEAEC[Common Fixed:Carbamidomethyl of C]PPPR with a score of 16.246 and mass difference of 79.9655, and no missed cleavages.
+The identified b ion matches are 168.08988,297.13247.
+So, instead of having a PSM with an unidentifiable mass shift of -416.31028 (mass of removal of ATPAR and addition of phosphorylation), we have an easily identifyable mass shift corresponding to a phosphoyrlation site.
 
 \subsection{Co-isolation}
 
@@ -261,11 +278,11 @@ It is shown in Figure~\ref{fig:fig5-coIsolationSpectrum}.
 \label{fig:fig5-coIsolationSpectrum}
 \end{figure}
 
-We showed above in some amazing figure an example where several peptides were co-eluting from the column into that mass-spec within the tolerance used for isolation for fragmentation.
-In that particular case, the precursor with m/z dsfadf was chosen for isolation and fragmentation.
+We showed above in Figure~\ref{fig:fig5-coIsolationSpectrum} an example where several peptides were co-eluting from the column into that mass-spec within the tolerance used for isolation for fragmentation.
+In that particular case, the precursor with m/z 726.65 was chosen for isolation and fragmentation.
 In a conventional search, only that precursor mass would be used to select a range of theoretical for comparison.
 However, all peptides in that range are co-fragmented and a better solution would be to use all co-isolated precursor masses.
-In MetaMorpheus, for each MS2 scan, the corresponding MS1 scan is deconvoluted and the complete list of precursors is gathered for the range surrounding the isolated precursor ($\pm 3$ Th).
+In MetaMorpheus, for each MS2 scan, the corresponding MS1 scan is deconvoluted and the complete list of precursors is gathered for the range surrounding the isolated precursor ($\pm 1.25$ Th).
 Each deconvoluted mass is used to select a range of theoreticals to use for identification.
 The result of this is that often, more than one peptide can be identified from a single MS2 scan.
 Below, in Table 3434, we should the number of PSMs for a raw file where we use only a single precursor mass and we compare that to the case where we allow for multiple different precursors.
