@@ -204,12 +204,26 @@ We consider PSMs to be misassigned if the G-PTM-D procedure determines a higher-
 \begin{tabular}{llll}
                     & 5ppm Search & 2.5 Da Search & Notch Search \\
 PSMs Within 1\% FDR & 275359      & 262543        & 279895       \\
-misassigned PSMs    & ?           & ?          & ?            \\
+misassigned PSMs    & 2041           & 9041          & 1371            \\
 \end{tabular}
 \end{table}
 
-A specific example of a misassigned PSM is the example where the correct identification has oxidation and ammonia loss, but was identified as an unmodified peptide with score 9.039 and mass difference of -1.03335 Da, with sequence QAFDDAIAELDTLNEDSYK, Jurkat Frac9 scan 20962.
+One example of a misassigned PSM, in the 2.5 Da Search, is the example where the correct identification has oxidation and ammonia loss, but was identified as an unmodified peptide with score 9.039 and mass difference of -1.03335 Da, with sequence QAFDDAIAELDTLNEDSYK, Jurkat Frac9 scan 20962.
 With G-PTM-D added modifications, the correct peptide is identified with sequence [PeptideTermMod:Ammonia loss on Q]QAFDDAIAELDTLNEDSY[Mod:Oxidation on Y]K. It has a mass difference of -0.00171(-0.79458 ppm) and a score 19.222.
+
+While this kind of misassgnment is not possible in the 5ppm narrow-window search, often missed monoistopes are assigned to a wrong sequence.
+
+Finally, even the multi-notch search has some misassignments.
+A specific example is 
+
+25956	0	25.126	20.112	AEDGHEEAMETEASTSGEV[Mod:Oxidation on V]AEVAEEAMETESSEK	AEDGHEEAM[Common Variable:Oxidation of M]ETEASTSGEVAEVAEEAMETESSEK	3614.45197	3614.45197
+
+130059	0.000192	18.168	13.096	[PeptideTermMod:Ammonia loss on Q]QLLC[Common Fixed:Carbamidomethyl of C]DLVGISPSSEHDVLK	LQALQSQVEFLEQSMVDK	2092.05106	2092.05106	0
+
+131801	0.000192	18.193	13.065	RN[Mod:Deamidation on N]DDISELEDLSELEDLK	LEEELSVEGNTDINTDLKD	2132.9961	2132.9961	0
+
+
+156807	0.000278	20.257	12.033	DLGLSESGE[Metal:Sodium on E]DVNAAILDESGK	PVTVEPMDQLDDEEGLPEK	2139.97838	2139.98818	-0.0098
 
 \newpage
 
@@ -261,10 +275,11 @@ The open search identifies ATPARAPESPPSADPALVAGPAEEAEC[Common Fixed:Carbamidomet
 The identified b ion matches are 172.08479,269.13756,880.44028.
 The better match is identified by the multi-notch search, as APESPPSADPALVAGPAEEAEC[Common Fixed:Carbamidomethyl of C]PPPR with a score of 16.246 and mass difference of 79.9655, and no missed cleavages.
 The identified b ion matches are 168.08988,297.13247.
-So, instead of having a PSM with an unidentifiable mass shift of -416.31028 (mass of removal of ATPAR and addition of phosphorylation), we have an easily identifyable mass shift corresponding to a phosphoyrlation site.
+So, instead of having a PSM with an unidentifiable mass shift of -416.31028 (mass of removal of ATPAR and addition of phosphorylation), we have an easily identifiable mass shift corresponding to a phosphorylation site.
 
 \subsection{Co-isolation}
 
+Peptide co-isolation and co-fragmentation complicates mass spec data analysis, but carefully taking co-isolation into account provides substantially better results~\cite{Zhang2014}.
 
 Consider the scan JurkatFrac12 scan 12336. Isolation m/z  = 726.65.
 Isolation width is 2.5 Th.
@@ -295,20 +310,19 @@ This is a big problem in general searches but also for open mass and multi-notch
 MetaMorpheus was programmed to ignore the precursor mass reported by the mass spectrometer in the mass spectrum and instead, deconvolutes all peaks in the MS1 spectrum associated with the tandem mass spectrum to recover all possible precursor masses.
 This expanded list of precursors is used in every spectrum match, frequently resulting in multiple peptide identifications from single tandem mass spectrum.
 
-
 \subsection{Enhanced G-PTM-D Results}
 
-In the original G-PTM-D manuscript, an open mass search ($\pm 200-500 $ Da) was used to create a histogram of mass difference peaks, from which a number of PTMs could be inferred.
+In the original G-PTM-D manuscript, an open mass search ($\pm 200-500$ Da) was used to create a histogram of mass difference peaks, from which PTMs could be inferred.
 A Perl script was used to mine those mass differences to modify a proteomics database with potential PTMs.
 This database was used for a final search and a number of PTMs were identified.
 There were several limitations to that work.
-One, the open mass search was really slow.
+One, the open mass search was unacceptably slow.
 Two, uncalibrated data made it hard to discern closely spaced modifications.
 Three, certain mass differences with high FDRs were incorrectly allowed.
 Four, missed monoisotopic peaks and co-isolated peaks were not handled.
 Five, separate programs were required (both Morpheus and a Perl script).
 MetaMorpheus resolves all of these issues and more.
-Below we will show how each individual enhancement to G-PTM-D improved performance over the original work and then we will show at the end, the combined effect of all enhancements.
+In the preceding sections, we detailed the performance improvements introduced by each enhancements: in this section we show their combined effect.
 
 A major improvement in G-PTM-D performance arises from using calibrated spectra as inputs to the procedure.
 Calibration and the associated increase in mass accuracy is essential for discrimination of small differences between mass shifts due to different modifications.
@@ -325,37 +339,23 @@ We show, in TABLE/FIGURE below a list of PTMs used in the original G-PTM-D searc
 The number of different modifications increased from 22 to 333.
 The total number of PSMs increased by . We also show in the table the associated local FDR.
 
-We identified peaks in the original G-PTM-D approach with anomalously high false discovery rates, which could be excluded from wide mass searches in order to improve the overall identification quality.
-Some of these problematic histogram peaks are illustrated in Figure, including peaks corresponding to masses of sulfonation and phosphorylation, and a problematic peak at mass of Leucine, with a high FDR (see Table above).
-INSERT A GREAT PLOT HERE We identified some specific mass shifts that are characterized by anomalously high false discovery rates: these mass shifts correspond precisely to various combinations of residue mass additions and removals.
-MSFragger also doesn't automatically calibrate spectra prior to searching.
-Therefore, mass differences from closely spaced PTMs (e.g. phosphorylation and sulfonation) can easily be misinterpreted.
-MetaMorpheus has built in functionality to identify multiple peptides from each tandem mass spectrum resulting in improved identification of peptides and peptide modifications.
-
-By employing the novel multi-notch search strategy instead of the open search in the G-PTM-D process, using only the modifications listed in UniProt, the number of confidently identified PSMs increased by 6\%.
-The overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-labelff}.
+By employing the novel multi-notch search strategy instead of the open search in the initial G-PTM-D search, the overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-labelff}.
 
 \begin{table}[]
 \centering
-\caption{Effects of Replacing Initial Wide-Mass Search by a Multi-Notch Search}
+\caption{Effects of Replacing Initial Open Search by a Multi-Notch Search}
 \label{my-labelff}
 \begin{tabular}{ll|l|l}
-                      &        & Wide-Mass Search & Notch Search\\
+                      &        & Open Search & Multi-Notch Search\\
 \hline
 \multirow{2}{*}{Time} & Jurkat & 22.1 hrs         & 2.9 hrs    \\
                       & Mouse  & 13.5 hrs         & 1.2 hrs   \\
-\hline
-\multirow{2}{*}{PSMs} & Jurkat & 203237           & 210566    \\
-                      & Mouse  & 153674           & 162473   
 \end{tabular}
 \end{table}
 
-
-The final notch search uses notches centered at \{0, 1.0029, 2.0054\}, in order to capture missed identifications due to missed monoisotopic peaks.
+In order to capture missed identifications due to missed monoisotopic peaks, the final mulit-notch search uses notches centered at \{0, 1.0029, 2.0054\}, .
 The results are contrasted with the standard narrow-window final search.
 The effect of using these notches is shown in Table~\ref{tab:table2}.
-
-We observe that when using an incomplete database that does not include comprehensive modification and sequence variation information, a notch search with notches at monoisotopic peaks is superior to either of the narrow-window searches.
 
 \begin{table}[]
 \centering
@@ -368,6 +368,12 @@ We observe that when using an incomplete database that does not include comprehe
                       & Mouse    & 162473   &   170743
 \end{tabular}
 \end{table}
+
+\subsubsection{Variations}
+
+The numbers reported above reflect the best way of running G-PTM-D.
+There are two natural questions that arise: 1) What if we use a FASTA file instead of a unimod XML? 2) What if we don't include the modifications not interesting to biologists?
+In this section we attempt to convince the reader that the way we do G-PTM-D is the best.
 
 Even though adducts arising from experimental artifacts are not ultimately interesting to biologists, not including them as an option decreases the total number of identified proteins and PTMs.
 A curated set of notches and the corresponding modifications is given in Appendix A.
