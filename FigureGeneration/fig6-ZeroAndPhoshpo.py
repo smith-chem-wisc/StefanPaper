@@ -46,8 +46,8 @@ plt.hist(massDiffsHighConf1decoy, bins  =int((max1-min1)/0.001), range=[min1, ma
 
 plt.legend()
 
-plt.ylabel("Count")
-plt.title("PSMs within $\pm 0.02$ Da")
+plt.ylabel("PSM Count")
+plt.title("Muti-Notch Search Mass Diff Histograms")
 
 ok.set_xlim([min1, max1])
 ok.set_ylim([0,75000])
@@ -72,8 +72,7 @@ plt.hist(massDiffsHighConf1decoy, bins  =int((max1-min1)/0.001), range=[min1, ma
 
 plt.legend()
 
-plt.ylabel("Count")
-plt.title("PSMs within $\pm 0.02$ Da")
+plt.ylabel("PSM Count")
 
 ok.set_xlim([min1, max1])
 ok.set_ylim([0,290])
@@ -116,8 +115,8 @@ plt.hist(massDiffsHighConf1decoy, bins  =int((max1-min1)/0.001), range=[min1, ma
 
 plt.legend()
 
-plt.ylabel("Count")
-plt.title("PSMs within $\pm 0.02$ Da")
+plt.ylabel("PSM Count")
+plt.title("Open Search Mass Diff Histograms")
 
 ok.set_xlim([min1, max1])
 ok.set_ylim([0,75000])
@@ -142,8 +141,7 @@ plt.hist(massDiffsHighConf1decoy, bins  =int((max1-min1)/0.001), range=[min1, ma
 
 plt.legend()
 
-plt.ylabel("Count")
-plt.title("PSMs within $\pm 0.02$ Da")
+plt.ylabel("PSM Count")
 
 ok.set_xlim([min1, max1])
 ok.set_ylim([0,290])

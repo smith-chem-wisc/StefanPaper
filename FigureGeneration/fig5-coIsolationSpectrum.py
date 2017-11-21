@@ -19,18 +19,30 @@ print(len(mz))
 print(len(objects))
 print(len(y_pos))
 print(y_pos[0])
-plt.figure(figsize=(5,3.25))
+
+
+
+height = 3
+width = 7 
+plt.figure(figsize=(width, height))
+
 plt.bar(y_pos, mz)
 plt.xticks(np.arange(35,400,50), [725,725.5, 726,726.5,727,727.5,728,728.5])
 plt.xlim([0,400])
-plt.xlabel('m/z')
+plt.ylim([0,6000000])
+plt.xlabel('m/z (Th)')
 plt.ylabel('Intensity')
-plt.title('Scan 12333 in m/z range [724.64,728.65]')
- 
+plt.title('Scan 12333 in m/z range [724.65,728.64]')
+
+plt.plot([(724.87-724.65)*100,(724.87-724.65+1/2)*100,(724.87-724.65+2/2)*100, (724.87-724.65+3/2)*100], [2800000,1700000,1050000,350000], 'r*', label="Mass 1447.74 charge 2")
+plt.plot([(725.4-724.65)*100,(725.4-724.65+1/2)*100,(725.4-724.65+2/2)*100, (725.4-724.65+3/2)*100], [2200000,1800000,900000,500000], 'rs', label="Mass 1448.8 charge 2")
+plt.plot([(726.32-724.65)*100,(726.32-724.65+1/3)*100,(726.32-724.65+2/3)*100, (726.32-724.65+3/3)*100, (726.32-724.65+4/3)*100], [5500000,5800000,3700000,1800000,500000], 'ro', label="Mass 2175.96 charge 3")
+
+plt.legend()
 
 plt.tight_layout()
 
-plt.savefig(r'C:\Users\stepa\Source\StefanPaper\fig5-coIsolationSpectrum.png', format='png', dpi=600)
+plt.savefig(r'C:\Users\stepa\Source\StefanPaper\fig5-coIsolationSpectrum.png', format='png', dpi=1200)
 
 plt.show()
 

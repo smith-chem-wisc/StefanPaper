@@ -44,6 +44,9 @@ print(len(massDiffsHighConf1decoy))
 plt.hist(massDiffsHighConf1, bins  = int((max1-min1)/0.001), range=[min1, max1], label = "Targets")
 plt.hist(massDiffsHighConf1decoy, bins  =int((max1-min1)/0.001), range=[min1, max1], label = "Decoys")
 
+plt.annotate('?', xy=(79.962, 22), xytext=(79.955,30), arrowprops=dict(arrowstyle="->"))
+plt.annotate('?', xy=(79.971, 20), xytext=(79.975,30), arrowprops=dict(arrowstyle="->"))
+
 plt.legend()
 
 plt.ylabel("Count")
@@ -85,6 +88,9 @@ print(len(massDiffsHighConf1decoy))
 
 plt.hist(massDiffsHighConf1, bins  = int((max1-min1)/0.001), range=[min1, max1], label = "Targets")
 plt.hist(massDiffsHighConf1decoy, bins  =int((max1-min1)/0.001), range=[min1, max1], label = "Decoys")
+
+plt.annotate('sulfo', xy=(79.956, 23), xytext=(79.951,30), arrowprops=dict(arrowstyle="->"))
+plt.annotate('phospho', xy=(79.967, 28), xytext=(79.971,30), arrowprops=dict(arrowstyle="->"))
 
 plt.legend()
 

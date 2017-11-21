@@ -22,7 +22,7 @@ dataFinal = pandas.read_csv(r"C:\Users\stepa\Data\PaperData\JurkatTrypsin\Calibr
 print('Starting loop...')
 
 
-with open('workfileC.tsv', 'w') as f:
+with open('workfile.tsv', 'w') as f:
   for index, row in data.iterrows():
     final = dataFinal.loc[(dataFinal['File Name'] == row['File Name']) & (dataFinal['Scan Number'] == row['Scan Number']) & (dataFinal['Precursor MZ'] == row['Precursor MZ'])]
     initScore = row['Score']
