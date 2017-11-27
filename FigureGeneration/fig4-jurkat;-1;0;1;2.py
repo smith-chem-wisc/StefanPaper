@@ -129,7 +129,7 @@ plt.ylabel("Count")
 
 plt.title("PSMs around 2 Da")
 
-plt.annotate('Xle->D', xy=(1.942879, 25), xytext=(1.942879-0.04, 35), arrowprops=dict(arrowstyle="->"))
+plt.annotate('Xle->Asp', xy=(1.942879, 25), xytext=(1.942879-0.04, 35), arrowprops=dict(arrowstyle="->"))
 #plt.annotate('Thr->Cys', xy=(1.961506, 18), xytext=(1.961506-0.07, 35), arrowprops=dict(arrowstyle="->"))
 plt.annotate('Double\nDeamidation', xy=(1.968032, 40), xytext=(1.968032-0.067, 55), arrowprops=dict(arrowstyle="->"))
 plt.annotate('Val->Thr', xy=(1.979265, 29), xytext=(1.979265-0.01, 65), arrowprops=dict(arrowstyle="->"))

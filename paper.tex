@@ -20,7 +20,7 @@
 \title[Enhanced Global PTM Discovery (G-PTM-D) with MetaMorpheus]
   {Enhanced Global PTM Discovery (G-PTM-D) with MetaMorpheus}
 
-\begin{document}
+\begin{document}	
 
 \sloppy
 
@@ -44,7 +44,7 @@ Despite the extensive cataloging of the different protein modifications, their c
 
 Numerous procedures for identification and localization of PTMs from "bottom-up" tandem mass spectrometric datasets exist.
 These primarily address common modifications (e.g. phosphorylations) in well-studied systems, but global discovery tools, such as MODa\citep{Na_2011} and G-PTM-D\citep{Li_2016}, for identification and localization of a wide variety of different PTMs are also available.
-The G-PTM-D workflow consists of three stages: 1) A wide precursor mass tolerance database search ('open' search)\citep{Chick_2015, Na_2011}, which provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
+G-PTM-D was developed in our laboratory and consists of three stages: 1) A wide precursor mass tolerance database search ('open' search)\citep{Chick_2015, Na_2011}, which provides mass differences between the identified peptides and the observed precursor peptide masses (hypothesized to differ in mass due to the presence of a PTM);
 2) For those peptides for which the mass difference corresponds to the mass of a known PTM, a database augmentation step adds plausible localized PTMs to the corresponding protein entries in the search database;
 3) A final standard tight precursor tolerance search ('narrow-window' search) using the augmented database to identify both modified and unmodified peptides subject to a standard false discovery rate (FDR) threshold based upon the target:decoy strategy\citep{Elias_2007}.
 
@@ -114,8 +114,8 @@ In addition to these two parameters, the calibration function native to MetaMorp
 Calibration successfully removes both linear and non-linear dependencies between the m/z errors and these variables.
 Prior to calibration, 95\% of the errors fell between -8.4 and 3.1 ppm, and after calibration 95\% of the errors fell between -1.7 and 2.0 ppm.
 MetaMorpheus calibrates both MS1 and MS2 scans (using MS2 fragment matches), but only the results from MS1 are shown here.
-MetaMorpheus calibrated files are verified to be compatible with a variety of tools and workflows, including TPP, Mascot, and MsFragger.
-Some people use extra software for identifying good search parameters: the calibration procedure in MetaMorpheus outputs those file-specific tolerances as a side product of the calibration method.
+MetaMorpheus calibrated files are verified to be compatible with a variety of tools and workflows, including TPP\citep{Deutsch2010}, and MSFragger\citep{Kong_2017}.
+In addition to calibrated spectra files, the calibration procedure outputs the standard deviations and averages of the errors post-calibration, which could then be used as search parameters; this is an alternative to using dedicated tools such as Param-Medic\citep{May2017} for determining the best search parameters for a given spectra file.
 
 \begin{figure}[H]
  \includegraphics{fig1-calibErrors.png}
@@ -161,12 +161,12 @@ In searches of that type, the precursor mass and the mass of the best matching t
 We describe an alternative to these search modes: the \textit{multi-notch} search.
 This search is an extension of the narrow-window search that allows a variety of multiple specific mass differences between precursor mass and theoretical mass (See Figure~\ref{fig:fig3-searchTypes}) where the mass difference is easily interpretable.
 It can also be seen as a narrowing of the open search to only allow prespecified mass differences.
-One example of multi-notch search is the \textit{limited multi-notch} search, with notches at masses corresponding to Dalton differences between the monoisotopic peak and other peaks in averagine isotopic envelopes (e.g. 1.0029, 2.0054).
+One example of multi-notch search is the \textit{limited multi-notch} search, with notches at masses corresponding to Dalton differences between the monoisotopic peak and other peaks in averagine\citep{Senko1995} isotopic envelopes (e.g. 1.0029, 2.0054).
 The advantages and disadvantages of this alternative strategy are described below.
 
 \begin{figure}[H]
 \includegraphics{fig3-searchTypes.png}
-\caption{Search Modes}
+\caption{The three searches illustrated. Blue regions signify the allowed mass differences, while the pink ones show the mass differences that are not considered.}
 \label{fig:fig3-searchTypes}
 \end{figure}
 
@@ -187,24 +187,24 @@ These plots clearly show that numerous peptides have missed monoisotopic (Mm) pe
 
 \begin{figure}[H]
 \includegraphics{fig4jurkat-1012.png}
-\caption{Histograms PSM mass differences found in various dalton ranges}
+\caption{Histograms of PSM mass differences found in various dalton ranges. MM, Missed Monoisotopic peak; Asp, Aspartic Acid; Asn, Asparagine; Glu, Glutamic Acid; Gln, Glutamine; Xle, Leucine/Isoleucine; Val, Valine; Thr, Threonine; Pro, Proline.}
 \label{fig:fig4jurkat-1012}
 \end{figure}
 
-We propose a limited multi-notch search as a remedy to the trade-offs caused by choosing a narrow (few ppm) or wider (few Da) precursor mass tolerance during a traditional narrow-window search.
+We propose a limited multi-notch search as a remedy to the trade-offs caused by choosing a narrow (few ppm) or wide (few Da) precursor mass tolerance during a traditional narrow-window search.
 This limited multi-notch search allows mass differences between precursor and theoretical peptides of 0, 1.0029 and 2.0054 Da, but it limits the width around these three mass differences to a few ppm (e.g. 1-20 ppm).
 This approach provides a means of getting an increased number of correct identifications while mitigating problems with incorrect identifications.
 This alternative would appear to result in loss of identification of co-isolated peptides, but MetaMorpheus is programmed to handle this problem by identifying multiple co-isolated precursor masses (see section below).
 
 To illustrate the described advantages, we compared the three types of searches using all 28 calibrated Jurkat fractions (Table~\ref{tbl:singleVsMultiNotch}).
-The limited notch search yields the largest number of confidently identified PSMs with only a small fraction being misassinged.
-We consider PSMs to be misassigned if the G-PTM-D procedure determines a higher-scoring modified peptide for a PSM, see the last section for details.
+The limited notch search yields the largest number of confidently identified PSMs with only a small fraction being misassigned.
+We consider PSMs to be misassigned if the G-PTM-D procedure determines a higher-scoring modified peptide for a PSM (see the last section for details).
 One example of a misassigned PSM, in the 2.5 Da Search, is the example where the correct identification has oxidation and ammonia loss, but was identified as an unmodified peptide with score 9.039 and mass difference of -1.03335 Da, with sequence \texttt{QAFDDAIAELDTLNEDSYK}, in Jurkat Frac9 scan 20962.
-With G-PTM-D added modifications, the correct peptide is identified with sequence \texttt{[Ammonia los]QAFDDAIAELDTLNEDSY[Oxidation]K}. It has a mass difference of -0.00171(-0.79458 ppm) and a score 19.222.
-While this kind of misassignment is not possible in the 5ppm narrow-window search, often missed monoistopes are assigned to a wrong sequence.
+With G-PTM-D added modifications, the correct peptide is identified with sequence \texttt{[Ammonia los]QAFDDAIAELDTLNEDSY[Oxidation]K}. It has a mass difference of -0.00171(-0.79458 ppm) and a score of 19.222.
+While this kind of misassignment is not possible in the 5ppm narrow-window search, such missed monoisotopes are often assigned to a wrong sequence.
 This explains the higher number of misassignments in the 5ppm search over the number in the multi-notch search.
 Finally, even the multi-notch search has some misassignments.
-One example, in Jurkat Frac6 scan 15602, is the wrong identification of \texttt{SIQEIQELDK[acetyl]DDESLR} with a score of 10.153, when the correct identification, after the G-PTM-D procedure is \texttt{S[acetyl]IQEIQELDKDDESLR} with score 16.249, where the masses are identical.
+One example, in Jurkat Frac6 scan 15602, is the wrong identification of \texttt{SIQEIQELDK[acetyl]DDESLR} with a score of 10.153, when the correct identification, after the G-PTM-D procedure, is \texttt{S[acetyl]IQEIQELDKDDESLR} with score 16.249, where the masses are identical.
 While all of the described searches have some misassigned false positive identifications, the multi-notch search minimizes them while also yielding the most PSMs.
 
 \begin{table}[]
@@ -234,7 +234,7 @@ For example, small missed cleavages are often reported as mass differences.
 The peptide \texttt{PEPKK} is often identified as \texttt{PEPK} with a mass error of 128 Da (the converse is also true, \texttt{PEPK} may be identified with a mass error of -128 Da).
 Another example of this relates to peptide modifications.
 The phosphopeptide \texttt{PEP[Phospho]SK} could be reported with a mass error of -79.96 Da when the better identification would have been \texttt{PEPSK}.
-These simple errors are relatively easy to spot, but not when there are missed cleavages with multiple amino acids and/or mulitple PTMs.
+These simple errors are relatively easy to spot, but not when there are missed cleavages with multiple amino acids and/or multiple PTMs.
 
 The alternative we recommend, is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the fewest false positive PSM identifications.
 We compared searches of all Jurkat fractions using a $\pm 500$ Da wide mass search to a multi-notch search with notches at 0 and 79.961 with 0.02 Dalton tolerance.
@@ -247,21 +247,14 @@ So, instead of having a PSM with an unidentifiable mass shift of -416.31028 (mas
 
 \begin{table}[]
 \centering
-\caption{Number of PSMs in Multi-Notch Search vs. Open Search for select mass differences. These PSMs are shown as mass difference histograms in Figure~\ref{fig:fig6-ZeroAndPhospho}}
+\caption{Number of PSMs in Multi-Notch Search vs. Open Search for select mass differences.}
 \label{tbl:multiVsWide}
 \begin{tabular}{lll}
-                    & Open & Multi-Notch\\
-0 peak    & 176073  (0.15\% FDR)     & 193328 (0.23\% FDR)     \\
-79.96 peak     & 732   (0.68\% FDR)   & 957  (0.84\% FDR)           \\
+               & Open                     & Multi-Notch         \\
+0 peak         & 176073  (0.15\% FDR)     & 193328 (0.23\% FDR) \\
+79.96 peak     & 732   (0.68\% FDR)       & 957  (0.84\% FDR)   \\
 \end{tabular}
 \end{table}
-
-\begin{figure}[H]
-\includegraphics{fig6-ZeroAndPhospho.png}
-\caption{Histogram of PSM counts for select mass differences around zero, sulfo, and phospho masses. The Multi-Notch searches produce visibly more PSMs.}
-\label{fig:fig6-ZeroAndPhospho}
-\end{figure}
-
 
 \subsection{Co-isolation}
 
@@ -280,7 +273,7 @@ There are at least three different peptides being co-isolated and co-fragmented,
 
 In a conventional search, only the isolation m/z value of 726.65 would be used to select a range of theoretical peptides for comparison.
 Assuming correct de-isotoping and charge state calculation, the mass 1447.74 Da would be searched.
-However, all peptides in the range[725.4, 727.9] are co-fragmented and a better solution would be to use all co-isolated precursor masses.
+However, all peptides in the range 725.4 to 727.9 Th are co-fragmented and a better solution would be to use all co-isolated precursor masses.
 In MetaMorpheus, for each MS2 scan, the corresponding MS1 scan is deconvoluted and the complete list of precursors is gathered for the range surrounding the isolated precursor ($\pm 1.25$ Th).
 Each deconvoluted mass is used to select a range of theoreticals to use for identification.
 The result of this is that often, more than one peptide can be identified from a single MS2 scan.
@@ -288,7 +281,7 @@ This is extremely beneficial in both open mass and multi-notch searches because 
 
 \subsection{Enhanced G-PTM-D Results}
 
-In the original G-PTM-D manuscript, an open mass search ($\pm 200$ Da) was used to create a histogram of mass difference peaks, from which PTMs could be inferred.
+In the original G-PTM-D manuscript\citep{Li_2016}, an open mass search ($\pm 200$ Da) was used to create a histogram of mass difference peaks, from which PTMs could be inferred.
 A Perl script was used to mine those mass differences to modify a proteomics database with potential PTMs.
 This database was used for a final search and numerous PTMs were identified.
 While that work represented a substantial conceptual advance in identifying PTMs, there were several limitations to its utility.
@@ -297,21 +290,21 @@ Two, uncalibrated data made it hard to discern closely spaced modifications.
 Three, certain mass differences with high FDRs were incorrectly allowed.
 Four, missed monoisotopic peaks and co-isolated peaks were not handled.
 Five, separate programs were required (both Morpheus and a Perl script).
-Six, the small list of 13 PTMs does not include many important modifications.
+Six, the small list of 13 PTMs did not include many important modifications.
 MetaMorpheus resolves all of these issues and more.
 In the preceding sections, we detailed the performance improvements introduced by each enhancement: in this section we show their combined effect.
 Every comparison is a contrast of results from the original G-PTM-D workflow with the fully enhanced one.
 
 A major improvement in G-PTM-D performance arises from using calibrated spectra as inputs to the procedure.
 Calibration and the associated increase in mass accuracy is essential for discrimination of small differences between mass shifts due to different modifications.
-To illustrate this, mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:fig7-ZeroAndPhospho}.
+To illustrate this, mass shifts around 80 Daltons from the initial notch search are aggregated in the histograms in Figure~\ref{fig:fig7-PhosphoAndSulfo}.
 It is evident from these histograms that the phosphorylation and sulfonation peaks are clearly separated and identifiable when the search is conducted on well-calibrated spectra.
 
 
 \begin{figure}[H]
-\includegraphics{fig7-ZeroAndPhospho.png}
+\includegraphics{fig7-SulfoAndPhospho.png}
 \caption{Peaks around phospho and sulfo in uncalibrated and calibrated data}
-\label{fig:fig7-ZeroAndPhospho}
+\label{fig:fig7-PhosphoAndSulfo}
 \end{figure}
 
 The next step, database augmentation, outputs significantly different augmented databases because of the difference between accepted mass shifts in the open and the multi-notch searches.

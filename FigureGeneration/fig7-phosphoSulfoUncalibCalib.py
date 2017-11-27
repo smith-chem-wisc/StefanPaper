@@ -103,7 +103,7 @@ ok.set_ylim([0,60])
 plt.tight_layout()
 
 
-plt.savefig(r'C:\Users\stepa\Source\StefanPaper\fig7-ZeroAndPhospho.png', format='png', dpi=600)
+plt.savefig(r'C:\Users\stepa\Source\StefanPaper\fig7-SulfoAndPhospho.png', format='png', dpi=600)
 
 
 plt.show()
