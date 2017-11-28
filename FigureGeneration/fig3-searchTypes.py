@@ -110,7 +110,7 @@ for p in [
 ax.set_xlim([-110,110])
 ax.set_ylim([-2, 9])
 
-plt.annotate('Only specific mass\ndifferences allowed', xy=(0,1), xytext=(-95,4), arrowprops=dict(arrowstyle="->"))
+plt.annotate('Multiple specific mass\ndifferences allowed', xy=(0,1), xytext=(-103,4), arrowprops=dict(arrowstyle="->"))
 ax.annotate("", xy=(42, 1), xytext=(10, 3.3), arrowprops=dict(arrowstyle="->"))
 ax.annotate("", xy=(80, 1), xytext=(20, 3.3), arrowprops=dict(arrowstyle="->"))
 
@@ -120,7 +120,7 @@ ax.get_yaxis().set_visible(False)
 
 ################
 
-fig.text(0.45, 0.05, 'mass differences between observed experimental mass and theoretical candidate mass', ha='center')
+fig.text(0.45, 0.05, 'Mass difference (Da)', ha='center')
 
 #add red blue legend to plot
 #global x axis label instead of the three mass diff da 
