@@ -267,7 +267,7 @@ There are at least three different peptides being co-isolated and co-fragmented,
 
 \begin{figure}[H]
 \includegraphics{fig5-coIsolationSpectrum.png}
-\caption{m/z peaks in MS1 scan 12333}
+\caption{m/z peaks in MS1 scan 12333. The top plot shows the isotopic envelopes for three distinct peptides in a narrow isolation window. The bottom plot shows some identified fragment peaks in the MS/MS scan.}
 \label{fig:fig5-coIsolationSpectrum}
 \end{figure}
 
@@ -308,7 +308,7 @@ It is evident from these histograms that the phosphorylation and sulfonation pea
 \end{figure}
 
 The next step, database augmentation, outputs significantly different augmented databases because of the difference between accepted mass shifts in the open and the multi-notch searches.
-At this point, another advantage of the enhanced approach is clear; the overall search time dropped significantly, from 35 hours to 4 hours for all datasets, see Table~\ref{my-labelff}.
+At this point, another advantage of the enhanced approach is clear; the overall search time dropped significantly, from 35 hours to 4 hours for all datasets (see Table~\ref{my-labelff}).
 
 \begin{table}[]
 \centering
@@ -316,40 +316,33 @@ At this point, another advantage of the enhanced approach is clear; the overall 
 \label{my-labelff}
 \begin{tabular}{ll|l|l}
                       &        & Open Search & Multi-Notch Search\\
-\hline
 \multirow{2}{*}{Time} & Jurkat & 22.1 hrs         & 2.9 hrs    \\
                       & Mouse  & 13.5 hrs         & 1.2 hrs   \\
 \end{tabular}
 \end{table}
 
 After the final search using the augmented database is conducted (narrow-window in the original, and limited multi-notch in the enhanced G-PTM-D), the numbers of PSMs, peptides, and proteins all increase as shown in Table~\ref{tab:table2}.
+We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Da.
+These enhancements demonstrate that the enhanced G-PTM-D approach provides great value to bottom-up proteomic data analysis.
+It is fast enough included as part of every regular work-flow, and will yield significantly increased numbers of correctly identified PTM peptides.
 
 \begin{table}[]
 \centering
 \caption{Enhanced G-PTM-D overall improvement numbers}
 \label{tab:table2}
-\begin{tabular}{ll|l|l}
+\begin{tabular}{llll}
                       &        & Original G-PTM-D & Enhanced G-PTM-D\\
-\hline
 \multirow{2}{*}{PSMs} & Jurkat  & 210566   &  220574  \\
                       & Mouse    & 162473   &   170743 \\
-\hline
 \multirow{2}{*}{Unique Peptides} & Jurkat  & 85542   &  101980  \\
                       & Mouse    & 56235   &   66365 \\
-\hline
 \multirow{2}{*}{Proteins} & Jurkat  & 9254   &  9587  \\
                       & Mouse    & 7874   &   8151 \\
-\hline
 \multirow{2}{*}{PTM containing peptides} & Jurkat  & 12041   &  22173  \\
                       & Mouse    & 14547   &   18487 \\
 \end{tabular}
 \end{table}
 
-We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Da.
-
-These enhancements demonstrate that the enhanced G-PTM-D approach can and should be used whenever bottom-up proteomics is done.
-It is fast enough to be part of every regular work-flow.
-And, the significant contribution of correctly identified PTM peptides is clearly beneficial to biologists seeking to understand their data better.
 
 
 %\begin{acknowledgement}
