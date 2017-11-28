@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 
-height = 2
+height = 2.1
 width = 7 
 fig = plt.figure(figsize=(width, height))
 
@@ -120,7 +120,7 @@ ax.get_yaxis().set_visible(False)
 
 ################
 
-fig.text(0.45, 0.00, 'mass differences between observed experimental mass and theoretical candidate mass', ha='center')
+fig.text(0.45, 0.05, 'mass differences between observed experimental mass and theoretical candidate mass', ha='center')
 
 #add red blue legend to plot
 #global x axis label instead of the three mass diff da 
@@ -137,7 +137,7 @@ plt.legend(handles=[blue_patch, red_patch],bbox_to_anchor=(1.05, 0.8), loc=2, bo
 
 plt.tight_layout()
 
-plt.subplots_adjust(right=0.83)
+plt.subplots_adjust(right=0.83, bottom = 0.3)
 
 plt.savefig(r'C:\Users\stepa\Source\StefanPaper\fig3-searchTypes.png', format='png', dpi=600)
 

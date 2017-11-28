@@ -6,7 +6,7 @@ maxi = 35000
 
 
 height = 6
-width = 7 
+width =  7 
 
 f, ((ax1), (ax3)) = plt.subplots(2, 1, sharex='col', sharey='row', figsize=(width,height))
 

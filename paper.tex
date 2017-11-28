@@ -57,7 +57,7 @@ Finally, PTMs that are similar in mass, such as phosphorylation (79.9663 Da) and
 These limitations motivated the work described here.
 
 The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
-Spectral calibration is essential for distinguishing modifications with similar mass, and so we recommend running the G-PTM-D procedure on calibrated spectra files: for this purpose we implemented a calibration procedure in MetaMorpheus.
+Spectral calibration is essential for distinguishing modifications with similar mass, and so we recommend running the G-PTM-D procedure on calibrated spectra files: for this purpose we implemented a post-acquisition spectral calibration procedure.
 To address the long search times of the open search, we replace the search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected masses (e.g. PTMs and amino acids).
 This change improves the specificity of the search and significantly decreases search time.
 The database augmentation step is similar to the original G-PTM-D procedure, but the modification list is significantly expanded to accommodate modifications such as chemical adducts, glycosylations, lipids, and other important modifications.
@@ -77,13 +77,17 @@ MetaMorpheus is freely available at \url{https://github.com/smith-chem-wisc/Meta
 MetaMorpheus heavily utilizes an auxiliary library called mzLib, which is a vast library of software tools for analyzing and processing mass spectral data.
 mzLib can be found at \url{https://github.com/smith-chem-wisc/mzLib}.
 
-Three multi-fraction mammalian datasets with deep proteome coverage were used to evaluate performance.
-These tryptically digested cell lysates correspond to 28 fractions from human Jurkat cells and 9 fractions from each of two different pancreatic islets from two species of mice.
-These datasets are available at \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00215} and \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00470}, and are described in detail elsewhere~\citep{Sheynkman2013, Shortreed_2015, Cesnik_2016}.
+A multi-fraction mammalian dataset with deep proteome coverage was used to evaluate performance.
+This tryptically digested cell lysate corresponds to 28 fractions from human Jurkat cells.
+The dataset is available at \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00215}, and are described in detail elsewhere~\citep{Sheynkman2013, Shortreed_2015, Cesnik_2016}.
 
-UniProt XML protein databases used were downloaded on Sept 14, 2017, and contain only reviewed human/mouse/contaminant proteins.
+UniProt XML protein databases used were downloaded on Sept 14, 2017, and contain only reviewed human/contaminant proteins.
 
 The database augmentation step allowed 209 modification types, including PTMs, adducts, and chemical modifications. See Supplementary Table 1 for a complete listing.
+
+The data analysis was performed using MetaMorpheus Version: 0.0.201.0.
+The following search settings were used: protease = trypsin; maximum missed cleavages = 2; minimum peptide length = 5; maximum peptide length = unspecified; initiator methionine behavior = Variable; fixed modifications = Carbamidomethyl of C; variable modifications = Oxidation of M; max modification isoforms = 4096.
+Data files were processed on a Dell Inc. Precision Tower 7910 computer using Windows version 6.2.9200.0 with a 64-Bit processor and 24 cores operating at 2.993GHz and 128GB installed RAM.
 
 \section{Results and Discussion}
 
@@ -187,7 +191,7 @@ These plots clearly show that numerous peptides have missed monoisotopic peaks, 
 
 \begin{figure}[H]
 \includegraphics{fig4jurkat-1012.png}
-\caption{Histograms of PSM mass differences found in various dalton ranges. MM, Missed Monoisotopic peak; Asp, Aspartic Acid; Asn, Asparagine; Glu, Glutamic Acid; Gln, Glutamine; Xle, Leucine/Isoleucine; Val, Valine; Thr, Threonine; Pro, Proline.}
+\caption{Histograms of PSM mass differences found in various Dalton ranges. MM, Missed Monoisotopic peak; Asp, Aspartic Acid; Asn, Asparagine; Glu, Glutamic Acid; Gln, Glutamine; Xle, Leucine/Isoleucine; Val, Valine; Thr, Threonine; Pro, Proline.}
 \label{fig:fig4jurkat-1012}
 \end{figure}
 
@@ -200,8 +204,9 @@ To illustrate the described advantages, we compared the three types of searches 
 The limited notch search yields the largest number of confidently identified PSMs with only a small fraction being misassigned.
 We consider PSMs to be misassigned if the G-PTM-D procedure determines a higher-scoring modified peptide for a PSM (see the last section for details).
 One example of a misassigned PSM, in the 2.5 Da Search, is the example where the correct identification has oxidation and ammonia loss, but was identified as an unmodified peptide with score 9.039 and mass difference of -1.0334 Da, with sequence \texttt{QAFDDAIAELDTLNEDSYK}, in Jurkat fraction 9 scan 20962.
-With G-PTM-D added modifications, the correct peptide is identified with sequence \texttt{[Ammonia los]QAFDDAIAELDTLNEDSY[Oxidation]K}. It has a mass difference of -0.0017(-0.7946 ppm) and a score of 19.222.
-While this kind of misassignment is not possible in the 5ppm narrow-window search, such missed monoisotopes are often assigned to a wrong sequence.
+With G-PTM-D added modifications, the correct peptide is identified with sequence \texttt{[Ammonia loss]QAFDDAIAELDTLNEDSY[Oxidation]K}.
+It has a mass difference of -0.0017(-0.7946 ppm) and a score of 19.222.
+While this kind of misassignment is not possible in the 5ppm narrow-window search, a different misassignment is common: scans with precursor mass errors due to misidentified monoisotopic peaks are often assigned to a wrong sequence.
 This explains the higher number of misassignments in the 5ppm search over the number in the multi-notch search.
 Finally, even the multi-notch search has some misassignments.
 One example, in Jurkat fraction 6 scan 15602, is the wrong identification of \texttt{SIQEIQELDK[acetyl]DDESLR} with a score of 10.153, when the correct identification, after the G-PTM-D procedure, is \texttt{S[acetyl]IQEIQELDKDDESLR} with score 16.249, where the masses are identical.
@@ -272,7 +277,7 @@ There are at least three different peptides being co-isolated and co-fragmented,
 \end{figure}
 
 In a conventional search, only the isolation m/z value of 726.65 would be used to select a range of theoretical peptides for comparison.
-Assuming correct de-isotoping and charge state calculation, the mass 1447.74 Da would be searched.
+Assuming correct deisotoping and charge state calculation, the mass 1447.74 Da would be searched.
 However, all peptides in the range 725.4 to 727.9 Th are co-fragmented and a better solution would be to use all co-isolated precursor masses.
 In MetaMorpheus, for each MS2 scan, the corresponding MS1 scan is deconvoluted and the complete list of precursors is gathered for the range surrounding the isolated precursor ($\pm 1.25$ Th).
 Each deconvoluted mass is used to select a range of theoreticals to use for identification.
@@ -308,18 +313,7 @@ It is evident from these histograms that the phosphorylation and sulfonation pea
 \end{figure}
 
 The next step, database augmentation, outputs significantly different augmented databases because of the difference between accepted mass differences in the open and the multi-notch searches.
-At this point, another advantage of the enhanced approach is clear; the overall search time dropped significantly, from 35 hours to 4 hours for all datasets (see Table~\ref{my-labelff}).
-
-\begin{table}[]
-\centering
-\caption{Effects of Replacing Initial Open Search by a Multi-Notch Search}
-\label{my-labelff}
-\begin{tabular}{llll}
-                      &        & Open Search & Multi-Notch Search\\
-\multirow{2}{*}{Time} & Jurkat & 22.1 hrs         & 2.9 hrs    \\
-                      & Mouse  & 13.5 hrs         & 1.2 hrs   \\
-\end{tabular}
-\end{table}
+At this point, another advantage of the enhanced approach is clear; the overall search time dropped significantly, from 22.1 hours to 2.9 hours.
 
 After the final search using the augmented database is conducted (narrow-window in the original, and limited multi-notch in the enhanced G-PTM-D), the numbers of PSMs, peptides, and proteins all increase as shown in Table~\ref{tab:table2}.
 We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Da, see Table~\ref{tab:table3}.
@@ -330,16 +324,12 @@ It is fast enough included as part of every regular work-flow, and will yield si
 \centering
 \caption{Enhanced G-PTM-D overall improvement numbers}
 \label{tab:table2}
-\begin{tabular}{llll}
-                      &        & Original G-PTM-D & Enhanced G-PTM-D\\
-\multirow{2}{*}{PSMs} & Jurkat  & 210566   &  220574  \\
-                      & Mouse    & 162473   &   170743 \\
-\multirow{2}{*}{Unique Peptides} & Jurkat  & 85542   &  101980  \\
-                      & Mouse    & 56235   &   66365 \\
-\multirow{2}{*}{Proteins} & Jurkat  & 9254   &  9587  \\
-                      & Mouse    & 7874   &   8151 \\
-\multirow{2}{*}{PTM containing peptides} & Jurkat  & 12041   &  22173  \\
-                      & Mouse    & 14547   &   18487 \\
+\begin{tabular}{lll}
+                             & Original G-PTM-D & Enhanced G-PTM-D\\
+PSMs &  210566   &  220574  \\
+Unique Peptides &  85542   &  101980  \\
+Proteins &  9254   &  9587  \\
+PTM containing peptides &  12041   &  22173  \\
 \end{tabular}
 \end{table}
 
