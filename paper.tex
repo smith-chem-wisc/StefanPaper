@@ -28,7 +28,7 @@
 
 Correct identification of protein post-translational modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes.
 G-PTM-D is a recently developed technique for global identification and localization of PTMs.
-Spectral file calibration prior to applying G-PTM-D, and algorithmic enhancements in the peptide database search shown here significantly increase the accuracy, speed and scope of PTM identification.
+Spectral file calibration prior to applying G-PTM-D, and algorithmic enhancements in the peptide database search significantly increase the accuracy, speed and scope of PTM identification.
 We enhance G-PTM-D by using multi-notch searches, and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations.
 The changes described in this work lead to a 20\% increase in the number of identified modifications and an order of magnitude decrease in search time.
 The complete workflow is implemented in MetaMorpheus, a software tool which integrates the database search procedure, identification of co-isolated peptides, spectral calibration and the enhanced G-PTM-D workflow.
@@ -58,7 +58,7 @@ These limitations motivated the work described here.
 
 The enhanced G-PTM-D workflow is presented in Figure~\ref{fgr:diagram}.
 Spectral calibration is essential for distinguishing modifications with similar mass, and so we recommend running the G-PTM-D procedure on calibrated spectra files: for this purpose we implemented a post-acquisition spectral calibration procedure.
-To address the long search times of the open search, we replace the search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected masses (e.g. PTMs and amino acids).
+To address the long search times of the open search, we replaced the search in the first stage by a specialized search called a multi-notch search that only allows specific mass differences which correspond to pre-selected masses (e.g. PTMs and amino acids).
 This change improves the specificity of the search and significantly decreases search time.
 The database augmentation step is similar to the original G-PTM-D procedure, but the modification list is significantly expanded to accommodate modifications such as chemical adducts, glycosylations, lipids, and other important modifications.
 The final narrow-window search is also replaced by a limited multi-notch search that accommodates errors in the precursor mass deisotoping (+1.0029 and +2.0054), and the capability for identifying co-isolated peptides, further increasing the number of confidently identified peptides and PTMs.
@@ -73,20 +73,20 @@ The final narrow-window search is also replaced by a limited multi-notch search 
 \section{Experimental Procedures}
 
 We developed a modified version of the Morpheus software for bottom-up spectral database searching\citep{Wenger_2013} that we call MetaMorpheus, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
-MetaMorpheus is freely available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}.
+MetaMorpheus is open-source and freely available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}.
 MetaMorpheus heavily utilizes an auxiliary library called mzLib, which is a vast library of software tools for analyzing and processing mass spectral data.
 mzLib can be found at \url{https://github.com/smith-chem-wisc/mzLib}.
 
 A multi-fraction mammalian dataset with deep proteome coverage was used to evaluate performance.
 This tryptically digested cell lysate corresponds to 28 fractions from human Jurkat cells.
-The dataset is available at \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00215}, and are described in detail elsewhere~\citep{Sheynkman2013, Shortreed_2015, Cesnik_2016}.
+The dataset is available at \url{https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/PASS_View?identifier=PASS00215}, and is described in detail elsewhere~\citep{Sheynkman2013, Shortreed_2015, Cesnik_2016}.
 
 UniProt XML protein databases used were downloaded on Sept 14, 2017, and contain only reviewed human/contaminant proteins.
 
 The database augmentation step allowed 209 modification types, including PTMs, adducts, and chemical modifications. See Supplementary Table 1 for a complete listing.
 
-The data analysis was performed using MetaMorpheus Version: 0.0.201.0.
-The following search settings were used: protease = trypsin; maximum missed cleavages = 2; minimum peptide length = 5; maximum peptide length = unspecified; initiator methionine behavior = Variable; fixed modifications = Carbamidomethyl of C; variable modifications = Oxidation of M; max modification isoforms = 4096.
+The data analysis was performed using MetaMorpheus version 0.0.201.
+The following search settings were used: protease = trypsin; maximum missed cleavages = 2; minimum peptide length = 5; maximum peptide length = unspecified; initiator methionine behavior = variable; fixed modifications = carbamidomethyl of C; variable modifications = oxidation of M; max modification isoforms = 4096.
 Data files were processed on a Dell Inc. Precision Tower 7910 computer using Windows version 6.2.9200.0 with a 64-Bit processor and 24 cores operating at 2.993GHz and 128GB installed RAM.
 
 \section{Results and Discussion}
@@ -123,7 +123,7 @@ In addition to calibrated spectra files, the calibration procedure outputs the s
 
 \begin{figure}[H]
  \includegraphics{fig1-calibErrors.png}
- \caption{Errors in m/z value of select peaks before (top panels) and after (bottom panels) calibration. These errors are plotted vs two variables: m/z value (left) and the retention time (right).}
+ \caption{Errors in m/z values of select peaks before (top panels) and after (bottom panels) calibration. These errors are plotted vs two variables: m/z value (left) and the retention time (right).}
  \label{fgr:fig1-calibErrors}
 \end{figure}
 
@@ -188,7 +188,7 @@ These plots clearly show that numerous peptides have missed monoisotopic peaks, 
 
 \begin{figure}[H]
 \includegraphics{fig4jurkat-1012.png}
-\caption{Histograms of PSM mass differences found in various Dalton ranges. MM, Missed Monoisotopic peak; Asp, Aspartic Acid; Asn, Asparagine; Glu, Glutamic Acid; Gln, Glutamine; Xle, Leucine/Isoleucine; Val, Valine; Thr, Threonine; Pro, Proline.}
+\caption{Histograms of PSM mass differences found in various Dalton ranges. Mm, Missed Monoisotopic peak; Asp, Aspartic Acid; Asn, Asparagine; Glu, Glutamic Acid; Gln, Glutamine; Xle, Leucine/Isoleucine; Val, Valine; Thr, Threonine; Pro, Proline.}
 \label{fig:fig4jurkat-1012}
 \end{figure}
 
@@ -235,10 +235,10 @@ The freedom in precursor mass difference results in a multitude of false positiv
 For example, small missed cleavages are often reported as mass differences.
 The peptide \texttt{PEPKK} is often identified as \texttt{PEPK} with a mass error of 128 Da (the converse is also true, \texttt{PEPK} may be identified with a mass error of -128 Da).
 Another example of this relates to peptide modifications.
-The phosphopeptide \texttt{PEP[Phospho]SK} could be reported with a mass error of -79.96 Da when the better identification would have been \texttt{PEPSK}.
+The phosphopeptide \texttt{PEPS[Phospho]K} could be reported with a mass error of -79.96 Da when the better identification would have been \texttt{PEPSK}.
 These simple errors are relatively easy to spot, but not when there are missed cleavages with multiple amino acids and/or multiple PTMs.
 
-The alternative we recommend, is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the fewest false positive PSM identifications.
+The alternative we recommend is the use of a multi-notch search, which offers a means of reducing the search space and limiting the number of theoretical candidates to those plausible for the scan, increasing the search speed and most importantly, producing the most correct PSMs with the fewest false positive PSM identifications.
 We compared searches of all Jurkat fractions using a $\pm 500$ Da wide mass search to a multi-notch search with notches at 0 and 79.961 with 0.02 Dalton tolerance.
 The advantage of the multi-notch search over the open search is shown in Table~\ref{tbl:multiVsWide} by at least a $10\%$ increase in the number of target PSMs with score of at least 9.079, for both regions (0 Da no-PTM peptides and +79.96 Da phosphorylated and sulfonated peptides).
 It is important to point out that the difference in the numbers of PSMs is not due to FDR considerations, but rather to erroneous peak assignments in open searches, that misassign PSMs due to the extreme freedom in precursor masses allowed in open searches.
@@ -315,7 +315,7 @@ At this point, another advantage of the enhanced approach is clear; the overall 
 After the final search using the augmented database is conducted (narrow-window in the original, and limited multi-notch in the enhanced G-PTM-D), the numbers of PSMs, peptides, and proteins all increase as shown in Table~\ref{tab:table2}.
 We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Da, see Table~\ref{tab:table3}.
 These enhancements demonstrate that the enhanced G-PTM-D approach provides great value to bottom-up proteomic data analysis.
-It is fast enough included as part of every regular work-flow, and will yield significantly increased numbers of correctly identified PTM peptides.
+It is fast enough to be included as part of every regular work-flow, and will yield significantly increased numbers of correctly identified PTM peptides.
 
 \begin{table}[]
 \centering
