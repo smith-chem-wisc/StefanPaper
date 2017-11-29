@@ -88,7 +88,7 @@ ax.set_ylim([-15, 12])
 
 #ax.axis('off')
 
-ax.annotate('Multi-Notch Sofware Filtering', xytext=(1.5, -6.5), xy=(0,0), fontsize=8)
+ax.annotate('Multi-Notch Sofware Filtering', xytext=(1.7, -6.6), xy=(0,0), fontsize=8)
 
 
 #plt.tight_layout()
@@ -103,6 +103,11 @@ ax.spines["bottom"].set_visible(False)
 ax.get_yaxis().set_visible(False)
 
 ax.set_xticks([0,1,16])
+ax.set_xticklabels(['0', '1', '79.966'])
+
+
+plt.tick_params(axis='both', which='major', labelsize=8)
+plt.tick_params(axis='both', which='minor', labelsize=8)
 
 ax.arrow(6,20,0,-10, head_width=1, head_length=5, facecolor="red")
 ax.arrow(10,20,0,-10, head_width=1, head_length=5, facecolor="red")
@@ -117,7 +122,7 @@ ax.arrow(1,0,0,-8, head_width=1, head_length=5)
 ax.arrow(16,0,0,-8, head_width=1, head_length=5)
 
 
-ax.annotate('Accepted Mass Diffs (Da)', xytext=(2.5, -27), xy=(0,0), fontsize=8)
+ax.annotate('Accepted Mass Diffs (Da)', xytext=(2.4, -27), xy=(0,0), fontsize=8)
 
 plt.subplots_adjust(bottom=0.15)
 
