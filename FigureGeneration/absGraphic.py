@@ -141,7 +141,7 @@ png2 = Image.open(png1)
 print(png2.info['dpi'])
 
 # (3) save as TIFF
-png2.save(r'C:\Users\stepa\Source\StefanPaper\absGraphic.tiff',dpi=[300,300])
+png2.save(r'C:\Users\stepa\Source\StefanPaper\absGraphic.tif',dpi=[300,300])
 
 png1.close()
 
