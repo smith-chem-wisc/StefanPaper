@@ -86,7 +86,7 @@ The dataset is available at \url{https://db.systemsbiology.net/sbeams/cgi/Peptid
 UniProt XML protein databases used were downloaded on Sept 14, 2017, and contain only reviewed human/contaminant proteins.
 
 The database augmentation step allowed 208 modification types, including PTMs, adducts, and chemical modifications.
-See Supplementary Table 1 for a complete listing.
+See Table S-1 for a complete listing.
 
 The data analysis was performed using MetaMorpheus version 0.0.201.
 The following search settings were used: protease = trypsin; maximum missed cleavages = 2; minimum peptide length = 5; maximum peptide length = unspecified; initiator methionine behavior = variable; fixed modifications = carbamidomethyl of C; variable modifications = oxidation of M; max modification isoforms = 4096.
@@ -112,7 +112,7 @@ In our strategy, the m/z differences between expected and observed peaks in the 
 The spectral calibration procedure consists of two steps: Step 1: A narrow tolerance (e.g. 10 ppm precursor, 20 ppm fragment) database search is performed on the dataset.
 This yields a set of peptide identifications subject to a desired FDR.
 Step 2: The identifications from Step 1 provide a theoretical list of m/z peaks that should match closely to observed m/z peaks in the spectra file, and the discrepancies between the theoretical and observed peaks are used to inform a peak shifting procedure.
-The calibration algorithm is described in detail in Supplementary Material 2.
+The calibration algorithm is described in detail in Document S-2.
 
 We demonstrate the effectiveness of the calibration approach using Jurkat fraction 16 as an example.
 Figure~\ref{fgr:fig1-calibErrors} displays the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, both before and after the calibration procedure is applied.
@@ -277,11 +277,11 @@ There are at least three different peptides being co-isolated and co-fragmented,
 \end{figure}
 
 In a conventional search, only the isolation m/z value of 726.65 would be used to select a range of theoretical peptides for comparison.
-Assuming correct deisotoping and charge state calculation, the mass 1447.74 Da would be searched.
+Assuming correct deisotoping and charge state calculation, the mass 2175.96 Da would be searched.
 However, all peptides in the range 725.4 to 727.9 Th are co-fragmented and a better solution would be to use all co-isolated precursor masses.
 In MetaMorpheus, for each MS2 scan, the corresponding MS1 scan is deconvoluted and the complete list of precursors is gathered for the range surrounding the isolated precursor ($\pm 1.25$ Th).
 Each deconvoluted mass is used to select a range of theoreticals to use for identification.
-The result of this is that often, more than one peptide can be identified from a single MS2 scan.
+The result of this is that often, more than one peptide can be identified from a single MS2 scan, as shown in Figure~\ref{fig:fig5-coIsolationSpectrum}.
 This is extremely beneficial in both open mass and multi-notch searches because it reduces the number of the more difficult to interpret mass differences and substantially improves G-PTM-D (see below).
 
 \subsection{Enhanced G-PTM-D Results}
@@ -312,8 +312,10 @@ It is evident from these histograms that the phosphorylation and sulfonation pea
 \label{fig:fig7-PhosphoAndSulfo}
 \end{figure}
 
-The next step, database augmentation, outputs significantly different augmented databases because of the difference between accepted mass differences in the open and the multi-notch searches.
-At this point, another advantage of the enhanced approach is clear; the overall search time dropped significantly, from 22.1 hours to 2.9 hours.
+Further improvements arise from using a multi-notch search to create the augmented database.
+The enhanced G-PTM-D procedure employed a narrow 5 ppm tolerance around 208 mass difference notches (see Document S-2).
+The resulting augmented database is greatly improved compared to using an open search for this step.
+At this point, another advantage of the enhanced approach is clear; the overall search time dropped significantly from 22.1 hours to 2.9 hours, primarily due to the narrow tolerance multi-notch search versus the open search.	
 
 After the final search using the augmented database is conducted (narrow-window in the original, and limited multi-notch in the enhanced G-PTM-D), the numbers of PSMs, peptides, and proteins all increase as shown in Table~\ref{tab:table2}.
 We identified hundreds of glycosylated peptides in these unenriched samples, with many of these modifications exceeding 1000 Da, see Table~\ref{tab:table3}.
@@ -351,7 +353,9 @@ Mass (Daltons)&	Mod\\
 
 \begin{acknowledgement}
 
-We thank the members of the Smith lab for testing G-PTM-D and other MetaMorpheus functionality (Leah V. Schaffer, Anthony J. Cesnik, Rob Millikin, Lei Lu, Zach Rolfs, Sean Dai, Rachel Miller, Rachel Knoener), who contributed input to the improvement of mzLib, and MetaMorpheus. We thank the MetaMorpheus users outside of this lab who submitted useful comments on GitHub. This work was supported by the grant DBI-1458524 from the National Science Foundation.
+We thank the members of the Smith lab (Leah V. Schaffer, Anthony J. Cesnik, Rob Millikin, Lei Lu, Zach Rolfs, Sean Dai, Rachel Miller, and Rachel Knoener) for testing G-PTM-D and contributing to the improvement of mzLib and MetaMorpheus.
+We thank the MetaMorpheus users outside of this lab who submitted useful comments on GitHub.
+This work was supported by the grant DBI-1458524 from the National Science Foundation.
 
 \end{acknowledgement}
 
