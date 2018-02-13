@@ -7,3 +7,5 @@ acs-paper.bib
 *.pdf
 *.synctex.gz
 *.swp
+*.bak
+*.sav
