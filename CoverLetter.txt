@@ -1,9 +1,0 @@
-Dear John,
-
-It is my pleasure to submit a manuscript entitled "Enhanced Global PTM Discovery (G-PTM-D) with MetaMorpheus" for publication as an Article in Journal of Proteome Research.
-
-Correct identification of protein post-translational modifications (PTMs) is crucial to understanding many aspects of protein function in biological processes. We developed the software tool G-PTM-D for global identification and localization of PTMs and published that work previously in JPR. We have since made several substantial algorithmic improvements to G-PTM-D that dramatically enhance its accuracy, speed, scope and sensitivity. These enhancements include spectral calibration and something we call a multi-notch search and demonstrate its effectiveness in identification of numerous types of PTMs, including high-mass modifications such as glycosylations. The changes described in this work lead to a 20% increase in the number of identified modifications and an order of magnitude decrease in search time. The workflow is now seamlessly embedded in our new search software, MetaMorpheus. This standalone software produces calibrated spectra files that can be used both in MetaMorpheus or in other software for analysis. Following the optional calibration step, the enhanced G-PTM-D procedure can be run with a click of a button. MetaMorpheus is freely available at https://github.com/smith-chem-wisc/MetaMorpheus, with releases for Windows, Linux, and Mac OS.  We’re very excited about these improvements and believe they represent a substantial step forward in discovery of unknown PTMs in complex proteomics samples. None of this material has been published or is under consideration elsewhere. We’re excited about its potential for publication in JPR. We have attached a list of qualified reviewers for your reference.
-
-Your truly,
-
-
