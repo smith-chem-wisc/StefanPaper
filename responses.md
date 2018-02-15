@@ -4,6 +4,18 @@
 
 ## To Reviewer 1
 
+### 1
+
+Done
+
+### 2
+
+Done
+
+### 3
+
+Effect on a data set that is already calibrated is non-existent, due to the fact that the calibration procedure only accepts changes if a test database search results show improvement. We tested this, and observed that mulitple calibration tasks in MetaMorpheus do not change a file following the initial calibration round.
+
 ## To Reviewer 2
 
 ### 1
