@@ -49,6 +49,10 @@ TODO BRIAN COMMENTS THANKS
 
 The limited multi-notch search has functionality identical to the isotope error option in many current search tools. We made sure that the revised version is clear about this, and we removed any wording that may suggest that this is novel, such as "we propose". Still, the property that it eliminates some wrong matches parallels the discussion in the following multi-notch search section. We feel that it adds to the discussion, and is necessary to make the manuscript complete. 
 
+We amended the manuscript as follows:
+
+> A multi-notch search is a remedy to the trade-offs caused by choosing a narrow (few ppm) or wide (few Da) precursor mass tolerance during a traditional narrow-window search. It is not novel, and many useful search tools such as Tandem, MSGF+, Comet, MSFragger, Sequest have this search functionality under names such as "isotope error option".
+
 ### 2
 
 The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. MetaMorpheus tsv outputs have a dedicated column called QValueNotch which displays the q-value for the specific notch. We added this note to the paper.
