@@ -56,6 +56,10 @@ Protein-level inference is done using all modified peptides, since they pass an 
 
 ### 4
 
+
+
 ### 5
 
 MetaMorpheus is designed to work on machines with 16 GB RAM. When a large amount of memory is avaiable, a user is able to select parallel searches which would utilize the avaialble memory efficiently, thus speeding up searches of mulitple files at the same time.
+
+NOT SURE WHERE TO INCLUDE THIS INFORMATION IN THE DOCUMENT
