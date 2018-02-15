@@ -55,7 +55,9 @@ We amended the manuscript as follows:
 
 ### 2
 
-The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. MetaMorpheus tsv outputs have a dedicated column called QValueNotch which displays the q-value for the specific notch. We added this note to the paper.
+The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. MetaMorpheus tsv outputs have a dedicated column called QValueNotch which displays the q-value for the specific notch. 
+
+We amended the manuscript as follows:
 
 > The results of a multi-notch search are assessed using notch-specific FDRs, computed individually for each notch, similarly to MSFragger.
 
@@ -68,6 +70,10 @@ Protein-level inference is currently done using all modified peptides.
 ### 4
 
 We added a note about the PeptideProphet extended mass model to the manuscript.
+
+We amended the manuscript as follows:
+
+> It is important to note that there exist post-processing tools that would push identifications with unknown mass shifts and large numbers of missed cleavages down the list, such as the PeptideProphet extended mass model.
 
 ### 5
 
