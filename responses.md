@@ -51,7 +51,7 @@ The limited multi-notch search has functionality identical to the isotope error 
 
 ### 2
 
-The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. The final results do not seem to necessitate modification-specific FDR, see original G-PTM-D paper. The reason for this is that modified decoy peptides are included in the search, something that is not possible with a standard open or multi-notch search.
+The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. We added this note to the paper. 
 
 ### 3
 
