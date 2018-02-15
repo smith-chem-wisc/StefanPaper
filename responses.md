@@ -51,15 +51,17 @@ The limited multi-notch search has functionality identical to the isotope error 
 
 ### 2
 
-The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. We added this note to the paper. 
+The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. MetaMorpheus tsv outputs have a dedicated column called QValueNotch which displays the q-value for the specific notch. We added this note to the paper.
+
+We will consider having modification-specific fdrs in future releases! Thank you for the suggestion.
 
 ### 3
 
-Protein-level inference is done using all modified peptides, since they pass an FDR threshold. This is different from MSFragger, since the problems with accepting mass shifts are more severe than accepting modified peptides.
+Protein-level inference is currently done using all modified peptides. 
 
 ### 4
 
-
+We added a note about the PeptideProphet extended mass model to the manuscript.
 
 ### 5
 
