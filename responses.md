@@ -57,7 +57,9 @@ We amended the manuscript as follows:
 
 The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. MetaMorpheus tsv outputs have a dedicated column called QValueNotch which displays the q-value for the specific notch. We added this note to the paper.
 
-We will consider having modification-specific fdrs in future releases! Thank you for the suggestion.
+> The results of a multi-notch search are assessed using notch-specific FDRs, computed individually for each notch, similarly to MSFragger.
+
+We will consider having modification-specific FDRs in future software releases! Thank you for the suggestion.
 
 ### 3
 
