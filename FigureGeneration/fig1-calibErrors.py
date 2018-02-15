@@ -39,7 +39,7 @@ ax1.plot(nice['mz'],nice['LabelTh'], 'bo',markersize = .3)
 ax1.hlines(0, min(nice['mz']), max(nice['mz']), zorder = 10)
 ax1.set_ylim([minY,maxY])
 
-ax1.set_ylabel('m/z error (Th)')
+ax1.set_ylabel('m/z error')
 ax1.annotate(r"Uncalibrated", xy=(0, 0.5), xycoords=ax1.yaxis.label, textcoords='offset points',
                 size='large', ha='right', va='center', xytext=(0,0.5))
 
@@ -50,8 +50,8 @@ ax2.set_ylim([minY,maxY])
 ax3.plot(nice2['mz'],nice2['LabelTh'], 'bo',markersize = .3)
 ax3.hlines(0, min(nice2['mz']), max(nice2['mz']), zorder = 10)
 
-ax3.set_ylabel('m/z error (Th)')
-ax3.set_xlabel('m/z (Th)')
+ax3.set_ylabel('m/z error')
+ax3.set_xlabel('m/z')
 
 ax3.annotate(r"Calibrated", xy=(0, 0.5), xycoords=ax3.yaxis.label, textcoords='offset points',
                 size='large', ha='right', va='center', xytext=(0,0.5))

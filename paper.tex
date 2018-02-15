@@ -5,7 +5,6 @@
 \usepackage{multirow}
 \usepackage{subcaption}
 \usepackage{booktabs}
-\usepackage{hyperref}
 
 \newcommand*\mycommand[1]{\texttt{\emph{#1}}}
 
@@ -14,8 +13,9 @@
 \author{Brian L. Frey}
 \author{Lloyd M. Smith}
 \email{smith@chem.wisc.edu}
-\affiliation[UwMadison]
-{University of Wisconsin-Madison}
+\altaffiliation{Genome Center of Wisconsin, University of Wisconsin-Madison, Madison, WI, USA}
+\affiliation[UW Madison]
+{Department of Chemistry, University of Wisconsin-Madison, Madison, WI, USA}
 	
 \title{Enhanced Global PTM Discovery (G-PTM-D) with MetaMorpheus}
 
@@ -66,8 +66,8 @@ The database augmentation step is similar to the original G-PTM-D procedure, but
 The final narrow-window search is also replaced by a limited multi-notch search that accommodates errors in the precursor mass deisotoping (+1.0029 and +2.0054), and the capability for identifying co-isolated peptides, further increasing the number of confidently identified peptides and PTMs.
 
 \begin{figure}[H]
-  \includegraphics[scale=0.5]{paperDiagram.png}
-  \caption{The three steps of the G-PTM-D workflow are indicated in the light beige color. The dark orange color corresponds to the inputs.}
+  \includegraphics[scale=0.75]{paperDiagram.png}
+  \caption{Comparing the original G-PTM-D workflow with the proposed enhanced workflow. Major changes are highlighted in pink.}
   \label{fgr:diagram}
 \end{figure}
 
@@ -195,7 +195,8 @@ These plots clearly show that numerous peptides have missed monoisotopic peaks, 
 \label{fig:fig4jurkat-1012}
 \end{figure}
 
-We propose a limited multi-notch search as a remedy to the trade-offs caused by choosing a narrow (few ppm) or wide (few Da) precursor mass tolerance during a traditional narrow-window search.
+A multi-notch search is a remedy to the trade-offs caused by choosing a narrow (few ppm) or wide (few Da) precursor mass tolerance during a traditional narrow-window search.
+It is not novel, and many useful search tools such as Tandem, MSGF+, Coment, MSFragger, Sequest have this search functionality under names such as "isotope error option".
 This limited multi-notch search allows mass differences between precursor and theoretical peptides of 0, 1.0029 and 2.0054 Da, but it limits the width around these three mass differences to a few ppm (e.g. 1-20 ppm).
 This approach provides a means of getting an increased number of correct identifications while mitigating problems with incorrect identifications.
 This alternative would appear to result in loss of identification of co-isolated peptides, but MetaMorpheus is programmed to handle this problem by identifying multiple co-isolated precursor masses (see section below).
@@ -260,6 +261,8 @@ So, instead of having a PSM with an unidentifiable mass difference of -416.3103 
 79.96 peak     & 732   (0.68\% FDR)       & 957  (0.84\% FDR)   \\
 \end{tabular}
 \end{table}
+
+The results of a multi-notch search are assessed using notch-specific FDRs, computed individually for each notch, similarly to MsFragger.
 
 \subsection{Co-isolation}
 
