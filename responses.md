@@ -55,7 +55,10 @@ the effect is distracting.
 
 Done by changing the figure to 
 
+> ![diag](/paperDiagram.png)
+
 ### 2
+
 
 Done
 
