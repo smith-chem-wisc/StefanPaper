@@ -110,6 +110,8 @@ We amended the manuscript as follows:
 
 ### 2
 
+> The authors do not really address the issue of FDR estimates, even at the PSM level, with respect to modified peptides. While the global (dataset-wide) FDR may be accurate, FDR for different subsets of PSMs is expected to vary widely. When performing searches such as multi-notch searches, open searches, or searches with many variable modifications or proteogenomic searches, it is important to realize that FDR for subsets of peptides with unusual modifications/mass-shifts or novel peptides will be significantly higher than that for the typical unmodified tryptic peptides. Thus, there is a need to perform class-specific (also referred to as group-specific FDR). In MSFragger, for example, this is addressed by modeling PSMs using a probability model that separates peptides into groups with different mass shifts. This ensures that PSM scores (probabilities) are re-calibrated to take into account the differences in the likelihood of observing a peptide with a particular modification (mass-shift) in the dataset. I recommend that the authors discuss this, and if not currently implemented in MetaMorheus, consider this for future work. 
+
 The group FDR is implemented in the multi-notch search, by using notch-specific FDRs. Thus, G-PTM-D augmentation is conservative about adding modifications corresponding to exotic/problematic notches. MetaMorpheus tsv outputs have a dedicated column called QValueNotch which displays the q-value for the specific notch. 
 
 We amended the manuscript as follows:
@@ -120,9 +122,13 @@ We will consider having modification-specific FDRs in future software releases! 
 
 ### 3
 
+> It is not clear if the authors present MetaMorpheus with G-PTM-D as a tool that can be applied for standard proteomic analysis (and not just as a complementary tool to look for more PTMs). If the former, they need to discuss the protein inference strategy in the context of multi-notch searches. As discussed in the MSFragger manuscript, a conservative option is recommended in which peptides with mass shifts are excluded from the protein inference step except those corresponding to C12/C13 errors, M+16, and N-term +42. While using 208 known modifications in MetaMorheus is not as risky as performing open search in that regard, perhaps not all of those 208 mass shifts should be considered (especially if MetaMorheus does not perform modification-specific modeling, see my point # 2 above). Please comment on this. 
+
 Protein-level inference is currently done using all modified peptides. 
 
 ### 4
+
+> The authors discuss advantages of multi-notch searches compared to open searches. While I agree with their statement as it relates to ‘bare’ open searching, I want to point out that some of those concerns for open searches can and should be addressed by downstream tools. For example, on p.14, the authors illustrate their case using a peptide ATPARA… that was identified in open search with a score of 17.231, 1 missed cleavage, and large and unexpected negative mass-shift of -416.303. The correct PSM in this case is a shorter peptide, slightly lower scoring (16.246), without missed cleavage, and having an explainable mass shift of 79.9655. As described in the MSFragger manuscript, open search results (and any search results in general) have to be carefully modeled post-database search using downstream statistical tools such as TPP, Percolator, etc. For example, the extended mass model of PeptideProphet (which also uses the number missed cleavages) would likely penalize the incorrect identification (with the unusual -416.303 mass shift and 1 missed cleavage) to the point where it would not pass strict FDR cutoffs. It is true that the post-database search modeling in its simplest form would not rescue the second best match to this spectrum (correct PSM) if only the top match is considered. However, at least it would not let this false identification to get through. If not this one ID in particular, it would reduce significantly the number of such mistakes dataset-wide.  I hope the authors can discuss the importance of post-database search tools in addressing some of the limitations of open searches, or any searches for that matter including multi-notch searches. 
 
 We added a note about the PeptideProphet extended mass model to the manuscript.
 
@@ -131,6 +137,8 @@ We amended the manuscript as follows:
 > It is important to note that there exist post-processing tools that would push identifications with unknown mass shifts and large numbers of missed cleavages down the list, such as the PeptideProphet extended mass model.
 
 ### 5
+
+> The results shown in the manuscript were obtained on a pretty powerful workstation with 24 cores and 128Gb RAM. Are there any RAM limitations for running MetaMorheus on large datasets like the multi-fraction Jurkat dataset?
 
 MetaMorpheus is designed to work on machines with 16 GB RAM. When a large amount of memory is avaiable, a user is able to select parallel searches which would utilize the avaialble memory efficiently, thus speeding up searches of mulitple files at the same time.
 
