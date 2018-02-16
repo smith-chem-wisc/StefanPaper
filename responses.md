@@ -80,6 +80,15 @@ Effect on a data set that is already calibrated is non-existent, due to the fact
 
 ### 4
 
+>  Notch improvement
+I think the implementation of notch processing is very well presented and timely. I am not satisfied that its utility in this
+context has been adequately addressed. All other aspects of the improvements in the GPTM are addrssed in specific computed detail, but notch
+improvements are described but not readily verified. Eg there isn't an accepted number of right and wrong answers for the test
+dataset. I would like to see a case in which you take a defined or previously published SILAC, dimethyl dataset and simply set the notches for the
+corresponding mass shift (delta 4, 8) etc. In this way you can very quickly and accurate define the catch rate and other
+factors from notch search as compared to simply defining light and heavy explicitly.  In the case of SILAC data in particular, this may offer
+important advantages to partial incorporations due to arginine pathways which are hard to supress
+
 TODO BRIAN COMMENTS THANKS
 
 ## To Reviewer 2
