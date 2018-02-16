@@ -86,7 +86,7 @@ The dataset is available at \url{https://db.systemsbiology.net/sbeams/cgi/Peptid
 UniProt XML protein databases used were downloaded on Sept 14, 2017, and contain only reviewed human/contaminant proteins.
 
 The database augmentation step allowed 208 modification types, including PTMs, adducts, and chemical modifications.
-See supplement Supp1 for a complete listing.
+See Table S1 for a complete listing.
 
 The data analysis was performed using MetaMorpheus version 0.0.201.
 The following search settings were used: protease = trypsin; maximum missed cleavages = 2; minimum peptide length = 5; maximum peptide length = unspecified; initiator methionine behavior = variable; fixed modifications = carbamidomethyl of C; variable modifications = oxidation of M; max modification isoforms = 4096.
@@ -112,7 +112,7 @@ In our strategy, the m/z differences between expected and observed peaks in the 
 The spectral calibration procedure consists of two steps: Step 1: A narrow tolerance (e.g. 10 ppm precursor, 20 ppm fragment) database search is performed on the dataset.
 This yields a set of peptide identifications subject to a desired FDR.
 Step 2: The identifications from Step 1 provide a theoretical list of m/z peaks that should match closely to observed m/z peaks in the spectra file, and the discrepancies between the theoretical and observed peaks are used to inform a peak shifting procedure.
-The calibration algorithm is described in detail in Document S-2.
+The calibration algorithm is described in detail in Document S1.
 
 We demonstrate the effectiveness of the calibration approach using Jurkat fraction 16 as an example.
 Figure~\ref{fgr:fig1-calibErrors} displays the errors in m/z values of MS1 peaks identified by Step 1 of the calibration, both before and after the calibration procedure is applied.
@@ -365,10 +365,11 @@ This work was supported by the grant DBI-1458524 from the National Science Found
 
 \begin{suppinfo}
 
-The following files are available free of charge.
+The following supplementary information is available:
 \begin{itemize}
-  \item Supp1.xlsx: The complete list of modifications used for enhanced G-PTM-D
-  \item Supp2Calibration.docx: brief description
+  \item Table S1: The complete list of modifications used for enhanced G-PTM-D
+  \item Document S1: A brief description of the calibration methodology
+  \item Document S2: A 
 \end{itemize}
 
 \end{suppinfo}
