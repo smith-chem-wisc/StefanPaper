@@ -55,16 +55,28 @@ the effect is distracting.
 
 Done by changing the figure to 
 
-> ![diag](/paperDiagram.png)
+> ![paperDiagram](/paperDiagram.png)
 
 ### 2
 
+> Fig 2. Mass error and mass in figure 2 have units of Th ? I am not familiar with this unit, does it mean thousands ? Maybe
+mmu on the y and Da or m/z on X would be more 
 
-Done
+Done by changing the figure to 
+
+> ![calibFig1](/fig1-calibErrors.png)
 
 ### 3
 
-Effect on a data set that is already calibrated is non-existent, due to the fact that the calibration procedure only accepts changes if a test database search results show improvement. We tested this, and observed that mulitple calibration tasks in MetaMorpheus do not change a file following the initial calibration round. This is noted in the calibration supplement.
+>  What is the effect on a data set that is already well calibrated. The systematic drift in the ideal data set is large and not
+Gaussian. For a data set of Gaussian distribution or not as wide, the improvement is likely minimal, or potentially worse as
+it might recalibrate to some local-minima and not improve the results and/or processing.  Potentially testable for quick comment
+by reprocessing data set after calibration (eg. twice) or taking a random file from you lab you know has better m/z error distribution
+properites.
+
+Effect on a data set that is already calibrated is non-existent, due to the fact that the calibration procedure only accepts changes if a test database search results show improvement. We tested this, and observed that mulitple calibration tasks in MetaMorpheus do not change a file following the initial calibration round. This is noted in the calibration supplement, by adding the text:
+
+> If a pre-calibrated file is given as an input, no changes are made. This is due to the fact that the calibration procedure only accepts changes if a test database search results show improvement.
 
 ### 4
 
