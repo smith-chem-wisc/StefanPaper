@@ -53,7 +53,7 @@ figure in which the original algorithim is traced as compared to distinguishing 
 itself, is also a little sloppy, boxes aligned on one margin are not aligned. For example none of the boxes align on the right margin
 the effect is distracting.
 
-Done by changing the figure to 
+We thank the reviewer for this comment. Figure 1 has been replaced with a new figure in this revised addtion, which addresses the reviewers comments. The revised figure is provided below.
 
 > ![paperDiagram](/paperDiagram.png)
 
