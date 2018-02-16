@@ -48,7 +48,12 @@ My ORCID is provided in the submission, not sure what I need to do here.
 
 ### 1
 
-Done
+> Fig 1 does not enhance my understanding of the changes in the GPTMD, or its processing steps.  Have you considered a parallel
+figure in which the original algorithim is traced as compared to distinguishing features in the 'enhanced' approach. The figure
+itself, is also a little sloppy, boxes aligned on one margin are not aligned. For example none of the boxes align on the right margin
+the effect is distracting.
+
+Done by changing the figure to 
 
 ### 2
 
