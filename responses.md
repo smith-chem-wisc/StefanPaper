@@ -95,6 +95,13 @@ TODO BRIAN COMMENTS THANKS
 
 ### 1
 
+>One of the ‘new’ components described in the text is what the authors call “limited multi-notch”.  In fact, almost 3 pages of the manuscript are dedicated to that part, including a sentence “We propose a limited multi-notch search…”.  Unless I misunderstand something here, I cannot see how it is different from what has been implemented in most existing search tools for years. Every useful tool I know, Tandem, MSGF+, Comet, MSFragger, Sequest, etc. have an ‘isotope error option’.  For example, in X! Tandem, it is specific using the following option:
+`<note type="input" label="spectrum, parent monoisotopic mass isotope error">yes</note>`
+You can read more about this option here: http://www.thegpm.org/tandem/api/spmmie.html
+In Comet: see here http://comet-ms.sourceforge.net/parameters/parameters_201701/isotope_error.php
+In MSFragger use isotope error option e.g.    isotope_error = /0/1/2       # 0=off, -1/0/1/2/3 (standard C13 error)
+I suggest that the authors shorten the text related to the limited multi-notch approach. For me it would be enough if they just said that they implemented a common strategy for allowing C12/C13 errors as in other tools.
+
 The limited multi-notch search has functionality identical to the isotope error option in many current search tools. We made sure that the revised version is clear about this, and we removed any wording that may suggest that this is novel, such as "we propose". Still, the property that it eliminates some wrong matches parallels the discussion in the following multi-notch search section. We feel that it adds to the discussion, and is necessary to make the manuscript complete. 
 
 We amended the manuscript as follows:
