@@ -124,7 +124,7 @@ We will consider having modification-specific FDRs in future software releases! 
 
 > It is not clear if the authors present MetaMorpheus with G-PTM-D as a tool that can be applied for standard proteomic analysis (and not just as a complementary tool to look for more PTMs). If the former, they need to discuss the protein inference strategy in the context of multi-notch searches. As discussed in the MSFragger manuscript, a conservative option is recommended in which peptides with mass shifts are excluded from the protein inference step except those corresponding to C12/C13 errors, M+16, and N-term +42. While using 208 known modifications in MetaMorheus is not as risky as performing open search in that regard, perhaps not all of those 208 mass shifts should be considered (especially if MetaMorheus does not perform modification-specific modeling, see my point # 2 above). Please comment on this. 
 
-Protein-level inference is currently done using all modified peptides. 
+Protein-level inference is currently done using all modified peptides. The peptide-level and PSM level outputs are always automatically generated, and can be further analyzed by downstream tools in order to do protein-level inference.
 
 ### 4
 
