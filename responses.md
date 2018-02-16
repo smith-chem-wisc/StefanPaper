@@ -16,9 +16,13 @@ Done
 
 ### 3
 
+> •References: 1) Ref# 5 and 16 should be checked for completeness
+
 Done
 
 ### 4
+
+> References: Remove color ink in superscript
 
 Done by removing the hyperref package
 
