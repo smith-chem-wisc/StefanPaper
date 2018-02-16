@@ -4,24 +4,43 @@
 
 ### 1
 
+> Use superscript to match authors with institutions on Title page
+
 Done
 
 ### 2
 
+> •Page 18, List of supporting information: 1) As to not confuse the reader, supporting files should be referred to by the same name in the paper as they appear on the file labels.  
+
+Done
 
 ### 3
+
+> •References: 1) Ref# 5 and 16 should be checked for completeness
 
 Done
 
 ### 4
 
+> References: Remove color ink in superscript
+
 Done by removing the hyperref package
 
 ### 5
 
+> Supporting Information: Suppl.xlsx file: File name and caption should be inserted into the table.
+
+Done
+
 ### 6
 
+>  Cover page for Supporting Information is required: Use heading, Supporting Information, followed by manuscript title, list of authors & affiliations, and a table of contents (list of supplementary components and captions). Number SI pages as S-1, S-2, etc.
+
+Done
+
 ### 7
+
+> ORCID: Authors submitting manuscript revisions are required to provide their own validated ORCID iDs before completing the submission
 
 My ORCID is provided in the submission, not sure what I need to do here. 
 
