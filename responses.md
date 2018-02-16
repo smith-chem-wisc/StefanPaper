@@ -4,10 +4,15 @@
 
 ### 1
 
+> Use superscript to match authors with institutions on Title page
+
 Done
 
 ### 2
 
+> •Page 18, List of supporting information: 1) As to not confuse the reader, supporting files should be referred to by the same name in the paper as they appear on the file labels.  
+
+Done
 
 ### 3
 
