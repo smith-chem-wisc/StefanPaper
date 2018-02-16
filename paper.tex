@@ -196,7 +196,7 @@ These plots clearly show that numerous peptides have missed monoisotopic peaks, 
 \end{figure}
 
 A multi-notch search is a remedy to the trade-offs caused by choosing a narrow (few ppm) or wide (few Da) precursor mass tolerance during a traditional narrow-window search.
-It is not novel, and many useful search tools such as Tandem, MSGF+, Coment, MSFragger, Sequest have this search functionality under names such as "isotope error option".
+It is not novel, and many useful search tools such as Tandem, MSGF+, Comet, MSFragger, Sequest have this search functionality under names such as "isotope error option".
 This limited multi-notch search allows mass differences between precursor and theoretical peptides of 0, 1.0029 and 2.0054 Da, but it limits the width around these three mass differences to a few ppm (e.g. 1-20 ppm).
 This approach provides a means of getting an increased number of correct identifications while mitigating problems with incorrect identifications.
 This alternative would appear to result in loss of identification of co-isolated peptides, but MetaMorpheus is programmed to handle this problem by identifying multiple co-isolated precursor masses (see section below).
@@ -262,7 +262,7 @@ So, instead of having a PSM with an unidentifiable mass difference of -416.3103 
 \end{tabular}
 \end{table}
 
-The results of a multi-notch search are assessed using notch-specific FDRs, computed individually for each notch, similarly to MsFragger.
+The results of a multi-notch search are assessed using notch-specific FDRs, computed individually for each notch, similarly to MSFragger.
 It is important to note that there exist post-processing tools that would push identifications with unknown mass shifts and large numbers of missed cleavages down the list, such as the PeptideProphet extended mass model.
 
 \subsection{Co-isolation}
