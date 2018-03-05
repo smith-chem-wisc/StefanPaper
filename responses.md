@@ -141,3 +141,7 @@ We amended the manuscript as follows:
 > The results shown in the manuscript were obtained on a pretty powerful workstation with 24 cores and 128Gb RAM. Are there any RAM limitations for running MetaMorheus on large datasets like the multi-fraction Jurkat dataset?
 
 MetaMorpheus is designed to work on machines with 16 GB RAM. When a large amount of memory is avaiable, a user is able to select parallel searches which would utilize the avaialble memory efficiently, thus speeding up searches of mulitple files at the same time.
+
+We amended the mansucript as follows:
+
+> It has attractive properties similar to Morpheus, such as the ability of running large-scale search tasks on memory-restricted machines.
