@@ -1,5 +1,6 @@
 acs-paper.bib
 *.aux
+*.dvi
 *.bbl
 *.blg
 *.log

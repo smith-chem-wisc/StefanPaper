@@ -76,7 +76,7 @@ The final narrow-window search is also replaced by a limited multi-notch search 
 
 We developed a modified version of the Morpheus software for bottom-up spectral database searching\citep{Wenger_2013} that we call MetaMorpheus, which integrates the database search procedure with spectral calibration and the enhanced G-PTM-D workflow.
 MetaMorpheus is open-source and freely available at \url{https://github.com/smith-chem-wisc/MetaMorpheus}.
-It has attractive properties similar to Morpheus, such as the ability of running large-scale search tasks on memory-restricted machines.
+It has attractive properties like Morpheus, such as the ability of running large-scale search tasks on memory-restricted machines.
 MetaMorpheus heavily utilizes an auxiliary library called mzLib, which is a vast library of software tools for analyzing and processing mass spectral data.
 mzLib can be found at \url{https://github.com/smith-chem-wisc/mzLib}.
 
@@ -264,7 +264,17 @@ So, instead of having a PSM with an unidentifiable mass difference of -416.3103 
 \end{table}
 
 The results of a multi-notch search are assessed using notch-specific FDRs, computed individually for each notch, similarly to MSFragger.
-It is important to note that there exist post-processing tools that would push identifications with unknown mass shifts and large numbers of missed cleavages down the list, such as the PeptideProphet extended mass model.
+MetaMorpheus users interested in further downstream analysis using Percolator can use the pre-formatted Percolator output, which is a tab-delimited file with the file extension \texttt{"forPercolator.tsv"}.
+It is important to note that there exist post-processing tools that would push identifications with unknown mass shifts and large numbers of missed cleavages down the list, such as the PeptideProphet~\cite{Ma2012} extended mass model.
+
+Protein-level inference in MetaMorpheus uses all available observed peptides, including PTM-containing peptides. A minimal list of proteins to explain the observed set of peptides is constructed.
+Briefly, peptides that could only be a digestion product of one protein in the database ("unique peptides") are used to construct an initial protein set, and any peptide that could be a digestion product of this initial set is associated with those protein(s) and removed from the pool of unassigned peptides.
+The remaining unassigned peptides are assigned to proteins using the greedy algorithm.
+Proteins with identical peptide sets are grouped. Protein group FDR is estimated with the top-picked method.
+In this approach, each protein is paired with its reversed decoy. The PSM with the higher notch q-value (or lower score, in the case of a tie) is retrieved for each protein in the target-decoy pair.
+The protein associated with this PSM is considered the lower-quality hit of the pair.
+The protein group containing this protein is removed from the protein group set.
+Protein groups are then ranked by the notch q-value of their best PSM, and protein q-value is calculated as the number of decoys divided by the number of targets in the ranked list.
 
 \subsection{Co-isolation}
 
@@ -370,7 +380,6 @@ The following supplementary information is available:
 \begin{itemize}
   \item Table S1: The complete list of modifications used for enhanced G-PTM-D
   \item Document S1: A brief description of the calibration methodology
-  \item Document S2: A 
 \end{itemize}
 
 \end{suppinfo}
